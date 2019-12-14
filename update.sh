@@ -1,5 +1,9 @@
 #!/bin/bash
-for repo in                    \
+TRAVIS=.travis.yml
+GHSTEM=https://raw.githubusercontent.com
+NOW=$(TZ=UTC date +%Y-%m-%d_%H-%M-%S)
+
+for REPO in                    \
   business-science/tidyquant   \
   christophergandrud/networkD3 \
   cpsievert/LDAvis             \
@@ -95,9 +99,10 @@ for repo in                    \
   yihui/xaringan               \
   ;
 do
-  curl -o ${repo##*/}.travis.yml https://raw.githubusercontent.com/$repo/master/.travis.yml
+  curl -o ${REPO##*/}$TRAVIS \
+    $GHSTEM/$REPO/master/$TRAVIS
 done
 
-git add .
-git commit -m "Update $(date +%Y-%m-%d_%H-%M-%S)"
-git push origin master
+git add . && \
+  git commit -m "Update $NOW" && \
+  git push origin master
