@@ -97,3 +97,7 @@ for repo in                    \
 do
   curl -o ${repo##*/}.travis.yml https://raw.githubusercontent.com/$repo/master/.travis.yml
 done
+
+git add .
+git commit -m "Update $(date +%Y-%m-%d_%H-%M-%S)"
+git push origin master
