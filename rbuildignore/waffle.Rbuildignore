@@ -1,0 +1,8 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^README.*$
+^\.git$
+^\.vscode$
+^cran-comments\.md$
+^CONDUCT\.md$

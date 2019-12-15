@@ -14,7 +14,7 @@ known_meta = c(
   codecov = 'codecov.yml'
 )
 
-sapply(names(known_meta), dir.create, showWarnings = FALSE)
+invisible(sapply(names(known_meta), dir.create, showWarnings = FALSE))
 
 GH_STEM = 'https://github.com'
 # approach: clone the most recent commit of the repo, then

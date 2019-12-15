@@ -1,0 +1,19 @@
+comment: false
+ignore:
+  - "inst/include/sf_RcppExports.h" 
+  - "sf/R/stars.R"
+  - "sf/R/gdal_utils.R"
+  - "sf/src/raster2sf.cpp"
+  - "sf/src/gdal_utils.cpp"
+  - "sf/src/stars.cpp"
+
+coverage:
+  status:
+    patch:
+      default:
+        target: 0
+        threshold: 100
+    project:
+      default:
+        target: 70
+        threshold: 100

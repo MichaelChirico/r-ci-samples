@@ -24,3 +24,5 @@ Build on the backs of R giants & learn from their own existing CI pipelines.
 The repos used here are found in the `.tracked_repos` file; please file a PR to add any new package.
 
 If there's some CI tool/metadata I'm missing, this can easily be added to the `update.R` script.
+
+I have a cron job in place to update this weekly.
