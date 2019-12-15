@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+node_modules
+inst/htmlwidgets/sources
+*.swp
+inst/examples/rsconnect
+inst/examples/*.html
+R/tags
+revdep/checks.noindex
+revdep/library.noindex
+revdep/data.sqlite
+viztest-*

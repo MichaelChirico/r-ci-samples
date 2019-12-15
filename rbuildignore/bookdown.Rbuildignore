@@ -1,0 +1,12 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^tools$
+inst/examples$
+inst/homepage$
+inst/resources/gitbook/js/app.js
+inst/resources/gitbook/js/app.min.js.map
+^CONTRIBUTING\.md$
+.*/rsconnect
+^\.github$
+^NEWS\.md$

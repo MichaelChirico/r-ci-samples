@@ -1,0 +1,15 @@
+**/.DS_Store
+**/config.log
+**/config.status
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+src/*.o
+src/*.so
+src/*.dll
+README.html
+.Renviron
+MNIST-data
+issues/
+logs

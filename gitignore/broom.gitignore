@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+vignettes/*cache
+inst/doc
+/.vs
+/broom.rxproj
+/broom.sln
+.DS_Store
+.httr-oauth
+docs/

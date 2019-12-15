@@ -1,0 +1,155 @@
+destination: docs/
+template:
+  package: rotemplate
+navbar:
+  title: drake
+  type: default
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: Functions
+    href: reference/index.html
+  - text: Full manual
+    href: https://books.ropensci.org/drake/
+  - text: FAQ
+    href: https://books.ropensci.org/drake/faq.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/ropensci/drake
+articles:
+- title: Vignettes
+  contents:
+  - '`drake`'
+reference:
+- title: Help
+  contents:
+  - '`drake-package`'
+- title: Examples
+  contents:
+  - '`use_drake`'
+  - '`drake_example`'
+  - '`drake_examples`'
+  - '`load_mtcars_example`'
+  - '`clean_mtcars_example`'
+- title: Build and configure
+  contents:
+  - '`make`'
+  - '`drake_config`'
+  - '`drake_build`'
+- title: drake plans and helpers
+  contents:
+  - '`drake_plan`'
+  - '`transform_plan`'
+  - '`drake_plan_source`'
+  - '`code_to_function`'
+  - '`code_to_plan`'
+  - '`plan_to_code`'
+  - '`plan_to_notebook`'
+  - '`bind_plans`'
+  - '`drake_slice`'
+- title: drake plan keywords
+  contents:
+  - '`target`'
+  - '`trigger`'
+  - '`file_in`'
+  - '`file_out`'
+  - '`knitr_in`'
+  - '`ignore`'
+  - '`no_deps`'
+  - '`id_chr`'
+  - '`drake_envir`'
+- title: Transformations
+  contents:
+  - '`map`'
+  - '`split`'
+  - '`cross`'
+  - '`combine`'
+- title: Dynamic branching
+  contents:
+  - '`subtargets`'
+  - '`read_trace`'
+- title: Reproducible R session management
+  contents:
+  - '`r_make`'
+  - '`r_drake_build`'
+  - '`r_outdated`'
+  - '`r_recoverable`'
+  - '`r_missed`'
+  - '`r_deps_target`'
+  - '`r_drake_graph_info`'
+  - '`r_vis_drake_graph`'
+  - '`r_sankey_drake_graph`'
+  - '`r_drake_ggraph`'
+  - '`r_text_drake_graph`'
+  - '`r_predict_runtime`'
+  - '`r_predict_workers`'
+- title: Network graphs and visualization
+  contents:
+  - '`vis_drake_graph`'
+  - '`sankey_drake_graph`'
+  - '`drake_ggraph`'
+  - '`text_drake_graph`'
+  - '`render_drake_graph`'
+  - '`render_sankey_drake_graph`'
+  - '`render_drake_ggraph`'
+  - '`render_text_drake_graph`'
+  - '`drake_graph_info`'
+  - '`legend_nodes`'
+- title: Target status
+  contents:
+  - '`drake_history`'
+  - '`outdated`'
+  - '`recoverable`'
+  - '`missed`'
+  - '`tracked`'
+  - '`deps_code`'
+  - '`deps_target`'
+  - '`deps_knitr`'
+  - '`deps_profile`'
+- title: Debugging and testing
+  contents:
+  - '`diagnose`'
+  - '`drake_debug`'
+- title: High-performance computing
+  contents:
+  - '`drake_hpc_template_file`'
+  - '`drake_hpc_template_files`'
+- title: Time
+  contents:
+  - '`build_times`'
+  - '`predict_runtime`'
+  - '`predict_workers`'
+- title: Cache creation
+  contents:
+  - '`drake_cache`'
+  - '`new_cache`'
+  - '`find_cache`'
+- title: Cache usage
+  contents:
+  - '`loadd`'
+  - '`readd`'
+  - '`cached`'
+  - '`cached_planned`'
+  - '`cached_unplanned`'
+  - '`drake_cache_log`'
+  - '`drake_get_session_info`'
+  - '`read_drake_seed`'
+  - '`show_source`'
+  - '`file_store`'
+  - '`drake_tempfile`'
+- title: Cache maintenance
+  contents:
+  - '`clean`'
+  - '`which_clean`'
+  - '`drake_gc`'
+  - '`rescue_cache`'
+- title: Progress
+  contents:
+  - '`progress`'
+  - '`running`'
+  - '`failed`'
+- title: R packages as drake workflows
+  contents:
+  - '`expose_imports`'

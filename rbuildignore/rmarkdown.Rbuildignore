@@ -1,0 +1,13 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^tools/
+^\.travis\.yml$
+^tests/testthat/site/.*\.html
+^tests/testthat/site/rsconnect/
+^tests/testthat/site/_site/
+^tests/testthat/site/lib/
+^tests/testthat/site/.*_files/
+^\.github$
+^pkgdown$
+^doc$
+^Meta$

@@ -1,0 +1,42 @@
+language: r
+warnings_are_errors: true
+sudo: required
+cache: packages
+r:
+  - 3.4
+  - release
+  - devel
+
+matrix:
+  allow_failures:
+    - r: release
+    - r: devel
+
+r_binary_packages:
+  - dplyr
+  - tidyr
+  - ggplot2
+  - testthat
+  - changepoint
+  - dlm
+  - forecast
+  - KFAS
+  - knitr
+  - MASS
+  - MSwM
+  - ROCR
+  - sp
+  - strucchange
+  - timeSeries
+  - vars
+  - xts
+  - survival
+  - raster
+  - roxygen2
+  - covr
+
+before_install:
+  - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" >> ~/.Rprofile
+
+after_success:
+  - test $TRAVIS_R_VERSION_STRING = 'release' && Rscript -e 'covr::codecov()'

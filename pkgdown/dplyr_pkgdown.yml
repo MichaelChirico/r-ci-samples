@@ -1,0 +1,155 @@
+url: https://dplyr.tidyverse.org
+
+template:
+  package: tidytemplate
+  params:
+    docsearch:
+      api_key: 1270c4079b26a138795263974bbf302d
+      index_name: tidyverse
+
+home:
+  strip_header: true
+
+  links:
+  - text: Learn more
+    href: http://r4ds.had.co.nz/transform.html
+
+reference:
+- title: Basic single-table verbs
+  contents:
+  - filter
+  - arrange
+  - select
+  - pull
+  - mutate
+  - summarise
+  - group_by
+
+- title: Other single-table verbs
+  contents:
+  - distinct
+  - do
+  - sample
+  - slice
+
+- title: Single-table helpers
+  contents:
+  - count
+  - top_n
+  - scoped
+  - ends_with("_at")
+  - all_vars
+  - vars
+  - funs
+
+- title: Two-table verbs
+  contents:
+  - all_equal
+  - bind
+  - intersect
+  - ends_with("join")
+  - join.tbl_df
+
+- title: Computation on groups
+  contents:
+  - group_cols
+  - group_map
+  - group_modify
+  - group_trim
+  - group_rows
+  - group_split
+
+- title: Remote tables
+  contents:
+  - auto_copy
+  - compute
+  - copy_to
+  - ident
+  - explain
+  - tbl
+  - src_dbi
+  - sql
+
+- title: Metadata
+  contents:
+  - groups
+
+- title: Vector functions
+  contents:
+  - between
+  - case_when
+  - coalesce
+  - combine
+  - cumany
+  - desc
+  - if_else
+  - lead
+  - order_by
+  - "n"
+  - n_distinct
+  - na_if
+  - near
+  - nth
+  - ranking
+  - recode
+
+- title: Data
+  contents:
+  - band_members
+  - nasa
+  - starwars
+  - storms
+
+- title: Other backends
+  contents:
+  - tbl_cube
+  - as.table.tbl_cube
+  - as.tbl_cube
+  - rowwise
+
+navbar:
+  type: default
+  left:
+  - text: Intro
+    href: articles/dplyr.html
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: Two-table verbs
+      href: articles/two-table.html
+    - text: Window functions
+      href: articles/window-functions.html
+    - text: Databases with dbplyr
+      href: http://dbplyr.tidyverse.org/articles/dbplyr.html
+    - text: Programming with dplyr
+      href: articles/programming.html
+    - text: Compatibility
+      href: articles/compatibility.html
+  - text: News
+    menu:
+    - text: "Release notes"
+    - text: "Version 0.8.4"
+      href: https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/
+    - text: "Version 0.8.3"
+      href: https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/
+    - text: "Version 0.8.2"
+      href: https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/
+    - text: "Version 0.8.1"
+      href: https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/
+    - text: "Version 0.8.0"
+      href: https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/
+    - text: "Version 0.7.5"
+      href: https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/
+    - text: "Change log"
+      href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/tidyverse/dplyr
+
+development:
+  mode: auto
+
+authors:
+  Kirill Müller:
+    href: http://krlmlr.info

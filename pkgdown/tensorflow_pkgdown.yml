@@ -1,0 +1,24 @@
+
+
+reference:
+  - title: "Installation"
+    contents:
+      - install_tensorflow
+      - tf_version
+      - tf_config
+
+  - title: "Configuration"
+    contents:
+      - parse_flags
+      - parse_arguments
+
+  - title: "TensorFlow API"
+    contents:
+      - tf
+      - shape
+
+  - title: "Utilities"
+    contents:
+      - tensorboard
+      - use_session_with_seed
+

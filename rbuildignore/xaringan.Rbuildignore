@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^\.github$
+^NEWS\.md$
+^LICENSE\.txt$
+skeleton/libs$
+skeleton/skeleton\.html$
+skeleton/skeleton_files$

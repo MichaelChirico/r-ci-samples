@@ -1,0 +1,67 @@
+
+template:
+  params:
+    bootswatch: flatly
+
+navbar:
+  title: "r2d3"
+  type: inverse
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Articles"
+      menu:
+        - text: Using
+        - text: "Introduction to r2d3"
+          href: articles/introduction.html
+        - text: "R to D3 Data Conversion"
+          href: articles/data_conversion.html
+        - text: "D3 Visualization Options"
+          href: articles/visualization_options.html
+        - text: "Development and Debugging"
+          href: articles/development_and_debugging.html
+        - text: "Publishing D3 Visualizations"
+          href: articles/publishing.html
+        - text: "---"
+        - text: Advanced
+        - text: "Using r2d3 with Shiny"
+          href: articles/shiny.html
+        - text: "CSS and JavaScript Dependencies "
+          href: articles/dependencies.html
+        - text: "Advanced Rendering with Callbacks"
+          href: articles/advanced_rendering.html
+        - text: "Package Development"
+          href: articles/package_development.html
+    - text: "Learning D3"
+      href: articles/learning_d3.html
+    - text: "Gallery"
+      href: articles/gallery.html
+    - text: "Reference"
+      href: reference/index.html
+      
+reference:
+
+  - title: "Rendering"
+    contents:
+      - r2d3
+      - default_sizing
+  
+  - title: "Data"
+    contents:
+      - as_d3_data
+      - read_json
+  
+  - title: "Publishing"
+    contents:
+      - save_d3_html
+      - save_d3_png
+
+  - title: "Shiny"
+    contents:
+      - d3Output
+      - renderD3
+      
+  - title: "Miscellaneous"
+    contents:
+      - html_dependencies_d3
+

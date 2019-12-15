@@ -1,0 +1,14 @@
+*-tikzDictionary
+*.aux
+*.log
+*.out
+knitr-*.pdf
+inst/examples/cache
+inst/examples/figure
+knitr-spin.md
+knitr-spin.html
+.Rproj.user
+/.Rhistory
+/inst/examples/*.tex
+/inst/examples/*.sty
+.*.Rnb.cached

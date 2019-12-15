@@ -1,0 +1,10 @@
+docs/
+.Rproj.user
+.Rhistory
+.RData
+.Rbuildignore
+*.Rproj
+src/*.o
+src/*.so
+src/*.dll
+inst/doc
