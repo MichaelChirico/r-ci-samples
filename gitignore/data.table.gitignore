@@ -1,0 +1,34 @@
+# Source: https://github.com/github/gitignore/blob/master/R.gitignore
+# History files
+.RData
+.Rhistory
+.Rapp.history
+Rplots.pdf
+
+# Package build process
+*-Ex.R
+data.table_*.tar.gz
+data.table.Rcheck
+
+# Emacs IDE files
+.emacs.desktop
+.emacs.desktop.lock
+
+# RStudio IDE files
+.Rproj.user
+data.table.Rproj
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+vignettes/plots/figures
+
+# object and shared objects
+*.o
+*.so
+*.dll
+
+*~
+.DS_Store
+.idea
+*.sw[op]

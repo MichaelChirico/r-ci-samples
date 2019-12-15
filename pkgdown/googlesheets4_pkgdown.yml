@@ -1,0 +1,67 @@
+url: https://googlesheets4.tidyverse.org
+
+template:
+  package: tidytemplate
+
+home:
+  strip_header: true
+
+authors:
+  Jennifer Bryan:
+    href: https://jennybryan.org
+
+navbar:
+  components:
+    home: ~
+
+reference:
+  - title: "Read cells"
+    desc: >
+      Import data from a Sheet into a local data frame
+    contents:
+      - read_sheet
+      - sheets_cells
+      - spread_sheet
+      - cell-specification
+  - title: "Write cells"
+    desc: >
+      Write data from a local data frame into a Sheet
+    contents:
+      - write_sheet
+      - sheets_create
+      - cell-specification
+  - title: "Metadata on Sheets"
+    desc: >
+      Helpers for accessing Sheets and their metadata
+    contents:
+      - sheets_get
+      - sheets_find
+      - sheets_browse
+      - ends_with("sheets_id")
+  - title: "Modify a Sheet"
+    desc: >
+      Make changes to a (spread)Sheet or to the (work)sheets it contains
+    contents:
+      - sheets_create
+  - title: "Example Sheets"
+    desc: >
+      World-readable Sheets to use in examples and reprexes
+    contents:
+      - starts_with("sheets_example")
+  - title: "Auth"
+    desc: >
+      Take explicit control of the googlesheets4 auth status or examine current state
+    contents:
+      - sheets_auth
+      - sheets_deauth
+      - sheets_user
+      - sheets_auth_configure
+  - title: "Programming around the Sheets API"
+    desc: >
+      Low-level functions used internally and made available for programming
+    contents:
+      - request_generate
+      - request_make
+      - sheets_token
+      - sheets_has_token
+      - sheets_endpoints

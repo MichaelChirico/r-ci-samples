@@ -1,0 +1,12 @@
+^CRAN-RELEASE$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^README\.rst$
+^vignettes/rsconnect/.*$
+^\.httr-oauth$
+^cran-comments\.md$
+CONDUCT.md
+CONTRIBUTING.md
+ISSUE_TEMPLATE.md
+NEWS.html

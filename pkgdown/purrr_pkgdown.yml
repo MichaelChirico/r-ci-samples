@@ -1,0 +1,116 @@
+url: https://purrr.tidyverse.org
+
+template:
+  package: tidytemplate
+
+development:
+  mode: auto
+
+home:
+  strip_header: true
+  links:
+  - text: Learn more
+    href: http://r4ds.had.co.nz/iteration.html
+
+navbar:
+  components:
+    home: ~
+    news:
+      text: News
+      menu:
+      - text: "Release notes"
+      - text: "Version 0.3.0"
+        href: https://www.tidyverse.org/articles/2019/02/purrr-0-3-0/
+      - text: "Version 0.2.3"
+        href: https://www.tidyverse.org/articles/2017/08/purrr-0.2.3/
+      - text: "------------------"
+      - text: "Change log"
+        href: news/index.html
+
+reference:
+- title: Map family
+  desc: |
+    The `map(.x, .f)` functions transforms each element of the vector `.x` with
+    the function `.f`, returning a vector defined by the suffix (`_lgl`,
+    `_chr()` etc). `walk()` is a variant for functions called primarily for
+    their side-effects; it returns `.x` invisibly.
+
+    As well as functions, `.f`, can take numbers and characters (used as a
+    shorthand for `[[`), and formulas (used as a succint function definition).
+    See details in `as_mapper()`
+  contents:
+  - map
+  - as_mapper
+
+- title: Map variants
+  desc: >
+    A rich set of variants builds on the basic idea of `map()`:
+    `modify()` modifies "in place", returning a vector the same type as `.x`;
+    `map2()` iterates over two vectors in parallel;
+    `pmap()` (parallel map) iterates over a list of vectors;
+    `imap()` (index map) is a shortcut for the common pattern `map2(x, names(x))`.
+  contents:
+  - map2
+  - modify
+  - starts_with("imap")
+  - starts_with("lmap")
+
+- title: Predicate functionals
+  desc: >
+    A predicate function is a function that either returns `TRUE` or `FALSE`.
+    The predicate functionals take a vector and a predicate function and do
+    something useful.
+  contents:
+  - detect
+  - every
+  - has_element
+  - head_while
+  - keep
+  - negate
+  - prepend
+
+- title: Plucking
+  desc: >
+    Getting or setting a single element.
+  contents:
+  - pluck
+  - modify_in
+  - attr_getter
+  - "`%@%`"
+
+- title: Other vector transforms
+  desc: >
+    A grab bag of useful tools for manipulating vectors.
+  contents:
+  - accumulate
+  - cross
+  - flatten
+  - list_modify
+  - reduce
+  - splice
+  - transpose
+
+- title: Adverbs
+  desc: >
+    Adverbs modify the action of a function; taking a function as input and
+    returning a function with modified action as output.
+  contents:
+  - compose
+  - lift
+  - negate
+  - partial
+  - safely
+  - insistently
+  - rate_sleep
+  - rate-helpers
+
+- title: Misc
+  contents:
+  - "`%||%`"
+  - array_tree
+  - as_vector
+  - rbernoulli
+  - rdunif
+  - rerun
+  - set_names
+  - vec_depth

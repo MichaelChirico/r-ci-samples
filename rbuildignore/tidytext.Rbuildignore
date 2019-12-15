@@ -1,0 +1,15 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^README-.*\.png$
+.travis.yml
+^CONDUCT\.md$
+^data-raw$
+^cran-comments\.md$
+paper\..*
+^appveyor\.yml$
+^revdep$
+^docs$
+^CRAN-RELEASE$
+^_pkgdown\.yml$
+^pkgdown$

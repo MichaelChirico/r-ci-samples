@@ -1,0 +1,9 @@
+.Rhistory
+.Rproj.user
+.DS_Store
+
+docs/*/*_cache
+
+inst/examples/*/*
+!inst/examples/*/*.R
+!inst/examples/*/*.Rmd

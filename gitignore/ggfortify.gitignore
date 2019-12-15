@@ -1,0 +1,8 @@
+.Rproj.user
+.Rhistory
+.RData
+*.png
+*.html
+*.pdf
+.httr-oauth
+CRAN-RELEASE

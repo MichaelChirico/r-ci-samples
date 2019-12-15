@@ -1,0 +1,130 @@
+url: http://lubridate.tidyverse.org
+
+template:
+  package: tidytemplate
+
+home:
+  strip_header: true
+
+  links:
+  - text: Learn more
+    href: http://r4ds.had.co.nz/dates-and-times.html
+
+reference:
+- title: Date/time parsing
+  contents:
+  - ymd
+  - ymd_hms
+  - hms
+  - parse_date_time
+  - guess_formats
+
+- title: Setting, getting, and rounding
+  contents:
+  - year
+  - quarter
+  - month
+  - week
+  - wday
+  - hour
+  - minute
+  - second
+  - tz
+
+- title: Date-time helpers
+  contents:
+  - make_datetime
+  - make_date
+  - date
+  - is.instant
+  - is.Date
+  - is.POSIXt
+  - now
+  - today
+  - origin
+  - decimal_date
+  - is.Date
+  - as_date
+
+- title: Durations
+  desc: >
+    A 'duration' is a timespan measured in seconds.
+  contents:
+  - duration
+  - is.difftime
+  - make_difftime
+  - as.duration
+  - Duration-class
+
+- title: Periods
+  desc: >
+    A 'period' is a timespan defined in civil time (human) units like years,
+    months, and days.
+  contents:
+  - period
+  - period_to_seconds
+  - as.period
+  - Period-class
+
+- title: Intervals
+  desc: >
+    An `interval` is a timespan defined by two date-times.
+  contents:
+  - interval
+  - as.interval
+  - "`%within%`"
+  - Interval-class
+
+- title: Timespans
+  desc: >
+    Timespans are the generic concept that underlies durations, periods,
+    and intervals.
+  contents:
+  - timespan
+  - time_length
+  - is.timespan
+
+
+- title: Other modification functions
+  contents:
+  - DateTimeUpdate
+  - fit_to_timeline
+  - with_tz
+  - force_tz
+  - round_date
+  - pretty_dates
+  - rollback
+  - "`%m+%`"
+  - local_time
+
+- title: Other date-time components
+  contents:
+  - am
+  - days_in_month
+  - dst
+  - leap_year
+  - stamp
+  - date_decimal
+
+- title: Data
+  contents:
+  - lakers
+
+
+navbar:
+  title: ~
+  type: default
+  left:
+  - text: Reference
+    href: reference/index.html
+  - text: Intro
+    href: articles/lubridate.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/tidyverse/lubridate
+
+authors:
+  "Vitalie Spinu":
+    href: http://vitalie.spinu.info

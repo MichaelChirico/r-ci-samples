@@ -1,0 +1,68 @@
+url: https://indrajeetpatil.github.io/ggstatsplot/
+
+template:
+  ganalytics: "UA-46037435-2"
+  params:
+    docsearch:
+      api_key: 44345fbe359c5496fbc3955c513333d1
+      index_name: ggstatsplot
+    bootswatch: lumen
+
+development:
+  mode: unreleased
+
+authors:
+  Indrajeet Patil:
+    href: https://sites.google.com/site/indrajeetspatilmorality/
+
+reference:
+  - title: Primary functions
+    desc:  Main functions to use from `ggstatsplot`.
+    contents:
+      - starts_with("gg")
+      - combine_plots
+
+  - title: Grouped variants of primary functions
+    desc:  Convenience functions to run the main functions repeatedly across all levels of a single grouping variable.
+    contents:
+      - starts_with("grouped_")
+
+  - title: Reexported functions
+    desc:  Useful functions re-exported from other packages.
+    contents:
+      - specify_decimal_p
+      - signif_column
+      - lm_effsize_ci
+      - pairwise_p
+      - set_cwd
+      - "%>%"
+      - "%<>%"
+      - "%$%"
+      - "%||%"
+      - "%|%"
+
+  - title: Helper functions (messages)
+    desc:  Simple function to display messages from tests carried out to check statistical assumptions of tests.
+    contents:
+      - ends_with("_message")
+
+  - title: Miscellaneous
+    desc: Sundry of helpful statistical functions.
+    contents:
+      - subtitle_meta_parametric
+
+  - title: Themes used
+    desc: The `ggplot2` themes used as default in `ggstatsplot`.
+    contents:
+      - starts_with("theme_")
+
+  - title: Data
+    desc:  Datasets included in the package.
+    contents:
+      - movies_wide
+      - movies_long
+      - Titanic_full
+      - intent_morality
+      - iris_long
+      - VR_dilemma
+      - bugs_long

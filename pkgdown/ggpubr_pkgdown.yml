@@ -1,0 +1,110 @@
+url: https://rpkgs.datanovia.com/ggpubr
+
+templates:
+  params:
+    bootswatch: lumen
+    ganalytics: UA-54921687-5
+    docsearch:
+      api_key: 6417dc1a4a7896d9002b8ad567f92f4c
+      index_name: ggpubr
+
+reference:
+  - title: Plot One Variable - X, Continuous
+    desc:  Visualize distributions.
+    contents:
+      - ggdensity
+      - stat_overlay_normal_density
+      - gghistogram
+      - ggecdf
+      - ggqqplot
+  - title: Plot Two Vriables - X and Y, Discrete X and Continuous Y
+    desc: Visualize data distributions by groups.
+    contents:
+      - ggboxplot
+      - ggviolin
+      - ggdotplot
+      - ggstripchart
+      - ggbarplot
+      - ggline
+      - ggerrorplot
+      - ggpie
+      - ggdonutchart
+      - ggdotchart
+  - title: Plot Two Continuous Variables
+    desc: Scatter plots
+    contents:
+      - ggscatter
+      - stat_cor
+      - stat_stars
+      - ggscatterhist
+  - title: Plot Paired Data
+    desc: Paired data
+    contents:
+      - ggpaired
+  - title: Comparing Means and Adding p-values
+    contents:
+      - compare_means
+      - stat_compare_means
+      - stat_pvalue_manual
+      - geom_bracket
+  - title: Plot Tables and Paragraphs
+    contents:
+      - ggtexttable
+      - ggparagraph
+      - text_grob
+  - title: Contingency table
+    contents:
+      - ggballoonplot
+  - title: Genomics
+    desc: Plotting data obtained from genomic data analyses.
+    contents:
+      - ggmaplot
+  - title: Themes
+    contents:
+      - theme_pubr
+      - theme_transparent
+  - title: Graphical Parameters
+    desc: Change graphical parameters such as, titles, legend, colors, axis limits, scale transformation (log, sqrt), axis ticks and plot orientation (vertical, horizontal).
+    contents:
+      - ggpar
+      - show_line_types
+      - show_point_shapes
+      - font
+      - rotate
+      - rotate_axis_text
+      - set_palette
+      - gradient_color
+      - border
+      - bgcolor
+      - rremove
+      - grids
+      - axis_scale
+      - get_legend
+  - title: Arrange and Export Multiple ggplots
+    contents:
+      - ggarrange
+      - ggexport
+      - annotate_figure
+      - background_image
+  - title: Helpers
+    contents:
+      - facet
+      - add_summary
+      - ggadd
+      - get_palette
+      - as_ggplot
+  - title: Data
+    contents:
+      - diff_express
+      - gene_citation
+  - title: Others
+    contents:
+      - desc_statby
+      - stat_chull
+      - stat_conf_ellipse
+      - stat_mean
+      - stat_central_tendency
+      - reexports
+
+
+

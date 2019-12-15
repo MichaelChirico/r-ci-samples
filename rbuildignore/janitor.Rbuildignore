@@ -1,0 +1,20 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^README\.Rmd$       # An Rmarkdown file used to generate README.md
+cran-comments.md    # Comments for CRAN submission
+^LICENSE\.md$
+^\.gitignore
+README.Rmd
+^cran\-comments\.md$
+dirty_data.xlsx
+^.*\.docx
+codecov.yml
+planning.md
+planning.Rmd
+map of janitor 1.0 API.docx
+.github
+^docs$
+Index.md
+Index.Rmd
+^revdep$

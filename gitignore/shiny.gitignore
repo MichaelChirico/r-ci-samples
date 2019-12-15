@@ -1,0 +1,12 @@
+.DS_Store
+.Rproj.user
+.Rhistory
+.Rprofile
+*.o
+*.so
+/src-i386/
+/src-x86_64/
+shinyapps/
+README.html
+.*.Rnb.cached
+tools/yarn-error.log

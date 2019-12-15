@@ -1,0 +1,11 @@
+^README.md$
+^.*\.Rproj$
+^\.Rproj\.user$
+^misc$
+^docs$
+^_pkgdown\.yml$
+.travis.yml
+vignettes/
+pkgdown/
+^LICENSE$
+^CONTRIBUTING.md

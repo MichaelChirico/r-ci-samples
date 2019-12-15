@@ -1,0 +1,8 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+README.md
+.travis.yml
+^teststuff$
+LICENSE
+^appveyor\.yml$
+^examples$

@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+..Rcheck
+cpp/src/**/*.o
+
+# python stuff
+.cache
+__pycache__

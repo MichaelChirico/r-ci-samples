@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^release$
+^NEWS\.md$
+^README\.md$
+^.*\.tar.gz$
+^\.travis.yml$
+^cpp\_version$
+^appveyor\.yml$

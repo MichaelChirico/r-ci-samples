@@ -1,0 +1,14 @@
+^CRAN-RELEASE$
+^pkgdown$
+^_pkgdown\.yml$
+^docs$
+^\.covrignore$
+^\.travis\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^cran-comments\.md$
+^revdep$
+^codecov\.yml$
+^\.github$
+^LICENSE\.md$
