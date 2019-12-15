@@ -1,0 +1,16 @@
+^CRAN-RELEASE$
+^_pkgdown\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^\.httr-oauth$
+^\.Rprofile$
+^cran-comments.md$
+^revdep$
+^cran-comments\.md$
+^demo/service-account\.json$
+^docs$
+^_pkgdown\.yaml$
+^codecov\.yml$
+^LICENSE\.md$
+^\.github$

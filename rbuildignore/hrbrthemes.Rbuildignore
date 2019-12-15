@@ -1,0 +1,14 @@
+^CRAN-RELEASE$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^README\.Rmd$
+^README\.md$
+^README\.html$
+^README_files$
+^NOTES.*$
+^notes.*$
+^CONDUCT\.md$
+^cran-comments\.md$
+^docs$
+^build$

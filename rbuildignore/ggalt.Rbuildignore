@@ -1,0 +1,8 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^README.*$
+^\.travis\.yml$
+^CONDUCT\.md$
+^cran-comments\.md$
+^revdep$
+^appveyor\.yml$

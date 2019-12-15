@@ -1,0 +1,17 @@
+^CRAN-RELEASE$
+^\.travis\.yml$
+^appveyor\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^build_script\.R$
+^README\.markdown$
+^roxygenate\.R$
+^TODO\.markdown$
+^website$
+^Makefile$
+^cran-comments\.md$
+^ISSUE_TEMPLATE\.md$
+^PULL_REQUEST_TEMPLATE\.md$
+^CODE_OF_CONDUCT\.md$
+^_site$
+^docs$

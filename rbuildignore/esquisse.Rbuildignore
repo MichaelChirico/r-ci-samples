@@ -1,0 +1,11 @@
+^CRAN-RELEASE$
+^cran-comments\.md$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^codecov\.yml$
+img/
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^examples$

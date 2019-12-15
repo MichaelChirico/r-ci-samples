@@ -1,0 +1,17 @@
+.travis.yml
+PROPOSAL.md
+config.log
+config.status
+TODO
+^windows
+^appveyor\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+blog
+README.md
+CONDUCT.md
+rdev
+^codecov\.yml$
+hub
+tic.R
+NOTES

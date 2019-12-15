@@ -1,0 +1,15 @@
+*DS_Store
+
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+vignettes/**/*_files/
+*_cache/
+
+*.pdf
+docs/*.Rmd
+docs/examples
+cran-comments.md
+paper/paper.html

@@ -1,0 +1,207 @@
+url: https://quanteda.io
+template:
+  params:
+    bootswatch: readable
+    ganalytics: UA-144616-24
+    docsearch:
+      api_key: 9b4ef7fd791dc6075154d3ebd7b12acf
+      index_name: quanteda
+news:
+- one_page: false
+navbar:
+  title: "Quanteda"
+  type: inverse
+  left:
+    - text: "Quick Start"
+      menu:
+        - text: "Quick Start Guide"
+          href: articles/quickstart.html
+        - text: "Guía de Inicio Rápido"
+          href: articles/pkgdown/quickstart_es.html
+        - text: "快速入门指南"
+          href: articles/pkgdown/quickstart_cn.html
+        - text: "クイック・スタートガイド"
+          href: articles/pkgdown/quickstart_ja.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "Features"
+      menu:
+        - text: "Feature comparison"
+          href: articles/pkgdown/comparison.html
+        - text: "Package design"
+          href: articles/pkgdown/design.html
+        - text: "Changelog"
+          href: news/index.html
+    - text: "Examples"
+      menu:
+        - text: "Multi-word expressions"
+          href: articles/pkgdown/examples/phrase.html
+        - text: "Textual data visualization"
+          href: articles/pkgdown/examples/plotting.html
+        - text: "Latent Semantic Analysis (LSA)"
+          href: articles/pkgdown/examples/lsa.html
+        - text: "Chinese text analysis"
+          href: articles/pkgdown/examples/chinese.html
+        - text: "Social media analysis"
+          href: articles/pkgdown/examples/twitter.html
+    - text: "Replications"
+      menu:
+        - text: "Text Analysis with R for Students of Literature"
+          href: articles/pkgdown/replication/digital-humanities.html
+        - text: "Word embedding (word2vec)"
+          href: articles/pkgdown/replication/text2vec.html
+        - text: "Quantitative Social Science Ch. 5.1"
+          href: articles/pkgdown/replication/qss.html
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/quanteda/quanteda
+reference:
+- title: Package-level
+  contents:
+    - quanteda
+    - quanteda_options
+- title: Data
+  desc: Built-in data objects.
+  contents:
+    - data_char_sampletext
+    - data_char_ukimmig2010
+    - data_corpus_dailnoconf1991
+    - data_corpus_inaugural
+    - data_corpus_irishbudget2010
+    - data_dfm_LBGexample
+    - data_dictionary_LSD2015
+- title: Corpus functions
+  desc: Functions for constructing and manipulating corpus class objects.
+  contents:
+    - starts_with("corpus")
+    - docvars
+    - head.corpus
+    - metacorpus
+    - metadoc
+    - texts
+    - as.character.corpus
+    - as.corpus.corpuszip
+- title: Tokens functions
+  desc: Functions for constructing and manipulating tokens class objects.
+  contents:
+    - tokens
+    - tokens_chunk
+    - tokens_compound
+    - tokens_lookup
+    - tokens_ngrams
+    - tokens_skipgrams
+    - tokens_remove
+    - tokens_replace
+    - tokens_sample
+    - tokens_select
+    - tokens_split
+    - tokens_subset
+    - tokens_tolower
+    - tokens_toupper
+    - tokens_tortl
+    - tokens_wordstem
+    - types
+    - as.character.tokens
+    - as.list.tokens
+    - as.tokens
+    - as.tokens.list
+    - is.tokens
+    - as.tokens.list
+- title: Character functions
+  desc: Functions for constructing and manipulating character objects.
+  contents:
+    - char_tolower
+    - char_toupper
+    - char_segment
+    - char_ngrams
+    - char_trim
+    - char_wordstem
+- title: Text matrix functions
+  desc: Functions for constructing and manipulating a document-feature matrix (dfm) or feature co-occurrence matrix object.
+  contents:
+    - dfm
+    - dfm_compress
+    - dfm_group
+    - dfm_lookup
+    - dfm_match
+    - dfm_remove
+    - dfm_replace
+    - dfm_sample
+    - dfm_select
+    - dfm_subset
+    - dfm_sort
+    - dfm_tfidf
+    - dfm_tolower
+    - dfm_toupper
+    - dfm_trim
+    - dfm_smooth
+    - dfm_weight
+    - dfm_wordstem
+    - docfreq
+    - head.dfm
+    - tail.dfm
+    - as.dfm
+    - is.dfm
+    - as.data.frame.dfm
+    - as.matrix.dfm
+    - fcm
+    - fcm_compress
+    - fcm_remove
+    - fcm_select
+    - fcm_tolower
+    - fcm_toupper
+    - fcm_sort
+    - is.fcm
+- title: Text statistics
+  desc: Functions for computing statistics from texts and dfm objects.
+  contents:
+    - textstat_collocations
+    - textstat_dist
+    - textstat_entropy
+    - textstat_lexdiv
+    - textstat_simil
+    - textstat_frequency
+    - textstat_keyness
+    - textstat_readability
+    - sparsity
+    - topfeatures
+- title: Dictionary functions
+  desc: Constructor and utility functions for working with dictionaries.
+  contents:
+    - dictionary
+    - is.dictionary
+    - as.yaml
+- title: Phrase discovery functions
+  desc: Functions for exploring and detecting keywords and phrases.
+  contents:
+    - collocations
+    - is.collocations
+    - is.kwic
+    - kwic
+- title: Text model functions
+  desc: Fitting analytic models from text matrixes.
+  contents:
+    - starts_with("textmodel_")
+- title: Text plot functions
+  desc: Plot functions for representing text and the analysis of texts.
+  contents:
+    - starts_with("textplot_")
+- title: Utility functions
+  desc: R-like functions to return counts and object information.
+  contents:
+    - ndoc
+    - nfeature
+    - nscrabble
+    - nsentence
+    - nsyllable
+    - ntoken
+    - ntype
+    - starts_with("docnames")
+    - featnames
+- title: Miscellaneous functions
+  contents:
+    - phrase
+    - as.list.dist
+    - convert
+    - bootstrap_dfm
+    - spacyr-methods

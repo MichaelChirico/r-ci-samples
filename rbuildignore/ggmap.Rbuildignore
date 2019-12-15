@@ -1,0 +1,11 @@
+^appveyor\.yml$
+^\.travis\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^revdep$
+^cran-comments.md$
+^cran-comments\.md$
+README_cache
+^\.github/ISSUE_TEMPLATE\.md$
+^\.github/PULL_REQUEST_TEMPLATE\.md$

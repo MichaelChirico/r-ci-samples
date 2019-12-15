@@ -1,0 +1,10 @@
+docs/
+.Rproj.user
+.Rhistory
+.RData
+.httr-oauth
+inst/doc
+revdep/checks
+revdep/library
+log/runit.html
+log/runit.log

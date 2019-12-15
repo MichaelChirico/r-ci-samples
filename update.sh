@@ -1,9 +1,11 @@
 #!/bin/bash
 TRAVIS=.travis.yml
-GHSTEM=https://raw.githubusercontent.com
+GH_STEM=https://raw.githubusercontent.com
 NOW=$(TZ=UTC date +%Y-%m-%d_%H-%M-%S)
 
-for REPO in                    \
+mkdir -p travis-ci
+
+for TRAVIS_REPO in             \
   business-science/tidyquant   \
   christophergandrud/networkD3 \
   cpsievert/LDAvis             \
@@ -99,8 +101,8 @@ for REPO in                    \
   yihui/xaringan               \
   ;
 do
-  curl -o ${REPO##*/}$TRAVIS \
-    $GHSTEM/$REPO/master/$TRAVIS
+  curl -s -o travis-ci/${TRAVIS_REPO##*/}$TRAVIS \
+    $GH_STEM/$TRAVIS_REPO/master/$TRAVIS
 done
 
 git add . && \

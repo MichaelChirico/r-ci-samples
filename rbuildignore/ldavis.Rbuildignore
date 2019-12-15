@@ -1,0 +1,12 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+.Rhistory
+.travis.yml
+.push_gh_pages.sh
+cran-comments.md
+inst/examples/*/*
+!inst/examples/*/*.R
+!inst/examples/*/*.Rmd
+
+docs
+Makefile
