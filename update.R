@@ -1,3 +1,5 @@
+source("find_store_github_actions.R", encoding = "UTF-8")
+
 repos = readLines('.tracked_repos')
 
 # file patterns; e.g. appveyor can be .appveyor.yml or appveyor.yml
@@ -52,5 +54,8 @@ for (repo in repos) {
       file.rename(file.path('tmp', file[1L]), file.path(names(meta), out_file))
     }
   }
+  find_store_github_actions(repo)
   unlink('tmp', recursive = TRUE, force = TRUE)
 }
+
+
