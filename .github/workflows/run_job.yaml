@@ -1,0 +1,41 @@
+name: Run data collection
+
+on:
+  push:
+    paths:
+      - '.tracked_repos'
+      - '**.R'
+      - '.github/workflows/run_job.yaml'
+  schedule:
+    - cron:  '59 23 * * 0'
+
+jobs:
+  data-collection:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: r-lib/actions/setup-r@master
+
+      - name: Set GIT
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "Github Action"
+
+      - name: Run Rscript
+        run: Rscript update.R
+
+      - name: Get Date
+        id: date
+        run: echo "::set-output name=date::$(TZ=UTC date +%Y-%m-%d_%H-%M-%S)"
+
+      - name: Commit new data
+        run: |
+          git add --all
+          git commit -m "New data collected at ${{ steps.date.outputs.date }}"
+
+
+      - name: Push data
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'master'
