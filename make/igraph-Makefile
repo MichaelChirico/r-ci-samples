@@ -1,83 +1,29 @@
+SOURCE = csardi2
 
+all: $(SOURCE).pdf 
 
-SUBDIRS=src tests
-DOC_FILES = $(top_srcdir)/doc/Makefile.in \
-	$(top_srcdir)/doc/igraph.3
+FIGTEX = ~/bin/figtex
 
-pkgconfigdir = @libdir@/pkgconfig
-pkgconfig_DATA = igraph.pc
+FIG = $(wildcard *.fig)
+EPS = $(patsubst %.fig, %.eps, $(FIG)) 
+EPST = $(patsubst %.fig, %.eps_t, $(FIG))
+ALLEPS = $(EPS) 
 
-EXTRA_DIST = igraph.pc IGRAPH_VERSION $(top_srcdir)/include/* $(DOC_FILES) examples \
-	$(wildcard $(top_srcdir)/optional/glpk/*.{inc,c,h})      \
-	$(wildcard $(top_srcdir)/optional/glpk/{README,COPYING}) \
-	$(wildcard $(top_srcdir)/optional/glpk/amd/*.{c,h})      \
-	$(wildcard $(top_srcdir)/optional/glpk/amd/{README,COPYING}) \
-	$(wildcard $(top_srcdir)/optional/glpk/colamd/*.{c,h}) \
-	$(wildcard $(top_srcdir)/optional/glpk/colamd/{README,COPYING}) \
-	tests/testsuite
+$(SOURCE).dvi: $(SOURCE).tex $(ALLEPS) $(EPST) net.bib
+	latex $(SOURCE) && bibtex $(SOURCE) &&  \
+	latex $(SOURCE) && latex $(SOURCE) 
 
-tests/testsuite:
-	cd tests && make testsuite
+$(SOURCE).pdf: $(SOURCE).dvi
+	dvips -o $(SOURCE).ps -t letter $(SOURCE).dvi && \
+	ps2pdf $(SOURCE).ps
 
-install-exec-hook:
-	if test -f $(top_builddir)/src/.libs/cygigraph-0.dll ; \
-		then cp $(top_builddir)/src/.libs/cygigraph-0.dll \
-		$(DESTDIR)$(libdir) ; fi
+# Figures
 
-install-info:
-	if test -f doc/igraph.info; then d="doc"; \
-         else d=$(srcdir); fi; \
-        $(INSTALL_DATA) $$d/igraph.info $(infodir); \
-        if $(SHELL) -c 'install-info --version' \
-           >/dev/null 2>&1; then \
-          install-info --infodir=$(infodir) $$d/igraph.info; \
-        else true; fi
+%.eps : %.fig
+	$(FIGTEX) $<
 
-dist-hook:
-	rm -rf `find $(distdir)/examples -type d -name .arch-ids`
+clean: 
+	rm -f $(SOURCE){.aux,.bbl,.blg,.dvi,.log,.out,.pdf,.ps,.toc}\
+	$(EPS) $(EPST)
 
-MAINTAINERCLEANFILES = Makefile.in
-
-## to make sure make deb will generate Debian packages
-.PHONY: framework msvc parsersources
-
-framework: all
-	rm -rf $(top_builddir)/igraph.framework
-	mkdir -p $(top_builddir)/igraph.framework/Versions/$(VERSION)/Headers
-	mkdir -p $(top_builddir)/igraph.framework/Versions/$(VERSION)/Resources
-	ln -s $(VERSION) $(top_builddir)/igraph.framework/Versions/Current
-	ln -s Versions/Current/Headers $(top_builddir)/igraph.framework/Headers
-	ln -s Versions/Current/Resources $(top_builddir)/igraph.framework/Resources
-	cp $(top_srcdir)/include/* $(top_builddir)/igraph.framework/Headers/
-	if [ $(top_builddir) != $(top_srcdir) ]; then cp $(top_builddir)/include/* $(top_builddir)/igraph.framework/Headers/; fi
-	cp $(top_builddir)/src/.libs/libigraph.dylib $(top_builddir)/igraph.framework/Versions/Current/igraph
-	ln -s Versions/Current/igraph $(top_builddir)/igraph.framework/igraph
-	cp $(top_builddir)/igraph_Info.plist $(top_builddir)/igraph.framework/Versions/Current/Resources/Info.plist
-
-parsersources:
-	cd src; make parsersources
-
-msvc: parsersources
-	rm -rf $(top_builddir)/igraph-$(VERSION)-msvc
-	mkdir $(top_builddir)/igraph-$(VERSION)-msvc
-	mkdir $(top_builddir)/igraph-$(VERSION)-msvc/include
-	cp -r $(top_srcdir)/src $(top_builddir)/igraph-$(VERSION)-msvc/
-	cp -r $(top_srcdir)/include/*.h $(top_builddir)/igraph-$(VERSION)-msvc/include
-	if [ "x$(top_srcdir)" != "x$(top_builddir)" ]; then cp -r $(top_builddir)/include $(top_builddir)/src $(top_builddir)/igraph-$(VERSION)-msvc; fi
-	cp -r $(top_srcdir)/msvc/include $(top_builddir)/igraph-$(VERSION)-msvc/winclude
-	rm -rf $(top_builddir)/igraph-$(VERSION)-msvc/src/{.deps,.libs}
-	rm -rf $(top_builddir)/igraph-$(VERSION)-msvc/src/config.h
-	rm -rf $(top_builddir)/igraph-$(VERSION)-msvc/src/*.{o,lo,la}
-	rm -rf $(top_builddir)/igraph-$(VERSION)-msvc/src/*~
-	rm -rf $(top_builddir)/igraph-$(VERSION)-msvc/include/*~
-	mkdir $(top_builddir)/igraph-$(VERSION)-msvc/winlib
-	$(top_srcdir)/tools/create-msvc-projectfile.py		\
-		$(top_builddir)/igraph-$(VERSION)-msvc 	\
-		$(top_srcdir)/msvc/igraph.vcproj        \
-		$(top_builddir)/src/Makefile
-	cp $(top_srcdir)/msvc/igraph.sln $(top_builddir)/igraph-$(VERSION)-msvc
-	cp -r $(top_srcdir)/msvc/igraphtest .
-	rm -rf igraph-$(VERSION)-msvc.zip
-	zip -r igraph-$(VERSION)-msvc.zip igraph-$(VERSION)-msvc igraphtest
-    
-CLEANFILES=
+.PHONY: clean
