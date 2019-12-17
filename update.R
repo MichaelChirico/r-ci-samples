@@ -55,10 +55,8 @@ for (repo in repos) {
         cat('\t✅ Found', meta, '\n')
         outdir = file.path(meta, basename(repo))
         dir.create(outdir, showWarnings = FALSE)
-        for (workflow in workflows) {
-          out_file = file.path(outdir, basename(workflow))
-          file.rename(file.path('tmp', workflow), out_file)
-        }
+        out_file = file.path(outdir, basename(workflows))
+        file.rename(file.path('tmp', workflows), out_file)
       }
     } else {
       #endsWith not grep -- e.g. Makefile.R was found, and endsWith is cleaner
@@ -71,6 +69,5 @@ for (repo in repos) {
       }
     }
   }
-  find_store_github_actions(repo)
   unlink('tmp', recursive = TRUE, force = TRUE)
 }
