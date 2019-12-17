@@ -46,10 +46,13 @@ for (repo in repos) {
   files = list.files('tmp', recursive = TRUE, all.files = TRUE)
   for (ii in seq_along(known_meta)) {
     meta = known_meta[ii]
-    if (length(file <- grep(meta, files, fixed = TRUE, value = TRUE))) {
+    #endsWith not grep -- e.g. Makefile.R was found, and endsWith is cleaner
+    #  than adding '$', to regexify it
+    if (any(idx <- endsWith(files, meta))) {
       cat('\t✅ Found', meta, '\n')
+      in_file = files[idx][1L]
       out_file = paste0(basename(repo), if (grepl('^[^._]', meta)) '-', meta)
-      file.rename(file.path('tmp', file[1L]), file.path(names(meta), out_file))
+      file.rename(file.path('tmp', in_file), file.path(names(meta), out_file))
     }
   }
   unlink('tmp', recursive = TRUE, force = TRUE)
