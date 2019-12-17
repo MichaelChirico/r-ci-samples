@@ -1,10 +1,9 @@
-source("find_store_github_actions.R", encoding = "UTF-8")
-
 repos = readLines('.tracked_repos')
 
 # file patterns; e.g. appveyor can be .appveyor.yml or appveyor.yml
 known_meta = c(
   travis = '.travis.yml',
+  'github-actions' = 'github-actions',
   gitignore = '.gitignore',
   rbuildignore = '.Rbuildignore',
   appveyor = 'appveyor.yml',
@@ -48,17 +47,30 @@ for (repo in repos) {
   files = list.files('tmp', recursive = TRUE, all.files = TRUE)
   for (ii in seq_along(known_meta)) {
     meta = known_meta[ii]
-    #endsWith not grep -- e.g. Makefile.R was found, and endsWith is cleaner
-    #  than adding '$', to regexify it
-    if (any(idx <- endsWith(files, meta))) {
-      cat('\t✅ Found', meta, '\n')
-      in_file = files[idx][1L]
-      out_file = paste0(basename(repo), if (grepl('^[^._]', meta)) '-', meta)
-      file.rename(file.path('tmp', in_file), file.path(names(meta), out_file))
+    if (meta == 'github-actions') {
+      # .github/workflows could have multiple "actions"; store each of these
+      #   in a github-actions/pkg folder
+      workflows = grep('github/workflows/.*ya?ml', files, value = TRUE)
+      if (length(workflows)) {
+        cat('\t✅ Found', meta, '\n')
+        outdir = file.path(meta, basename(repo))
+        dir.create(outdir, showWarnings = FALSE)
+        for (workflow in workflows) {
+          out_file = file.path(outdir, basename(workflow))
+          file.rename(file.path('tmp', workflow), out_file)
+        }
+      }
+    } else {
+      #endsWith not grep -- e.g. Makefile.R was found, and endsWith is cleaner
+      #  than adding '$', to regexify it
+      if (any(idx <- endsWith(files, meta))) {
+        cat('\t✅ Found', meta, '\n')
+        in_file = files[idx][1L]
+        out_file = paste0(basename(repo), if (grepl('^[^._]', meta)) '-', meta)
+        file.rename(file.path('tmp', in_file), file.path(names(meta), out_file))
+      }
     }
   }
   find_store_github_actions(repo)
   unlink('tmp', recursive = TRUE, force = TRUE)
 }
-
-
