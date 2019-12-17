@@ -30,8 +30,8 @@ jobs:
 
       - name: Commit new data
         run: |
-          # git add --all
-          # git commit -m "New data collected at ${{ steps.date.outputs.date }}"
+          git add --all
+          git commit -m "New data collected at ${{ steps.date.outputs.date }}"
 
 
       - name: Push data
