@@ -27,15 +27,18 @@ jobs:
       - name: Get Date
         id: date
         run: echo "::set-output name=date::$(TZ=UTC date +%Y-%m-%d_%H-%M-%S)"
+      
+      - name: Get Branch
+        id: branch
+        run: echo "::set-output name=branch_name::${GITHUB_REF:11}"
 
       - name: Commit new data
         run: |
           git add --all
           git commit -m "New data collected at ${{ steps.date.outputs.date }}" || echo "No changes since last update"
 
-
       - name: Push data
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: 'master'
+          branch: ${{ steps.branch.outputs.branch_name }}
