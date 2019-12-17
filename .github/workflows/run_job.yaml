@@ -7,7 +7,7 @@ on:
       - '**.R'
       - '.github/workflows/run_job.yaml'
   schedule:
-    - cron:  '59 23 * * 0,2,4,6'
+    - cron:  '59 23 * * 0'
 
 jobs:
   data-collection:
