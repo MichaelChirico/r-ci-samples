@@ -1,0 +1,66 @@
+image: rocker/tidyverse
+
+stages:
+  - check
+  - test
+
+variables:
+  _R_CHECK_CRAN_INCOMING_: "false"
+  _R_CHECK_SUGGESTS_ONLY: "false"
+  _R_CHECK_FORCE_SUGGESTS_: "true"
+  APT_PKGS: "libgeos-dev"
+  APT_CACHE: "$CI_PROJECT_DIR/ci/lib/apt-cache"
+  CRAN_MIRROR: "https://cloud.r-project.org"
+  R_LIBS_USER: "$CI_PROJECT_DIR/ci/lib"
+  R_LIBS: "$CI_PROJECT_DIR/ci/lib"
+  BUILD_LOGS_DIR: "$CI_PROJECT_DIR/ci/logs"
+
+before_script:
+    - mkdir -p $APT_CACHE
+    - apt-get update
+    - apt-get -o dir::cache::archives=${APT_CACHE} install -y --no-install-recommends ${APT_PKGS}
+
+getready:
+  stage: .pre
+  script:
+    - mkdir -p $R_LIBS_USER
+    - R -e 'install.packages(c("lintr","ggthemes", "sp", "mapproj", "maps", "maptools", "rgeos", "shinycssloaders", "shinydashboard"), repos = Sys.getenv("CRAN_MIRROR"), lib = Sys.getenv("R_LIBS_USER"))'
+    - R -e 'withr::with_libpaths(new = Sys.getenv("R_LIBS_USER"), remotes::install_github("USGS-R/wateRuse",  repos = Sys.getenv("CRAN_MIRROR")))'
+  artifacts:
+    paths:
+     - $R_LIBS_USER
+
+buildcheck:
+  stage: check
+  script:
+    - mkdir -p $BUILD_LOGS_DIR
+    - apt-get -o dir::cache::archives=${APT_CACHE} install -y --no-install-recommends qpdf pandoc pandoc-citeproc
+    - R CMD build . --no-build-vignettes --no-manual
+    - R -e 'devtools::check(document = FALSE, args = "--no-tests", error_on = "error", check_dir = Sys.getenv("BUILD_LOGS_DIR"))'
+    - R -e 'lintr::lint_package()'
+  artifacts:
+    paths:
+      - $BUILD_LOGS_DIR
+
+unittests:
+  stage: test
+  dependencies:
+    - getready
+    - buildcheck
+  script:
+    - R -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+
+covertests:
+  stage: test
+  dependencies:
+    - getready
+    - buildcheck
+  script:
+    - R -e 'x <- covr::package_coverage();x;saveRDS(x, file = "cover.rds")'
+  artifacts:
+    paths:
+      - cover.rds
+  coverage: '/Coverage: \d+.\d+\%/'
+
+
+
