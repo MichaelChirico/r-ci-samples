@@ -1,11 +1,1 @@
-internal
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-inst/doc
-scratch.R
-*cache*
-old
-docs/
-*.xlsx
+*.html
