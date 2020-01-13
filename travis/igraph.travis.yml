@@ -1,31 +1,54 @@
 
 language: c
 
-os:
-  - linux
-  - osx
-
 addons:
   apt:
     packages:
     - gfortran
     - flex
     - bison
+    - docbook2x
+    - xmlto
+    - texinfo
+    - source-highlight
+    - libxml2-utils
+    - xsltproc
+    - fop
   homebrew:
     packages:
     - flex
     - bison
 
-install:
-- ./bootstrap.sh
-- ./configure
-- make
-
 script:
-- make check
+  - make check
 
 after_failure:
-- find tests/testsuite.dir -name testsuite.log -exec cat \{\} \;
+  - find tests/testsuite.dir -name testsuite.log -exec cat \{\} \;
+
+jobs:
+  include:
+    - stage: test
+      os: linux
+      install:
+        - ./bootstrap.sh
+        - ./configure
+        - make
+    - stage: test
+      os: osx
+      install:
+        - ./bootstrap.sh
+        - ./configure
+        - make
+    - stage: documentation
+      language: shell
+      os: linux
+      install:
+        - ./bootstrap.sh
+        - ./configure
+        - cd doc
+      script:
+        - make html
+        - make pdf
 
 notifications:
   email:
