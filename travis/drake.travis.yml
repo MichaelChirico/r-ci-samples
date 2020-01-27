@@ -17,6 +17,7 @@ addons:
       - libzmq3-dev
 
 r_packages:
+  - benchmarkme
   - clustermq
   - covr
   - downloader
