@@ -1,0 +1,34 @@
+on:
+  schedule:
+    # * is a special character in YAML so we have to quote this string
+    # 3am Pacific = 11am UTC
+    # https://crontab.guru is your friend
+    - cron:  '0 3 * * *'
+
+name: Test-coverage
+
+jobs:
+  test-coverage:
+    runs-on: macOS-latest
+
+    env:
+      GOOGLESHEETS4_PASSWORD: ${{ secrets.GOOGLESHEETS4_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+
+      - name: Install macOS system dependencies
+        run: brew install libsodium
+
+      - name: Install dependencies
+        run: |
+          Rscript -e 'install.packages("remotes")' \
+                  -e 'remotes::install_deps(dependencies = TRUE)'
+
+      - name: Install package
+        run: R CMD INSTALL .
+
+      - name: Test coverage
+        run: |
+          Rscript -e 'covr::codecov(token = "${{secrets.CODECOV_TOKEN}}")'
