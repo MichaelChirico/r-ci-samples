@@ -1,3 +1,4 @@
+^\.github
 ^CRAN-RELEASE$
 ^.*\.Rproj$
 ^\.Rproj\.user$
@@ -11,4 +12,5 @@
 ^CONDUCT\.md$
 ^cran-comments\.md$
 ^docs$
-^build$
+^doc$
+^Meta$
