@@ -1,6 +1,9 @@
 on:
   push:
-    branches: master
+    branches:
+      - master
+  release:
+    types: [published]
 
 name: pkgdown
 
@@ -15,8 +18,8 @@ jobs:
         run: |
           install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_dev("pkgdown")
           remotes::install_github("tidyverse/tidytemplate")
+          remotes::install_dev("pkgdown")
         shell: Rscript {0}
       - name: Install package
         run: R CMD INSTALL .
