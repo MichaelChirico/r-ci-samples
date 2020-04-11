@@ -4,7 +4,7 @@ Sample Continuous Integration (CI) scripts from popular R package repos
 
 The following package CI tools are tracked:
 
- - [Travis CI](https://travis-ci.org/) : `travis`
+ - [Travis CI](https://travis-ci.org/) : [`travis`](./travis/)
  - [Appveyor](https://www.appveyor.com/) : `appveyor`
  - [Jenkins](https://jenkins.io/) : `jenkins`
  - [Gitlab CI](https://docs.gitlab.com/ee/ci/) : `gitlab-ci`
