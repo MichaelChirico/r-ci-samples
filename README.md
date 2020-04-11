@@ -26,4 +26,4 @@ The repos used here are found in the [`.tracked_repos`](./.tracked_repos) file; 
 
 If there's some CI tool/metadata I'm missing, this can easily be added to the [`update.R`](./update.R) script.
 
-I have a cron job in place to update this weekly.
+This is updated weekly with Github Actions, see [`.github`](./.github/)
