@@ -8,6 +8,7 @@ The following package CI tools are tracked:
  - [Appveyor](https://www.appveyor.com/) : `appveyor`
  - [Jenkins](https://jenkins.io/) : `jenkins`
  - [Gitlab CI](https://docs.gitlab.com/ee/ci/) : `gitlab-ci`
+ - [Github Actions](https://github.com/features/actions): `github-actions`
  
 Also tracked are some common package metadata files:
 
