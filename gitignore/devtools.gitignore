@@ -1,15 +1,1 @@
-*.so
-*.o
-*.dll
-.Rproj.user
-.Rhistory
-.project
-.settings/
-inst/doc
-.httr-oauth
-tests/testthat/infrastructure/
-script.R
-doc
-Meta
-tests/*/*/.gitignore
-docs/
+*.html
