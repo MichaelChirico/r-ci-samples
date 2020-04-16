@@ -1,0 +1,4 @@
+.gitlab-ci.yml
+.gitignore
+.gitattributes
+.Rhistory

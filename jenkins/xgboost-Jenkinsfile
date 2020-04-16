@@ -94,6 +94,17 @@ pipeline {
         milestone ordinal: 4
       }
     }
+    stage('Jenkins Linux: Deploy') {
+      agent none
+      steps {
+        script {
+          parallel ([
+            'deploy-jvm-packages': { DeployJVMPackages(spark_version: '2.4.3') }
+          ])
+        }
+        milestone ordinal: 5
+      }
+    }
   }
 }
 
@@ -190,6 +201,7 @@ def BuildCPU() {
     ${docker_extra_params} ${dockerRun} ${container_type} ${docker_binary} build/testxgboost
     """
 
+    stash name: 'xgboost_cli', includes: 'xgboost'
     deleteDir()
   }
 }
@@ -271,6 +283,7 @@ def TestPythonCPU() {
   node('linux && cpu') {
     unstash name: 'xgboost_whl_cuda9'
     unstash name: 'srcs'
+    unstash name: 'xgboost_cli'
     echo "Test Python CPU"
     def container_type = "cpu"
     def docker_binary = "docker"
@@ -296,19 +309,25 @@ def TestPythonGPU(args) {
       sh """
       ${dockerRun} ${container_type} ${docker_binary} ${docker_args} tests/ci_build/test_python.sh mgpu
       """
+      if (args.cuda_version != '9.0') {
+        echo "Running tests with cuDF..."
+        sh """
+        ${dockerRun} cudf ${docker_binary} ${docker_args} tests/ci_build/test_python.sh mgpu-cudf
+        """
+      }
     } else {
       echo "Using a single GPU"
       sh """
       ${dockerRun} ${container_type} ${docker_binary} ${docker_args} tests/ci_build/test_python.sh gpu
       """
+      if (args.cuda_version != '9.0') {
+        echo "Running tests with cuDF..."
+        sh """
+        ${dockerRun} cudf ${docker_binary} ${docker_args} tests/ci_build/test_python.sh cudf
+        """
+      }
     }
     // For CUDA 10.0 target, run cuDF tests too
-    if (args.cuda_version == '10.0') {
-      echo "Running tests with cuDF..."
-      sh """
-      ${dockerRun} cudf ${docker_binary} ${docker_args} tests/ci_build/test_python.sh cudf
-      """
-    }
     deleteDir()
   }
 }
@@ -380,6 +399,21 @@ def TestR(args) {
     sh """
     ${dockerRun} ${container_type} ${docker_binary} ${docker_args} tests/ci_build/build_test_rpkg.sh || tests/ci_build/print_r_stacktrace.sh
     """
+    deleteDir()
+  }
+}
+
+def DeployJVMPackages(args) {
+  node('linux && cpu') {
+    unstash name: 'srcs'
+    if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release')) {
+      echo 'Deploying to xgboost-maven-repo S3 repo...'
+      def container_type = "jvm"
+      def docker_binary = "docker"
+      sh """
+      ${dockerRun} ${container_type} ${docker_binary} tests/ci_build/deploy_jvm_packages.sh ${args.spark_version}
+      """
+    }
     deleteDir()
   }
 }
