@@ -1,13 +1,1 @@
-docs
-.Rproj.user
-.Rhistory
-.RData
-~*
-xldocs
-clippy/geometry.key
-rsconnect
-inst/doc
-scratch.R
-src/fprintf-substitution.R
-fprintf-matches.txt
-investigations
+*.html

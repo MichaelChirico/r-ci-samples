@@ -1,6 +1,12 @@
 on:
   push:
-    branches: master
+    branches:
+      - master
+      - 'gh-actions'
+      - 'githubactions'
+    paths-ignore:
+      - 'python/**'
+
 
 name: pkgdown
 
@@ -31,10 +37,9 @@ jobs:
         run: |
           install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
+          install.packages(c("rms", "gbm", "caret", "e1071"))
           remotes::install_dev("pkgdown")
-          remotes::install_github("tidyverse/tidytemplate")
-          remotes::install_cran("tidyverse")
-          remotes::install_cran("devtools")
+          remotes::install_github("ModelOriented/DrWhyTemplate")
         shell: Rscript {0}
 
       - name: Install package

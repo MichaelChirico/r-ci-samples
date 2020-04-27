@@ -36,7 +36,7 @@ test-windows:
   - R.exe CMD INSTALL $(ls.exe -1t *.tar.gz | head -n 1) --build
   - mkdir.exe -p bus/bin/windows/contrib/3.6
   - mv.exe $(ls.exe -1t *.zip | head -n 1) bus/bin/windows/contrib/3.6
-  - Rscript.exe -e "tools::write_PACKAGES(contrib.url('bus'), type='win.binary', addFiles=TRUE)"
+  - Rscript.exe -e "tools::write_PACKAGES(contrib.url('bus', type='win.binary'), type='win.binary', addFiles=TRUE)"
   artifacts:
     expire_in: 4 weeks
     when: always
