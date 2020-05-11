@@ -40,20 +40,22 @@ jobs:
 
       - name: Query dependencies
         run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
+          # getting dev remotes for better behaviour re: installation order
+          install.packages("https://github.com/r-lib/remotes/archive/master.tar.gz", repos = NULL)
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
       - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-3.6-${{ hashFiles('depends.Rds') }}
-          restore-keys: macOS-r-3.6-
+          key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: macOS-r-4.0-1-
 
       - name: Install dependencies
         run: |
-          install.packages("remotes")
+          # temporary hack until there's a macOS binary for ps
+          install.packages("ps", type = "source")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("tidyverse")
           remotes::install_github("tidyverse/tidytemplate")
