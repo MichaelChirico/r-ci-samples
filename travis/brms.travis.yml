@@ -11,6 +11,10 @@ warnings_are_errors: TRUE
 r_build_args: '--no-build-vignettes'
 r_check_args: '--ignore-vignettes'
 
+r_github_packages: 
+  - stan-dev/cmdstanr
+  - stan-dev/rstantools
+  
 addons:
   apt:
     packages:
