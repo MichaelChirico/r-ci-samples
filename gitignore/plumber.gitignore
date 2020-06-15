@@ -1,11 +1,1 @@
-.Rproj.user
-.httr-oauth
-.Rhistory
-.RData
-.DS_Store
-*.swp
-.idea
-plumber.Rcheck
-plumber_*.tar.gz
-yarn.lock
-node_modules
+*.html
