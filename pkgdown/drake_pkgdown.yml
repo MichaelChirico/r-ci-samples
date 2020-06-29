@@ -74,6 +74,7 @@ reference:
   - '`read_trace`'
 - title: Reproducible R session management
   contents:
+  - '`drake_script`'
   - '`r_make`'
   - '`r_drake_build`'
   - '`r_outdated`'
@@ -154,6 +155,3 @@ reference:
   - '`drake_done`'
   - '`drake_failed`'
   - '`drake_cancelled`'
-- title: R packages as drake workflows
-  contents:
-  - '`expose_imports`'
