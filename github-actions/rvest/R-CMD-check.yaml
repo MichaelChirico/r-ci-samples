@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          #- {os: macOS-latest,   r: 'devel'}
+          - {os: macOS-latest,   r: 'devel'}
           - {os: macOS-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
           - {os: windows-latest, r: '3.6'}
@@ -57,7 +57,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install linux system dependencies
+      - name: Install system dependencies
         if: runner.os == 'Linux'
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
@@ -66,22 +66,11 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
 
-      - name: Install macOS system dependencies
-        if: runner.os == 'macOS'
-        run: |
-          brew install imagemagick@6
-          brew install libgit2
-
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
-
-      - name: Configure Git user
-        run: |
-          git config --global user.email "ghau@example.com"
-          git config --global user.name "GitHub Actions User"
 
       - name: Session info
         run: |
@@ -103,7 +92,7 @@ jobs:
 
       - name: Upload check results
         if: failure()
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@master
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
