@@ -43,6 +43,8 @@ reference:
 - title: Router
   contents:
   - 'plumb'
+  - 'plumb_api'
+  - 'plumber'
   - 'pr'
   - 'pr_run'
   - 'options_plumber'
@@ -80,8 +82,7 @@ reference:
   - 'pr_set_api_spec'
   - 'pr_set_ui'
   - 'register_ui'
-- title: All functions
-  # desc: description here
+  - 'validate_api_spec'
 
 - title: POST Body and Query String Parsers
   contents:
@@ -94,6 +95,7 @@ reference:
   - 'as_attachment'
   - 'register_serializer'
   - 'serializer_json'
+  - 'endpoint_serializer'
   - 'include_file'
 
 - title: Cookies and Filters
