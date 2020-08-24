@@ -44,10 +44,10 @@ reference:
   contents:
   - 'plumb'
   - 'plumb_api'
-  - 'plumber'
   - 'pr'
   - 'pr_run'
   - 'options_plumber'
+  - 'is_plumber'
 
 - title: Router Methods
   contents:
@@ -58,6 +58,7 @@ reference:
   - 'pr_head'
   - 'pr_handle'
   - 'pr_mount'
+  - 'pr_static'
 
 - title: Router Hooks
   contents:
@@ -69,26 +70,26 @@ reference:
 - title: Router Defaults
   contents:
   - 'pr_set_api_spec'
-  - 'pr_set_ui'
+  - 'pr_set_docs'
   - 'pr_set_serializer'
   - 'pr_set_parsers'
   - 'pr_set_404'
   - 'pr_set_error'
   - 'pr_set_debug'
-  - 'pr_set_ui_callback'
+  - 'pr_set_docs_callback'
 
-- title: API Interface
+- title: Visual Documentation Interface
   contents:
   - 'pr_set_api_spec'
-  - 'pr_set_ui'
-  - 'register_ui'
+  - 'pr_set_docs'
+  - 'register_docs'
   - 'validate_api_spec'
 
 - title: POST Body and Query String Parsers
   contents:
   - 'register_parser'
   - 'parser_form'
-  - 'getCharacterSet'
+  - 'get_character_set'
 
 - title: Response
   contents:
@@ -101,23 +102,14 @@ reference:
 - title: Cookies and Filters
   contents:
   - 'pr_cookie'
-  - 'randomCookieKey'
-  - 'sessionCookie'
+  - 'random_cookie_key'
+  - 'session_cookie'
   - 'forward'
 
 - title: R6 Constructors
   contents:
+  - 'Plumber'
   - 'PlumberEndpoint'
   - 'PlumberStatic'
   - 'PlumberStep'
-  - 'hookable'
-
-- title: Digital Ocean
-  desc: TO BE REMOVED FROM PLUMBER!!!
-  contents:
-  - 'do_configure_https'
-  - 'do_deploy_api'
-  - 'do_forward'
-  - 'do_provision'
-  - 'do_remove_api'
-  - 'do_remove_forward'
+  - 'Hookable'
