@@ -1,7 +1,1 @@
-.Rproj.user
-.Rhistory
-.RData
-*.DS_Store
-inst/doc
-inst/*.html
-docs/
+*.html
