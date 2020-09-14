@@ -1,7 +1,7 @@
 language: r
 r:
   - release
-  - devel
+  #- devel
   - oldrel
 latex: true
 warnings_are_errors: TRUE
@@ -37,7 +37,6 @@ r_packages:
   - LaplacesDemon
   - logspline
   - testthat
-  - devtools
   - remotes
   - knitr
   - rmarkdown
