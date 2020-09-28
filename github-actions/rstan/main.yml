@@ -1,11 +1,16 @@
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
 
 name: R-CMD-check
 
 jobs:
   R-CMD-check:
-    if: "! contains(github.event.head_commit.message, '[ci skip]')"    
-
+    if: "! contains(github.event.head_commit.message, '[ci skip]')"
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -14,20 +19,16 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'devel'}
-          - {os: windows-latest, r: 'release'}
-#2020-08-08#          - {os: macOS-latest,   r: 'devel'}
+          #- {os: macOS-latest,   r: 'devel'}
           - {os: macOS-latest,   r: 'release'}
-          - {os: ubuntu-16.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          - {os: ubuntu-16.04,   r: 'oldrel',  rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          - {os: ubuntu-16.04,   r: '3.5',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          - {os: ubuntu-16.04,   r: '3.4',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          - {os: ubuntu-16.04,   r: '3.3',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-
+          #- {os: windows-latest, r: 'devel'}
+          - {os: windows-latest, r: 'release'}
+          - {os: windows-latest, r: 'oldrel'}
+          - {os: ubuntu-20.04,   r: 'devel'}
+          - {os: ubuntu-20.04,   r: 'release'}
+          - {os: ubuntu-20.04,   r: 'oldrel'}
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      R_FUTURE_RNG_ONMISUSE: error
-      RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -42,7 +43,8 @@ jobs:
       - name: Query dependencies
         run: |
           install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          install.packages('V8')
+          saveRDS(remotes::dev_package_deps(pkg = "./rstan/rstan", dependencies = TRUE), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
@@ -60,14 +62,13 @@ jobs:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
-          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('./rstan/rstan/DESCRIPTION'))")
           sudo -s eval "$sysreqs"
 
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE)
+          remotes::install_deps(pkg = "./rstan/rstan", dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          install.packages(".", repos=NULL, type="source")  ## needed by parallel workers
         shell: Rscript {0}
 
       - name: Session info
@@ -80,8 +81,25 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        run: |
+          if (R.version$major < 4 && isTRUE(.Platform$OS.type == "windows")) {
+            dotR <- file.path(Sys.getenv("HOME"), ".R")
+            if (!file.exists(dotR)) dir.create(dotR)
+            path_makevars <- ifelse(.Platform$OS.type == "windows", "Makevars.win", "Makevars")
+            M <- file.path(dotR, path_makevars)
+            if (!file.exists(M)) file.create(M)
+            cat("\nCXX14FLAGS=-O3",
+                "CXX14 = $(BINPREF)g++ -m$(WIN) -std=c++1y",
+                "CXX11FLAGS=-O3",
+                file = M, sep = "\n", append = TRUE)
+          }
+          rcmdcheck::rcmdcheck(path = "./rstan/rstan", args = c("--no-manual", "--as-cran", "--ignore-vignettes"), build_args = c("--no-build-vignettes"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()
+        run: find check -name './rstan/rstan/testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
 
       - name: Upload check results
         if: failure()
