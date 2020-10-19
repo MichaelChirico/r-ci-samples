@@ -1,8 +1,7 @@
+dist: bionic
 language: r
 cache:
   packages: true
-  directories:
-    - $HOME/.TinyTeX
 latex: false
 pandoc_version: 2.8.0.1
 
@@ -16,4 +15,15 @@ addons:
     - ghostscript
 
 before_install:
-  - wget -qO- https://github.com/yihui/tinytex/raw/master/tools/download-travis-linux.sh | sh
+  - wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
+  - tlmgr --version
+
+jobs:
+  include:
+    - r: release
+      name: R release / Pandoc devel
+      env: PATH=$HOME/bin:$PATH
+      before_script:
+        - wget -qO- https://github.com/rstudio/rmarkdown/raw/master/tools/install-pandoc.sh | sh
+    - r: release
+      name: R release / default Pandoc
