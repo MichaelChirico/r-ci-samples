@@ -1,11 +1,9 @@
 on:
   push:
     branches:
-      - main
       - master
   pull_request:
     branches:
-      - main
       - master
 
 name: R-CMD-check
@@ -20,30 +18,23 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'release', args: "--no-manual"}
-          - {os: windows-latest, r: 'devel', args: "--no-manual"}
-          #- {os: windows-latest, r: 'oldrel', args: "--no-manual"}
-          - {os: macOS-latest, r: 'release', args: "--no-manual"}
-          #- {os: macOS-latest, r: 'devel', args: "--no-manual"}
-          - {os: macOS-latest, r: 'oldrel', args: "--no-manual"}
-          - {os: ubuntu-16.04, r: 'release', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual"}
-          - {os: ubuntu-16.04, r: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual"}
-          #- {os: ubuntu-16.04, r: 'oldrel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual"}
+          - {os: windows-latest, r: 'release'}
+          - {os: macOS-latest, r: 'release'}
+          - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
         run: |
@@ -66,30 +57,19 @@ jobs:
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16.04"))')
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
-      - name: Session info
-        run: |
-          options(width = 100)
-          pkgs <- installed.packages()[, "Package"]
-          sessioninfo::session_info(pkgs, include_base = TRUE)
-        shell: Rscript {0}
-
       - name: Check
         env:
-          _R_CHECK_CRAN_INCOMING_: false
+          _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
-
-      - name: Show testthat output
-        if: always()
-        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
-        shell: bash
 
       - name: Upload check results
         if: failure()
