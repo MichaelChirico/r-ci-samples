@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("jennybc/lintr@functions-not-objects")
+          remotes::install_github("jennybc/lintr@jennybc-usethis")
         shell: Rscript {0}
 
       - name: Lint
@@ -84,8 +84,10 @@ jobs:
           my_undesirable_functions <-
             rep_len(fs_msg, length(base_file_system_functions))
           names(my_undesirable_functions) <- base_file_system_functions
-          my_undesirable_function_linter <-
-            lintr::undesirable_function_linter(fun = my_undesirable_functions)
+          my_undesirable_function_linter <- lintr::undesirable_function_linter(
+            fun = my_undesirable_functions,
+            symbol_is_undesirable = FALSE
+          )
           out <- lintr::lint_package(linters = my_undesirable_function_linter)
           print(out)
           if (length(out)) stop("lints found")
