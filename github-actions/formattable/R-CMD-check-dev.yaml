@@ -1,28 +1,16 @@
-# NOTE: This workflow is overkill for most R packages
-# check-standard.yaml is likely a better choice
-# usethis::use_github_action("check-standard") will install it.
-#
-# For help debugging build failures open an issue on the RStudio community with the 'github-actions' tag.
-# https://community.rstudio.com/new-topic?category=Package%20development&tags=github-actions
+# This workflow calls the GitHub API very frequently.
+# Can't be run as part of commits
 on:
-  push:
-    branches:
-      - main
-      - master
-  pull_request:
-    branches:
-      - main
-      - master
   schedule:
-    - cron:  '20 2 * * *'
+    - cron:  '0 1 * * *'
 
-name: rcc
+name: rcc dev
 
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }}) ${{ matrix.config.desc }}
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     # Begin custom: services
     # End custom: services
@@ -31,27 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release', rspm: "https://packagemanager.rstudio.com/all/latest" }
-          - {os: windows-latest, r: 'oldrel', rspm: "https://packagemanager.rstudio.com/all/latest" }
-          - {os: ubuntu-16.04,   r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest", http-user-agent: "R/4.0.0 (ubuntu-16.04) R (4.0.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
-          - {os: ubuntu-16.04,   r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          - {os: ubuntu-16.04,   r: 'oldrel',  rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+          - {os: ubuntu-18.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
 
-          # Begin custom: R 3.5
-          - {os: ubuntu-16.04,   r: '3.5',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          # End custom: R 3.5
-
-          # Begin custom: R 3.4
-          - {os: ubuntu-16.04,   r: '3.4',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          # End custom: R 3.4
-
-          # Begin custom: R 3.3
-          - {os: ubuntu-16.04,   r: '3.3',     rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          # End custom: R 3.3
-
-          # Begin custom: matrix elements
-          # End custom: matrix elements
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
@@ -72,7 +41,6 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
 
       - uses: r-lib/actions/setup-pandoc@v1
 
@@ -84,18 +52,16 @@ jobs:
 
       - name: Prepare cache keys
         if: runner.os != 'Windows'
-        run: |
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE, type = .Platform$pkgType), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-        shell: Rscript {0}
+        id: date
+        run: echo "::set-output name=date::$(date -Ihours)"
 
       - name: Cache R packages
         if: runner.os != 'Windows'
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ matrix.config.os }}-${{ hashFiles('.github/R-version') }}-2-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ matrix.config.os }}-${{ hashFiles('.github/R-version') }}-2-
+          key: ${{ matrix.config.os }}-r-dev-${{ matrix.config.r }}-${{steps.date.outputs.date}}
+          restore-keys: ${{ matrix.config.os }}-r-dev-${{ matrix.config.r }}-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
@@ -111,8 +77,10 @@ jobs:
       - name: Install dependencies
         run: |
           if (!requireNamespace("curl", quietly = TRUE)) install.packages("curl")
-          if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE, type = .Platform$pkgType)
+          install.packages("https://github.com/krlmlr/remotes/archive/f-rate-limit-gh.tar.gz", repos = NULL)
+          deps <- remotes::dev_package_deps(dependencies = TRUE)
+          update(deps)
+          lapply(setNames(nm = deps$package), function(x) try(remotes::install_dev(x)))
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 

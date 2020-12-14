@@ -1,9 +1,1 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-skimr.Rproj
-inst/doc
-.DS_Store
-doc
-Meta
+*.html
