@@ -8,10 +8,10 @@ on:
       - main
       - master
 
-name: test-coverage
+name: lint
 
 jobs:
-  test-coverage:
+  lint:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -19,8 +19,6 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-r@master
-
-      - uses: r-lib/actions/setup-pandoc@master
 
       - name: Query dependencies
         run: |
@@ -40,9 +38,12 @@ jobs:
         run: |
           install.packages(c("remotes"))
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("covr")
+          remotes::install_cran("lintr")
         shell: Rscript {0}
 
-      - name: Test coverage
-        run: covr::codecov()
+      - name: Install package
+        run: R CMD INSTALL .
+
+      - name: Lint
+        run: lintr::lint_package()
         shell: Rscript {0}

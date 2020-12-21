@@ -13,14 +13,13 @@ name: test-coverage
 jobs:
   test-coverage:
     runs-on: macOS-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
         run: |
@@ -46,3 +45,4 @@ jobs:
       - name: Test coverage
         run: covr::codecov()
         shell: Rscript {0}
+
