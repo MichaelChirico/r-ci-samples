@@ -8,11 +8,21 @@ template:
   package: tidytemplate
 
 reference:
-- title: Extract data from HTML
+- title: HTML
   contents:
+  - html_attr
+  - html_children
+  - html_elements
   - html_form
-  - html_nodes
-  - html_session
+  - html_name
   - html_table
   - html_text
+  - minimal_html
+
+- title: Session
+  contents:
+  - session
+
+- title: Miscellaneous helpers
+  contents:
   - html_encoding_guess
