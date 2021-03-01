@@ -28,7 +28,7 @@ jobs:
       - name: Install pak and query dependencies
         run: |
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
-          saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), ".github/r-depends.rds")
+          saveRDS(pak::pkg_deps(".", dependencies = TRUE), ".github/r-depends.rds")
         shell: Rscript {0}
 
       - name: Cache R packages
@@ -50,10 +50,21 @@ jobs:
           pak::local_install_dev_deps(upgrade = TRUE)
           pak::pkg_install("r-lib/pkgdown")
           pak::pkg_install("rstudio/quillt")
+          pak::pkg_install("rstudio/webshot2") # for screenshot
         shell: Rscript {0}
+
+      - name: Install optipng
+        # required to optimize images
+        run: brew install optipng
 
       - name: Install package
         run: R CMD INSTALL .
+
+      - name: Cache some pkgdown assets
+        uses: actions/cache@v2
+        with:
+          path: 'vignettes/articles/images/*.png'
+          key: 1-${{ hashFiles('vignettes/articles/examples.yml') }}
 
       - name: Build pkgdown site
         run: pkgdown::build_site(new_process = FALSE)

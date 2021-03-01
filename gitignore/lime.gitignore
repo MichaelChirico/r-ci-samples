@@ -1,9 +1,1 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-*.Rproj
-revdep/*
-inst/doc
-h2o_tests/*
-docs/
+*.html
