@@ -1,6 +1,1 @@
-inst/doc
-.Rproj.user
-.Rhistory
-.RData
-gganimate.Rproj
-docs
+*.html
