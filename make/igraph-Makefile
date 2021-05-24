@@ -1,29 +1,15 @@
-SOURCE = csardi2
+LOADLIBS = -ly -lfl -lm
+LIBS = -lfl -lm
+CFLAGS	= -O
 
-all: $(SOURCE).pdf 
+all: lenscrub comment
 
-FIGTEX = ~/bin/figtex
+lenscrub: lenscrub.l
+	lex lenscrub.l
+	mv -f lex.yy.c lex_for_lenscrub.c
+	cc -o lenscrub -O lex_for_lenscrub.c -ll
 
-FIG = $(wildcard *.fig)
-EPS = $(patsubst %.fig, %.eps, $(FIG)) 
-EPST = $(patsubst %.fig, %.eps_t, $(FIG))
-ALLEPS = $(EPS) 
-
-$(SOURCE).dvi: $(SOURCE).tex $(ALLEPS) $(EPST) net.bib
-	latex $(SOURCE) && bibtex $(SOURCE) &&  \
-	latex $(SOURCE) && latex $(SOURCE) 
-
-$(SOURCE).pdf: $(SOURCE).dvi
-	dvips -o $(SOURCE).ps -t letter $(SOURCE).dvi && \
-	ps2pdf $(SOURCE).ps
-
-# Figures
-
-%.eps : %.fig
-	$(FIGTEX) $<
-
-clean: 
-	rm -f $(SOURCE){.aux,.bbl,.blg,.dvi,.log,.out,.pdf,.ps,.toc}\
-	$(EPS) $(EPST)
-
-.PHONY: clean
+comment: comment.l
+	lex comment.l
+	mv -f lex.yy.c lex_for_comment.c
+	cc -o comment -O lex_for_comment.c -ll
