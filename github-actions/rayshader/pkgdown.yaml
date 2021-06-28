@@ -12,6 +12,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       RGL_USE_NULL: true
+      _SF_USE_S2: false
     steps:
       - uses: actions/checkout@v2
 
@@ -32,10 +33,13 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-
+          
       - name: Install dependencies
         run: |
+          remotes::install_github("dmurdoch/rgl")
           remotes::install_github("tylermorganwall/rayvertex")
+          remotes::install_github("tylermorganwall/rayimage")
+          remotes::install_github("tylermorganwall/rayrender")
           remotes::install_deps(dependencies = TRUE)
           install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
