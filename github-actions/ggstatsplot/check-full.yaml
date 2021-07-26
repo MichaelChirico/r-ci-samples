@@ -20,9 +20,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'release', args: "--no-manual"}
+          #- {os: windows-latest, r: 'release', args: "--no-manual"}
           #- {os: windows-latest, r: 'devel', args: "--no-manual"}
-          - {os: windows-latest, r: 'oldrel', args: "--no-manual"}
+          #- {os: windows-latest, r: 'oldrel', args: "--no-manual"}
           # 'Rmpfr' not available on 3.6 for Windows
           - {os: macOS-latest, r: 'release', args: "--no-manual"}
           #- {os: macOS-latest, r: 'devel', args: "--no-manual"}
@@ -30,7 +30,7 @@ jobs:
           - {os: macOS-latest, r: '3.6.0', args: "--no-manual"}
           - {os: ubuntu-16.04, r: 'release', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual"}
           - {os: ubuntu-16.04, r: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual"}
-          - {os: ubuntu-16.04, r: 'oldrel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual"}
+          #- {os: ubuntu-16.04, r: 'oldrel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", args: "--no-manual"}
           - {os: ubuntu-16.04, r: '3.6.0', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest", args: "--no-manual"}
 
     env:
