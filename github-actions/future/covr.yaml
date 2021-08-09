@@ -1,23 +1,17 @@
 on: [push, pull_request]
 
-name: future.tests
+name: covr
 
 jobs:
-  future_tests:
+  covr:
     if: "! contains(github.event.head_commit.message, '[ci skip]')"    
 
     runs-on: ubuntu-20.04
 
-    name: future.plan=${{ matrix.future.plan }}
+    name: covr
 
     strategy:
       fail-fast: false
-      matrix:
-        future:
-          - { plan: sequential   }
-          - { plan: multicore    }
-          - { plan: multisession }
-          - { plan: cluster      }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -28,9 +22,7 @@ jobs:
       _R_CHECK_LENGTH_1_LOGIC2_: true
       _R_CHECK_MATRIX_DATA_: true
       _R_CHECK_CRAN_INCOMING_: false
-      ## Specific to futures
-      R_FUTURE_RNG_ONMISUSE: error
-      
+
     steps:
       - uses: actions/checkout@v2
 
@@ -65,9 +57,8 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
-          remotes::install_cran("future.tests")
-          install.packages(".", repos=NULL, type="source")  ## needed by parallel workers
+          install.packages("covr")
+          install.packages(".", repos=NULL, type="source")
         shell: Rscript {0}
 
       - name: Session info
@@ -77,15 +68,13 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
     
-      - name: Check
+      - name: Test coverage
         run: |
-          R CMD build --no-build-vignettes --no-manual . 
-          R CMD INSTALL *.tar.gz 
-          Rscript -e future.tests::check --args --test-plan=${{ matrix.future.plan }}
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@master
-        with:
-          name: ${{ runner.os }}-r${{ matrix.future.plan }}-results
-          path: check
+          ## 1. Get 'Repository Upload Token' from Codecov:
+          ##    https://app.codecov.io/gh/<org>/<repo>/settings
+          ## 2. Set 'CODECOV_TOKEN' in GitHub Secrets:
+          ##    https://github.com/<org>/<repo>/settings/environments/
+          coverage <- covr::package_coverage()
+          print(coverage)
+          covr::codecov(coverage = coverage, token="${{secrets.CODECOV_TOKEN}}")
+        shell: Rscript {0}
