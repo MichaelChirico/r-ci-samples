@@ -64,7 +64,7 @@ pipeline {
             // The build-gpu-* builds below use Ubuntu image
             'build-gpu-cuda11.0': { BuildCUDA(cuda_version: '11.0', build_rmm: true) },
             'build-gpu-rpkg': { BuildRPackageWithCUDA(cuda_version: '10.1') },
-            'build-jvm-packages-gpu-cuda10.1': { BuildJVMPackagesWithCUDA(spark_version: '3.0.0', cuda_version: '10.1') },
+            'build-jvm-packages-gpu-cuda10.1': { BuildJVMPackagesWithCUDA(spark_version: '3.0.0', cuda_version: '11.0') },
             'build-jvm-packages': { BuildJVMPackages(spark_version: '3.0.0') },
             'build-jvm-doc': { BuildJVMDoc() }
           ])
@@ -249,7 +249,7 @@ def BuildCUDA(args) {
       docker_args = "--build-arg CUDA_VERSION_ARG=${args.cuda_version}"
       sh """
       rm -rf build/
-      ${dockerRun} ${container_type} ${docker_binary} ${docker_args} tests/ci_build/build_via_cmake.sh --conda-env=gpu_test -DUSE_CUDA=ON -DUSE_NCCL=ON -DPLUGIN_RMM=ON ${arch_flag}
+      ${dockerRun} ${container_type} ${docker_binary} ${docker_args} tests/ci_build/build_via_cmake.sh --conda-env=gpu_test -DUSE_CUDA=ON -DUSE_NCCL=ON -DPLUGIN_RMM=ON -DBUILD_WITH_CUDA_CUB=ON ${arch_flag}
       ${dockerRun} ${container_type} ${docker_binary} ${docker_args} bash -c "cd python-package && rm -rf dist/* && python setup.py bdist_wheel --universal"
       ${dockerRun} ${container_type} ${docker_binary} ${docker_args} python tests/ci_build/rename_whl.py python-package/dist/*.whl ${commit_id} manylinux2014_x86_64
       """
