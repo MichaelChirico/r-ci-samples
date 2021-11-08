@@ -11,6 +11,7 @@ on:
       - 'gh-actions'
       - 'githubactions'
     paths:
+      - '**external-tests.yaml'
       - '**.R'
       - '**.r'
       - '*DESCRIPTION'
@@ -52,9 +53,9 @@ jobs:
           - {os: windows-latest, r: '4.1'}
           - {os: windows-latest, r: '4.0'}
           - {os: windows-latest, r: '3.6'}
-          - {os: ubuntu-16.04, r: '4.1', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
-          - {os: ubuntu-16.04, r: '4.0', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
-          - {os: ubuntu-16.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+          - {os: ubuntu-18.04, r: '4.1', vdiffr: true,  xref: true, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+          - {os: ubuntu-18.04, r: '4.0', vdiffr: true,  xref: true, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+          - {os: ubuntu-18.04, r: '3.6', vdiffr: true,  xref: true, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -97,7 +98,8 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_github("ModelOriented/ingredients")
           remotes::install_github("ModelOriented/iBreakDown")
-          remotes::install_cran(c("rcmdcheck", "glmnet", "parsnip", "ranger", "randomForest", "e1071", "caret", "gbm", "rms", "rpart", "kernlab"))
+          remotes::install_cran(c("rcmdcheck", "parsnip", "ranger", "randomForest", "e1071", "caret", "gbm", "rms", "rpart", "kernlab"))
+          remotes::install_version("glmnet", version = "4.1-2", repos = "http://cran.us.r-project.org")
         shell: Rscript {0}
 
       - name: Test
