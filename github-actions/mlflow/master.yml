@@ -123,6 +123,8 @@ jobs:
       run: |
         export LINTR_COMMENT_BOT=false
         cd mlflow/R/mlflow/tests
+        # `devtools::check_built` requires `pandoc` to analyze README.md
+        sudo apt-get install pandoc -y
         Rscript ../.run-tests.R
     - name: Calculate code coverage
       if: ${{ success() }}
@@ -272,6 +274,9 @@ jobs:
     - name: Run lint
       run: |
         npm run lint
+    - name: Run extract-i18n lint
+      run: |
+        npm run extract-i18n:base -- --lint
     - name: Run tests
       run: |
         npm run test
