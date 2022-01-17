@@ -11,8 +11,8 @@ on:
       - branch-[0-9]+.[0-9]+
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/master' && github.run_number || github.ref }}
+  cancel-in-progress: true
 
 # Use `bash --noprofile --norc -exo pipefail` by default for all `run` steps in this workflow:
 # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#defaultsrun
@@ -77,10 +77,6 @@ jobs:
         # We cache R dependencies based on a tuple of the current OS, the R version, and the list of
         # R dependencies
         key: ${{ steps.os-name.outputs.os-name }}-${{ hashFiles('mlflow/R/mlflow/R-version') }}-1-${{ hashFiles('mlflow/R/mlflow/depends.Rds') }}
-    # - name: Install system dependencies
-    #   run: |
-    #     sudo apt-get update -y
-    #     sudo apt-get install -y libcurl4-openssl-dev pandoc
     - name: Install dependencies
       run: |
         Rscript -e 'source(".install-deps.R", echo=TRUE)'
@@ -163,22 +159,32 @@ jobs:
         SPARK_LOCAL_IP: 127.0.0.1
       run: |
         ./dev/run-large-python-tests.sh
-    - name: Run database initialization tests
+    # Separate build and run to make it easier to explore logs
+    - name: Run database initialization tests - build
+      working-directory: tests/db
       run: |
-        # Build wheel and copy it under tests/db
-        python setup.py bdist_wheel
-        cp -r dist tests/db
-
-        # Run tests
-        cd tests/db
+        ./build_wheel.sh
+        docker-compose pull
+        docker image ls | grep -E '(REPOSITORY|postgres|mysql|mssql)'
         docker-compose build
-        docker-compose run mlflow-postgres python log.py
-        docker-compose run mlflow-mysql python log.py
-        docker-compose run mlflow-mssql ./init-mssql-db.sh
-        docker-compose run mlflow-mssql python log.py
+    - name: Run database initialization tests - run
+      working-directory: tests/db
+      run: |
+        docker-compose run mlflow-sqlite
+        docker-compose run mlflow-postgres
+        docker-compose run mlflow-mysql
+        docker-compose run mlflow-mssql
 
-        # Clean up
-        docker-compose down --rmi all --volumes
+        diff=$(git diff --color)
+        if [ ! -z "$diff"]
+        then
+          echo "$diff"
+          echo 'Table schemas changed (see diff above).'
+          echo 'Please run `cd tests/db && ./update_schemas.sh` and ensure new schemas are correct.'
+          exit 1
+        fi
+
+        docker-compose down --volumes --remove-orphans --rmi all
     - name: Run anaconda compatibility tests
       run: |
         ./dev/test-anaconda-compatibility.sh "anaconda3:2020.11"

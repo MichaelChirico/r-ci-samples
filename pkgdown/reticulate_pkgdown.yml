@@ -5,6 +5,9 @@ template:
   params:
     bootswatch: flatly
 
+development:
+  mode: auto
+
 reference:
 
   - title: "Python Execution"
@@ -14,6 +17,7 @@ reference:
       - repl_python
       - eng_python
       - py_run
+      - py_eval
       - py
 
   - title: "Python Types"
@@ -26,11 +30,14 @@ reference:
 
   - title: "Python Configuration"
     contents:
+      - install_python
       - py_config
       - py_discover_config
       - py_available
       - py_module_available
       - use_python
+      - py_exe
+      - py_version
 
   - title: "Python Output"
     contents:
@@ -52,6 +59,7 @@ reference:
       - py_has_attr
       - py_get_attr
       - py_set_attr
+      - py_del_attr
       - py_list_attributes
       - py_get_item
       - py_set_item
@@ -59,9 +67,11 @@ reference:
       - py_call
       - py_to_r
       - r_to_py
+      - as.character.python.builtin.bytes
       - py_is_null_xptr
       - py_id
       - py_len
+      - py_bool
       - py_str
       - py_unicode
       - py_set_seed
@@ -70,11 +80,14 @@ reference:
       - py_func
       - py_main_thread_func
       - py_ellipsis
+      - py_none
       - PyClass
+      - py_function_custom_scaffold
 
   - title: "Package Installation"
     contents:
       - py_install
+      - py_list_packages
       - configure_environment
       - virtualenv-tools
       - conda-tools
@@ -82,6 +95,6 @@ reference:
   - title: "Miniconda"
     contents:
       - install_miniconda
+      - miniconda_uninstall
       - miniconda_path
       - miniconda_update
-        
