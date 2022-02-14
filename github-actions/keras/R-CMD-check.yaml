@@ -38,31 +38,26 @@ jobs:
           # - {os: 'windows-latest', tf: 'release', r: 'release'}
           # - {os: 'macOS-latest'  , tf: 'release', r: 'release'}
 
+          - {os: 'ubuntu-20.04', tf: '2.7', r: 'release'}
           - {os: 'ubuntu-20.04', tf: '2.6', r: 'release'}
           - {os: 'ubuntu-20.04', tf: '2.5', r: 'release'}
           - {os: 'ubuntu-20.04', tf: '2.4', r: 'release'}
           - {os: 'ubuntu-20.04', tf: '2.3', r: 'release'}
-          - {os: 'ubuntu-20.04', tf: '2.2', r: 'release'}
+          # - {os: 'ubuntu-20.04', tf: '2.2', r: 'release'}
 
           # these are allowed to fail
           # - {os: 'ubuntu-20.04', tf: 'default', r: 'devel'}
           # - {os: 'ubuntu-20.04', tf: '2.7.0rc1', r: 'release'}
-          - {os: 'ubuntu-20.04', tf: 'nightly' , r: 'release'}
+          # - {os: 'ubuntu-20.04', tf: 'nightly' , r: 'release'}
 
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.tf == 'nightly' || contains(matrix.tf, 'rc') || matrix.r == 'devel' }}
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: 'true'
-      R_COMPILE_AND_INSTALL_PACKAGES: 'never'
+      # R_COMPILE_AND_INSTALL_PACKAGES: 'never' # commented out until CRAN builds TF 2.8
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Configure RSPM
-        if: runner.os == 'Linux'
-        shell: bash
-        run: |
-          RSPM="https://packagemanager.rstudio.com/all/__linux__/$(lsb_release -cs)/latest"
-          echo "RSPM=$RSPM" >> $GITHUB_ENV
 
       - uses: actions/checkout@v2
 
@@ -71,7 +66,7 @@ jobs:
         with:
           r-version: ${{ matrix.r }}
           Ncpus: '2L'
-          crayon.enabled: 'TRUE'
+          use-public-rspm: true
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -87,7 +82,7 @@ jobs:
         id: r-package-cache
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ matrix.os }}-${{ steps.setup-r.outputs.installed-r-version }}-${{ steps.get-date.outputs.year-week }}-2
+          key: ${{ matrix.os }}-${{ steps.setup-r.outputs.installed-r-version }}-${{ steps.get-date.outputs.year-week }}-3
 
       - name: Install remotes
         if: steps.r-package-cache.outputs.cache-hit != 'true'
