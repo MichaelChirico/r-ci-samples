@@ -43,3 +43,7 @@
 ^Jenkinsfile
 ^.*\..*\.swp$
 ^cran-comments\.md$
+^revdep/
+
+^codecov\.yml$
+^\.github$

@@ -1,6 +1,14 @@
-# Code Coverage: see https://docs.codecov.io/v4.3.6/docs/codecov-yaml
+comment: false
 
 coverage:
-  range: 40..75
-
-comment: false
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+        informational: true
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+        informational: true
