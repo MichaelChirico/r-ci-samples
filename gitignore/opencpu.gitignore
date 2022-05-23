@@ -1,6 +1,1 @@
-.*
-!/.gitignore
-!/.Rbuildignore
-!/.travis.yml
-
-.Rproj.user
+*.html
