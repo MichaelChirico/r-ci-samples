@@ -64,14 +64,13 @@ reference:
   - has_element
   - head_while
   - keep
-  - negate
-  - prepend
 
 - title: Plucking
   desc: >
     Getting or setting a single element.
   contents:
   - pluck
+  - chuck
   - pluck_depth
   - modify_in
   - attr_getter
@@ -81,7 +80,8 @@ reference:
     A grab bag of useful tools for manipulating vectors.
   contents:
   - accumulate
-  - flatten
+  - list_c
+  - list_flatten
   - list_modify
   - reduce
   - transpose
@@ -100,4 +100,4 @@ reference:
   - rbernoulli
   - rate-helpers
   - rdunif
-  - vec_depth
+  - prepend
