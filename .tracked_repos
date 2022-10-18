@@ -18,7 +18,6 @@ igraph/igraph
 imbs-hl/ranger
 indrajeetpatil/ggstatsplot
 jangorecki/r.gitlab.ci
-jimhester/lintr
 jokergoo/circlize
 joshuaulrich/quantmod
 jrnold/ggthemes
@@ -37,6 +36,7 @@ paul-buerkner/brms
 quanteda/quanteda
 r-lib/devtools
 r-lib/httr
+r-lib/lintr
 r-lib/pkgdown
 r-lib/testthat
 r-lib/usethis
