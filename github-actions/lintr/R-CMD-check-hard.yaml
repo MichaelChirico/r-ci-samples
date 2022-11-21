@@ -1,16 +1,23 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 #
-# NOTE: This workflow is overkill for most R packages and
-# check-standard.yaml is likely a better choice.
-# usethis::use_github_action("check-standard") will install it.
+# NOTE: This workflow only directly installs "hard" dependencies, i.e. Depends,
+# Imports, and LinkingTo dependencies. Notably, Suggests dependencies are never
+# installed, with the exception of testthat, knitr, and rmarkdown. The cache is
+# never used to avoid accidentally restoring a cache containing a suggested
+# dependency.
+#
+# Customization for `{lintr}`
+#
+# The following soft dependencies are not optional for testing:
+# `{patrick}`, `{rex}`, `{withr}`
 on:
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
 
-name: R-CMD-check-dev-dplyr
+name: R-CMD-check-hard
 
 jobs:
   R-CMD-check:
@@ -22,14 +29,14 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest,   r: 'release'}
+          - { os: ubuntu-latest, r: "release" }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -41,7 +48,16 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, tidyverse/dplyr
+          pak-version: devel
+          dependencies: '"hard"'
+          cache: false
+          extra-packages: |
+            any::rcmdcheck
+            any::testthat
+            any::knitr
+            any::rmarkdown
+            any::patrick
+            any::withr
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

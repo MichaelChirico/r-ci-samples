@@ -80,7 +80,6 @@ venv.bak/
 *.swo
 *.idea
 *.vscode
-*.devcontainer
 *.iml
 *~
 
@@ -102,3 +101,5 @@ travis_wait*.log
 
 # Pytorch logs
 lightning_logs
+
+a.py

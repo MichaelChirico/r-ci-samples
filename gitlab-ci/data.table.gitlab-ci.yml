@@ -63,6 +63,7 @@ build: ## build data.table sources as tar.gz archive
   before_script:
     - Rscript -e 'install.packages(c("knitr","rmarkdown"), repos=file.path("file:",normalizePath("bus/mirror-packages/cran")), quiet=TRUE)'
     - rm -r bus
+    - sed -i '/^[[:space:]]*$/d' ./DESCRIPTION ## make last line end abruptly; i.e. without a final \n
     - echo "Revision:" $CI_BUILD_REF >> ./DESCRIPTION
   script:
     - R CMD build .
@@ -170,7 +171,7 @@ test-rel-vanilla-lin: ## minimal, no suggested deps, no vignettes or manuals, me
   <<: *test-lin
   image: registry.gitlab.com/jangorecki/dockerfiles/r-base-dev
   variables:
-    TEST_DATA_TABLE_MEMTEST: "TRUE"
+    TEST_DATA_TABLE_MEMTEST: "1"
   before_script:
     - *cp-src
     - rm -r bus
