@@ -1,24 +1,27 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
 
-name: test-coverage
+name: check-link-rot
 
 jobs:
-  test-coverage:
+  check-link-rot:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-
+      R_KEEP_PKG_SOURCE: yes
     steps:
       - uses: actions/checkout@v3
 
+      - uses: r-lib/actions/setup-pandoc@v2
+        with:
+          pandoc-version: "2.19.2"
+
       - uses: r-lib/actions/setup-r@v2
         with:
+          r-version: "devel"
           http-user-agent: "release"
           use-public-rspm: true
 
@@ -26,11 +29,15 @@ jobs:
         with:
           pak-version: devel
           extra-packages: |
-            r-lib/covr
-          needs: coverage
+            any::rcmdcheck
+            any::urlchecker
 
-      - name: Test coverage
+      - name: Run URL checker
         run: |
           options(crayon.enabled = TRUE)
-          covr::codecov(quiet = FALSE)
+          rotten_links <- urlchecker::url_check(progress = FALSE)
+          print(rotten_links)
+          if (length(rotten_links$URL) > 0L) {
+            stop("Some URLs are outdated and need to be updated.", call. = FALSE)
+          }
         shell: Rscript {0}
