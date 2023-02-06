@@ -66,10 +66,12 @@ jobs:
         id: run-pre-commit
         run: |
           pre-commit run --all-files --color=always
-      - name: Tweak error messages
+      - name: Update error messages
         if: always() && steps.run-pre-commit.outcome == 'failure'
         run: |
-          grep -o 'reformatted .*\.py' .black.log | sed 's/reformatted \(.*\.py\)/\1: This file is unformatted. Run `black .` or comment `@mlflow-automation autoformat` on the PR if you'\''re an MLflow maintainer./'
+          if [ -f ".black.log" ]; then
+            grep -o 'reformatted .*\.py' .black.log | sed 's/reformatted \(.*\.py\)/\1: This file is unformatted. Run `black .` or comment `@mlflow-automation autoformat` on the PR if you'\''re an MLflow maintainer./'
+          fi
 
   # python-skinny tests cover a subset of mlflow functionality
   # that is meant to be supported with a smaller dependency footprint.
@@ -166,9 +168,9 @@ jobs:
 
           test $err = 0
 
-      - name: Rebuild images with SQLAlchemy 2.x
+      - name: Rebuild images with SQLAlchemy < 2.0
         run: |
-          sed -i 's/sqlalchemy.*/sqlalchemy>=2.0.0b2/g' requirements/core-requirements.txt
+          sed -i 's/sqlalchemy.*/sqlalchemy<2.0/g' requirements/core-requirements.txt
           git diff
           ./tests/db/compose.sh build --build-arg DEPENDENCIES="$(python setup.py -q dependencies)"
       - name: Run tests
@@ -315,6 +317,12 @@ jobs:
         run: |
           git clone https://github.com/cdarlint/winutils
       - name: Run python tests
+        env:
+          # Starting from SQLAlchemy version 2.0, `QueuePool` is the default connection pool
+          # when creating an `Engine`. `QueuePool` prevents the removal of temporary database
+          # files created during tests on Windows as it keeps the DB connection open until
+          # it's explicitly disposed.
+          MLFLOW_SQLALCHEMYSTORE_POOLCLASS: "NullPool"
         run: |
           # Set Hadoop environment variables required for testing Spark integrations on Windows
           export HADOOP_HOME=`realpath winutils/hadoop-3.2.2`
