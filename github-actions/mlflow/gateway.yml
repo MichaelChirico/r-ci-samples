@@ -17,6 +17,7 @@ defaults:
 
 jobs:
   gateway:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -25,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -e .[gateway]
-          pip install pytest pytest-timeout
+          pip install pytest pytest-timeout pytest-asyncio httpx
       - name: Run tests
         run: |
           pytest tests/gateway
