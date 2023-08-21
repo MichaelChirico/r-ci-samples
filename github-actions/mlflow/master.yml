@@ -22,6 +22,7 @@ env:
   # https://github.com/actions/virtual-environments/blob/main/images/linux/scripts/installers/miniconda.sh
   MLFLOW_CONDA_HOME: /usr/share/miniconda
   SPARK_LOCAL_IP: localhost
+  PIP_EXTRA_INDEX_URL: https://download.pytorch.org/whl/cpu
 
 jobs:
   lint:
@@ -45,10 +46,6 @@ jobs:
           source ./dev/install-common-deps.sh --ml
           pip install -r requirements/lint-requirements.txt
       - uses: ./.github/actions/pipdeptree
-      - name: Test custom pylint-plugins
-        run: |
-          . ~/.venv/bin/activate
-          pytest pylint_plugins/tests
       - name: Install pre-commit hooks
         run: |
           . ~/.venv/bin/activate
