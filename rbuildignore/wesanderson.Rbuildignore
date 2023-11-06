@@ -12,3 +12,6 @@ README.html
 
 ^cran-comments\.md$
 ^codemeta\.json$
+^revdep$
+^CRAN-SUBMISSION$
+.github
