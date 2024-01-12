@@ -1,56 +1,111 @@
 url: https://docs.ropensci.org/rtweet
+
+# development: ignored by rOpenSci
 development:
   mode: auto
+# navbar: used without anything else by rOpenSci
+
+# News with links to blogposts
+news:
+ releases:
+ - text: "rtweet 1.2.0"
+   href: https://llrs.dev/post/2023/03/20/rtweet-starts-using-api-v2/
+ - text: "rtweet 1.0.0"
+   href: https://ropensci.org/blog/2022/07/21/rtweet-1-0-0/
+
+
 authors:
   Michael W. Kearney:
     href: https://mikewk.com
   Lluís Revilla Sancho:
     href: https://llrs.dev
-navbar:
-  right:
-  - icon: fa-github fa-lg
-    href: https://github.com/ropensci/rtweet
-
 
 reference:
 - title: API functions
-  contents:
+- contents:
   - direct_messages
   - starts_with("get")
-  - starts_with("lists")
   - starts_with("lookup")
   - my_friendships
   - starts_with("post")
-  - starts_with("search")
   - stream_tweets
   - trends_available
   - starts_with("tweet")
-  - rate_limit
-  
-- title: Authentication
+  - ends_with("block")
+
+- subtitle: Lists
+  desc: Manage lists.
   contents:
-  - starts_with("auth")
+    - starts_with("lists")
+- subtitle: Search
+  desc: Look for some tweet or user.
+  contents:
+    - starts_with("search")
+- subtitle: API limits
+  desc: Find which are the rate limits set by Twitter.
+  contents:
+    - rate_limit
+
+- title: Authentication
+  desc: Manage your authentications.
+  contents:
   - rtweet_user
+  - starts_with("auth")
+
+- title: Client
+  desc: Manage your clients.
+  contents:
+  - starts_with("client")
+  - rtweet_client
 
 - title: Data
   contents:
   - emojis
   - langs
   - stopwordslangs
-  
+
 - title: Data manipulation
   contents:
-  - as_screenname
-  - do_call_rbind
-  - flatten
-  - lat_lng
-  - network_data
-  - round_time
+  - users_data
+  - entity
+  - ids
   - parse_stream
+  - clean_tweets
+  - as_screenname
+  - network_data
+  - ts_plot
+  - ts_data
+  - do_call_rbind
+  - lat_lng
+  - flatten
+  - round_time
   - plain_tweets
   - read_twitter_csv
-  - ts_data
-  - ts_plot
-  - users_data
   - write_as_csv
-  
+
+- title: Retrieve tweets
+  desc: Use API v2
+  contents:
+  - starts_with("tweet_")
+  - filtered_stream
+  - sample_stream
+
+- title: Retrieve users
+  desc: Use API v2
+  contents:
+  - starts_with("user_")
+
+- title: Retrieve lists
+  desc: Use API v2
+  contents:
+  - starts_with("list_")
+
+- title: Helpers for the API v2
+  contents:
+  - starts_with("set_")
+  - retrieve_errors
+  - links
+  - rules
+  - ids
+
+

@@ -1,0 +1,16 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^src/Makevars$
+^windows
+\.pdf$
+\.png$
+\.webp$
+\.jpeg$
+\.o$
+\.dll$
+^\.travis\.yml$
+^appveyor\.yml$
+^README.md$
+vignettes/.*\.png$
+^configure.log$
+^\.github$

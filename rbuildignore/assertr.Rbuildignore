@@ -1,0 +1,15 @@
+^CRAN-RELEASE$
+^Meta$
+^doc$
+^packrat/
+^\.Rprofile$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^appveyor.yml$
+cran-comments.md
+^codemeta\.json$
+^CRAN-SUBMISSION$
+^\.github$
+^codecov\.yml$
+^Makefile

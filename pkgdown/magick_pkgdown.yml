@@ -1,0 +1,10 @@
+navbar:
+  title: "magick"
+  left:
+    - text: "Get started"
+      href: articles/intro.html
+    - text: "Reference"
+      href: reference/index.html
+  right:
+    - icon: fa-github
+      href: https://github.com/ropensci/magick

@@ -1,0 +1,15 @@
+^README\.md$
+^LICENSE$
+^aclocal\.m4$
+^Makefile$
+^man-roxygen$
+^revdep$
+^scripts$
+^tools/README\.md$
+^.*\.Rproj$
+^\.Rproj\.user$
+^windows
+^.*\.a$
+^confdefs\.h$
+^\.covrignore$
+^\.github$

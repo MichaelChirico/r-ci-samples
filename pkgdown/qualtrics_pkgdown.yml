@@ -1,0 +1,39 @@
+url: https://ropensci.github.io/qualtRics
+
+template:
+  package: rotemplate
+
+toc:
+  depth: 3
+
+reference:
+- title: Core functions
+  desc: ~
+  contents:
+  - all_surveys
+  - fetch_survey
+  - read_survey
+- title: Other helper functions
+  desc: ~
+  contents:
+  - all_mailinglists
+  - column_map
+  - extract_colmap
+  - fetch_description
+  - fetch_distributions
+  - fetch_distribution_history
+  - fetch_id
+  - fetch_mailinglist
+  - list_distribution_links
+  - metadata
+  - qualtrics_api_credentials
+  - survey_questions
+- title: Deprecated
+  desc: ~
+  contents:
+  - getSurvey
+  - getSurveyQuestions
+  - getSurveys
+  - qualtRicsConfigFile
+  - readSurvey
+

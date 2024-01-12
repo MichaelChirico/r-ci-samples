@@ -7,7 +7,6 @@
 ^\.travis\.yml$
 ^tests/testthat/twitter_tokens.enc$
 ^\.httr-oauth$
-^\.build\.timestamp$
 ^inst/web$
 ^docs$
 ^_pkgdown\.yml$
@@ -24,5 +23,16 @@
 ^CRAN-RELEASE$
 ^revdep$
 ^CODE_OF_CONDUCT\.md$
+^CITATION.cff
 ^codemeta\.json$
 ^\.gitattributes$
+^vignettes/articles$
+^vignettes/rstats.json$
+^vignettes/*.Rmd.orig$
+^vignettes/precompute.R$
+tarball
+lastMiKTeXException
+^CRAN-SUBMISSION$
+hidden_tokens_consumers.txt
+^rstats
+combinations_expansions_fields_get_tweets.RDS

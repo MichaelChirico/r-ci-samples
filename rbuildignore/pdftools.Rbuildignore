@@ -1,0 +1,14 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^src/Makevars$
+^windows
+\.png$
+\.webp$
+\.jpeg$
+README.md$
+^\.travis\.yml$
+^appveyor\.yml$
+^inst$
+^configure.log$
+^\.github$
+^LICENSE\.md$

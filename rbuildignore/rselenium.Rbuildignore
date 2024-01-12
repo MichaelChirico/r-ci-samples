@@ -1,0 +1,11 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+inst/www
+^web$
+docs
+^\.github$
+^_pkgdown.yml$
+^codemeta\.json$
+^cran-comments\.md$
+.DS_Store
+^CRAN-SUBMISSION$

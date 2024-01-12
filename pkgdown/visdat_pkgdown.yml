@@ -1,0 +1,76 @@
+url: http://ropensci.github.io/visdat
+
+template:
+  package: rotemplate
+
+home:
+  links:
+  - text: Learn more
+    href: https://github.com/ropensci/visdat
+
+reference:
+  - title: "Visualise the whole dataframe, class, and missing data"
+    desc: >
+      Tools for creating preliminary visualisations to "get a look at the data"
+    contents:
+      - vis_dat
+      - data-vis-dat
+      - vis_histogram
+  - title: "Focus on the missing data"
+    desc: >
+      Specifically display information about the missingness
+    contents:
+      - vis_miss
+      - data-vis-miss
+  - title: "Compare two dataframes"
+    desc: >
+      Only takes dataframes of the same dimensions
+    contents:
+      - vis_compare
+  - title: "Visualise whether a value you expect is in a data frame"
+    desc: >
+      Visualise where certain conditions or values are TRUE in your data.
+    contents:
+      - vis_expect
+  - title: "Visualise correlations in a dataframe"
+    desc: >
+      Show the correlation amongst variables in simple function
+    contents:
+      - vis_cor
+      - data-vis-cor
+  - title: "Display the best guess of what each cell contains"
+    desc: >
+      Potentially reveal other classes in your dataset
+    contents:
+      - vis_guess
+  - title: "Display binary values (0,1) in a data frame"
+    desc: >
+      Explore data that is only binary in your data
+    contents:
+      - vis_binary
+  - title: "Display the values of each cell"
+    desc: >
+      Potentially reveal hidden patterns by seeing scaled values
+    contents:
+      - vis_value
+  - title: "Example data provided with visdat"
+    desc: >
+      Data is provided for exploring different functions in visdat
+    contents:
+      - dat_bin
+      - typical_data
+      - typical_data_large
+  - title: "Misc helper functions"
+    desc: >
+      Functions that might be useful for users
+    contents:
+      - abbreviate_vars
+
+navbar:
+  left:
+  - text: Reference
+    href: reference/index.html
+  - text: Using visdat
+    href: articles/using_visdat.html
+  - text: News
+    href: news/index.html

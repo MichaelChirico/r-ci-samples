@@ -1,0 +1,50 @@
+title: osmdata
+
+templates:
+  params:
+    bootswatch: cerulean
+
+reference:
+  - title: Package doc and class
+    contents:
+    - has_concept("package")
+  - title: Overpass server
+    contents:
+    - has_concept("overpass")
+  - title: Prepare queries
+    contents:
+    - has_concept("queries")
+  - title: Get additional OSM info
+    contents:
+    - has_concept("osminfo")
+  - title: Extract data
+    contents:
+    - has_concept("extract")
+  - title: Search data
+    contents:
+    - has_concept("search")
+  - title: Transform data
+    contents:
+    - has_concept("transform")
+
+articles:
+  - title: The osmdata package
+    contents:
+    - osmdata
+    - osmdata-sc
+    - osm-sf-translation
+    - query-split
+
+navbar:
+  title: osmdata
+  type: default
+  left:
+  - text: Home
+    href: index.html
+  - text: Articles
+    href: articles/index.html
+  - text: Functions
+    href: reference/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/ropensci/osmdata
