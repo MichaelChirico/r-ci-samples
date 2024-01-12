@@ -1,0 +1,10 @@
+^CRAN-RELEASE$
+.travis.yml
+^.*\.Rproj$
+^\.Rproj\.user$
+^cran-comments\.md$
+man-roxygen
+.github
+^codecov.yml$
+^.lintr$
+^CRAN-SUBMISSION$
