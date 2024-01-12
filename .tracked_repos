@@ -71,7 +71,12 @@ r-lib/waldo
 r-lib/withr
 r-lib/xml2
 r-lib/zeallot
+r-spatial/leafgl
+r-spatial/mapedit
+r-spatial/mapview
+r-spatial/rgee
 r-spatial/sf
+r-spatial/stars
 rcppcore/rcpp
 rdatatable/data.table
 renkun-ken/formattable
