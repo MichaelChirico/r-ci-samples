@@ -79,6 +79,7 @@ r-spatial/sf
 r-spatial/stars
 rcppcore/rcpp
 rdatatable/data.table
+reditorsupport/languageserver
 renkun-ken/formattable
 rich-iannone/diagrammer
 robjhyndman/forecast
