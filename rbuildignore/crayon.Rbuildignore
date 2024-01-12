@@ -1,0 +1,10 @@
+^tags$
+^\.github$
+^crayon\.Rproj$
+^\.Rproj\.user$
+^revdep$
+^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^LICENSE\.md$

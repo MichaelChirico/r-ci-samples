@@ -1,0 +1,42 @@
+url: http://processx.r-lib.org
+
+template:
+  package: tidytemplate
+  bootstrap: 5
+  includes:
+    in_header: |
+      <script defer data-domain="processx.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+
+authors:
+  "Gábor Csárdi":
+  "Winston Chang":
+
+destination: docs
+
+development:
+  mode: auto
+
+reference:
+- title: Foreground processes
+  contents:
+  - run
+  - default_pty_options
+
+- title: Background processes
+  contents:
+  - process
+
+- title: Polling
+  contents:
+  - poll
+  - curl_fds
+
+- title: Connections
+  contents:
+  - starts_with("conn_")
+  - starts_with("processx_conn_*")
+
+- title: Utility functions
+  contents:
+  - base64_decode
+  - base64_encode

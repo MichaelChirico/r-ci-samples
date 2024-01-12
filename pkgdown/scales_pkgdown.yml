@@ -1,0 +1,106 @@
+url: https://scales.r-lib.org/
+
+template:
+  package: tidytemplate
+  bootstrap: 5
+
+  includes:
+    in_header: |
+      <script defer data-domain="scales.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+
+development:
+  mode: auto
+
+reference:
+- title: Axis labels
+  desc: >
+    Use these functions with the `labels` argument to ggplot2 scales to
+    control the formatting of axis labels and legend keys.
+  contents:
+  - starts_with("label_")
+  - matches("format")
+
+- title:  Axis breaks
+  desc: >
+    Use these functions with the `breaks` argument to ggplot2 scales to
+    control the position of axis breaks and values of legend keys.
+  contents:
+  - starts_with("breaks_")
+  - minor_breaks_width
+
+- title: "Bounds: ranges & rescaling"
+  desc: >
+    Functions for rescaling data and adjusting scale ranges.
+  contents:
+  - rescale
+  - rescale_max
+  - rescale_mid
+  - rescale_none
+  - rescale_pal
+  - matches("range")
+  - squish
+  - squish_infinite
+  - expand_range
+  - discard
+  - censor
+
+- title: Transformations
+  desc: >
+    Functions to describe common and custom scale transformations
+    their inverses, and ways of generating breaks and labels.
+  contents:
+  - matches("trans")
+
+- title: "Colour palettes & colour mapping"
+  desc: >
+    Functions for specifying colour palettes, colour mapping, and
+    various helper functions.
+  contents:
+  - brewer_pal
+  - dichromat_pal
+  - div_gradient_pal
+  - gradient_n_pal
+  - grey_pal
+  - hue_pal
+  - seq_gradient_pal
+  - rescale_pal
+  - viridis_pal
+  - contains("col")
+  - muted
+  - alpha
+
+- title: Non-colour palette functions
+  desc: >
+    Functions to help scale non-colour aesthetics.
+  contents:
+  - abs_area
+  - area_pal
+  - identity_pal
+  - linetype_pal
+  - manual_pal
+  - rescale_pal
+  - shape_pal
+
+- title: Creating your own scales and mutable ranges
+  desc: >
+    Scales control the details of how data values are translated to visual
+    properties. The following functions help users create (and update)
+    custom scales: pulling together palettes, bounding functions and
+    transformations to provide a complete pathway from raw data to perceptual
+    properties.
+  contents:
+  - cscale
+  - dscale
+  - starts_with("train_")
+  - Range
+
+news:
+  releases:
+  - text: "Version 1.3.0"
+    href: https://www.tidyverse.org/blog/2023/11/scales-1-3-0/
+  - text: "Version 1.2.0"
+    href: https://www.tidyverse.org/blog/2022/04/scales-1-2-0/
+  - text: "Version 1.1.0"
+    href: https://www.tidyverse.org/blog/2019/11/scales-1-1-0/
+  - text: "Version 1.0.0"
+    href: https://www.tidyverse.org/blog/2018/08/scales-1-0-0/

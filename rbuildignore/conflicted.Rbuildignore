@@ -1,0 +1,16 @@
+^revdep$
+^CRAN-RELEASE$
+^docs$
+^_pkgdown\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^README\.Rmd$
+^README-.*\.png$
+^codecov\.yml$
+^CODE_OF_CONDUCT\.md$
+^cran-comments\.md$
+^LICENSE\.md$
+^\.github$
+^pkgdown$
+^CRAN-SUBMISSION$

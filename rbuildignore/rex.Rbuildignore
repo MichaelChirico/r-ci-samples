@@ -1,0 +1,15 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^travis-tool\.sh$
+^cran-comments\.md$
+^.*\.gz$
+^\.lintr$
+^vignettes/stackoverflow\.md$
+^revdep$
+^CRAN-RELEASE$
+^\.github$
+^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

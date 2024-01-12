@@ -1,0 +1,256 @@
+url: https://cli.r-lib.org
+
+template:
+  package: tidytemplate
+  bootstrap: 5
+
+  includes:
+    in_header: |
+      <script defer data-domain="cli.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+
+destination: docs
+
+development:
+  mode: auto
+
+navbar:
+  structure:
+    left: [FAQ, reference, articles, news]
+  components:
+    FAQ:
+      text: FAQ
+      href: reference/faq.html
+
+articles:
+- title: Semantic CLI
+  navbar: ~
+  contents:
+  - semantic-cli
+  - usethis-ui
+  - pluralization
+- title: Progress Bars
+  navbar: Progress bars
+  contents:
+  - progress
+  - progress-advanced
+- title: Customization
+  navbar: Customization
+  contents:
+  - palettes
+- title: internal
+  contents:
+  - ansi-benchmark
+  - cli-config-internal
+  - cli-config-user
+  - progress-benchmark
+
+reference:
+- title: Introduction
+  desc: |
+    To learn how to use cli's semantic markup, start with the
+    ['Building a semantic CLI'](../articles/semantic-cli.html) vignette.
+
+    More detailed summaries about various cli topics:
+  contents:
+  - inline-markup
+  - links
+  - containers
+  - themes
+  - pluralization
+
+- title: Semantic CLI Elements
+  contents:
+  - cli
+  - cli_alert
+  - cli_alert_danger
+  - cli_alert_info
+  - cli_alert_success
+  - cli_alert_warning
+  - cli_blockquote
+  - cli_bullets
+  - cli_bullets_raw
+  - cli_code
+  - cli_div
+  - cli_dl
+  - cli_end
+  - cli_format
+  - cli_h1
+  - cli_h2
+  - cli_h3
+  - cli_li
+  - cli_ol
+  - cli_par
+  - cli_rule
+  - cli_text
+  - cli_ul
+  - cli_vec
+  - cli_verbatim
+  - format_inline
+  - format_bullets_raw
+
+- title: Themes
+  contents:
+  - themes
+  - builtin_theme
+  - simple_theme
+  - cli_list_themes
+
+- title: Pluralization
+  desc: |
+    cli has tools to create messages that are printed correctly in singular
+    and plural forms. See the
+    ['Pluralization'](../articles/pluralization.html) article for an
+    introduction.
+  contents:
+  - pluralize
+  - "no"
+
+- title: Progress bars
+  desc: |
+    cli progress bars work well with other bits of the semantic cli API.
+    See the ['Introduction to Progress Bars in cli'](../articles/progress.html)
+    article for an introduction, and the
+    ['Advanced cli Progress Bars'](../articles/progress-advanced.html)
+    article for more advanced topics.
+- subtitle: Create and update progress bars
+  contents:
+  - cli_progress_along
+  - cli_progress_bar
+  - cli_progress_message
+  - cli_progress_output
+  - cli_progress_step
+  - progress-variables
+- subtitle: Progress bars in C/C++
+  contents:
+  - progress-c
+- subtitle: Progress bar utilities
+  contents:
+  - cli_progress_builtin_handlers
+  - cli_progress_demo
+  - cli_progress_styles
+  - cli_progress_num
+
+- title: Terminal Colors and Styles
+  contents:
+  - ansi_palettes
+  - num_ansi_colors
+  - starts_with("bg_")
+  - starts_with("col_")
+  - starts_with("style_")
+  - combine_ansi_styles
+  - make_ansi_style
+
+- title: ANSI and/or UTF-8 String Manipulation
+  contents:
+  - ansi_align
+  - ansi_collapse
+  - ansi_columns
+  - ansi_grep
+  - ansi_grepl
+  - ansi_has_any
+  - ansi_html
+  - ansi_html_style
+  - ansi_nchar
+  - ansi_nzchar
+  - ansi_regex
+  - ansi_simplify
+  - ansi_string
+  - ansi_strip
+  - ansi_strsplit
+  - ansi_strtrim
+  - ansi_strwrap
+  - ansi_substr
+  - ansi_substring
+  - ansi_toupper
+  - ansi_trimws
+  - utf8_graphemes
+  - utf8_nchar
+  - utf8_substr
+
+- title: Format and signal errors with cli formatting
+  contents:
+  - cli_abort
+  - cli_inform
+  - cli_warn
+  - format_error
+  - format_message
+  - format_warning
+
+- title: Rules, Boxes, Trees, Spinners, etc.
+  desc: |
+    This section documents cli functions that create various non-semantic
+    cli output. See the
+    ['Rules, Boxes and Trees'](../articles/rules-boxes-trees.html)
+    article for a quick overiew of most of them.
+  contents:
+  - boxx
+  - demo_spinners
+  - get_spinner
+  - list_border_styles
+  - list_spinners
+  - list_symbols
+  - make_spinner
+  - rule
+  - spark_bar
+  - spark_line
+  - symbol
+  - tree
+
+- title: Syntax Highlighting
+  contents:
+  - code_highlight
+  - code_theme_list
+  - pretty_print_code
+
+- title: ANSI Control Sequences
+  contents:
+  - is_ansi_tty
+  - ansi_hide_cursor
+  - ansi_show_cursor
+  - ansi_with_hidden_cursor
+
+- title: Hashing
+  contents:
+  - hash_animal
+  - hash_emoji
+  - hash_md5
+  - hash_sha1
+  - hash_sha256
+
+- title: Utilities and Configuration
+  contents:
+  - cat_boxx
+  - cat_bullet
+  - cli-config
+  - cli_debug_doc
+  - cli_fmt
+  - cat_line
+  - cat_print
+  - cat_rule
+  - cli_format_method
+  - cli_output_connection
+  - cli_sitrep
+  - console_width
+  - default_app
+  - diff_chr
+  - diff_str
+  - has_keypress_support
+  - is_dynamic_tty
+  - is_utf8_output
+  - keypress
+  - ruler
+  - start_app
+  - stop_app
+  - test_that_cli
+  - vt_output
+
+- title: Superseded functions
+  contents:
+  - cli_process_start
+  - cli_status
+  - cli_status_clear
+  - cli_status_update
+
+- title: internal
+  contents:
+  - faq

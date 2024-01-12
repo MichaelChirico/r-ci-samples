@@ -1,0 +1,124 @@
+url: https://pak.r-lib.org
+
+template:
+  package: tidytemplate
+  bootstrap: 5
+  includes:
+    in_header: |
+      <script defer data-domain="/pak.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+  assets: tools/pkgdown/assets
+
+authors:
+  "Jim Hester":
+    href: https://jimhester.com
+
+development:
+  mode: auto
+
+navbar:
+  structure:
+    left: [get-started, FAQ, reference, articles, news]
+  components:
+    get-started:
+      text: "Get started"
+      href: reference/get-started.html
+    FAQ:
+      text: FAQ
+      href: reference/faq.html
+
+reference:
+- title: About pak
+  contents:
+  - "Installing pak"
+  - "Great pak features"
+  - "Package sources"
+  - "The dependency solver"
+  - "Package dependency types"
+  - "System requirements"
+  - "pak configuration"
+
+- title: Packages
+- subtitle: Installation
+  contents:
+  - pkg_install
+  - pak
+  - pkg_status
+  - pkg_remove
+- subtitle: Dependencies
+  contents:
+  - pkg_deps
+  - pkg_deps_explain
+  - pkg_deps_tree
+- subtitle: Download
+  contents:
+  - pkg_download
+- subtitle: Metadata
+  contents:
+  - pkg_history
+  - pkg_name_check
+  - pkg_search
+
+- title: Local Package Trees
+  contents:
+  - local_package_trees
+  - local_deps
+  - local_deps_explain
+  - local_install
+  - local_install_deps
+  - local_install_dev_deps
+
+- title: Libraries
+  contents:
+  - lib_status
+
+- title: System requirements
+  contents:
+  - pkg_sysreqs
+  - sysreqs_check_installed
+  - sysreqs_fix_installed
+  - sysreqs_db_list
+  - sysreqs_db_match
+  - sysreqs_db_update
+  - sysreqs_is_supported
+  - sysreqs_list_system_packages
+  - sysreqs_platforms
+
+- title: Repositories
+  contents:
+  - ppm_has_binaries
+  - ppm_platforms
+  - ppm_r_versions
+  - ppm_repo_url
+  - ppm_snapshots
+  - repo_add
+  - repo_get
+  - repo_status
+
+- title: Auto-install missing packages
+  contents:
+  - handle_package_not_found
+
+- title: Lock files
+  contents:
+  - lockfile_create
+  - lockfile_install
+
+- title: System information
+  contents:
+  - system_r_platform
+
+- title: pak housekeeping
+  contents:
+  - cache_summary
+  - meta_summary
+  - pak_install_extra
+  - pak_cleanup
+  - pak_sitrep
+  - pak_update
+
+- title: internal
+  contents:
+  - "Get started with pak"
+  - "FAQ"
+  - local_system_requirements
+  - pak_setup

@@ -1,0 +1,140 @@
+url: https://vctrs.r-lib.org
+
+development:
+  mode: auto
+
+template:
+  package: tidytemplate
+  bootstrap: 5
+
+  includes:
+    in_header: |
+      <script defer data-domain="vctrs.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+
+reference:
+- title: User FAQ
+  contents:
+  - starts_with("faq")
+
+- title: Developer FAQ
+  contents:
+  - starts_with("howto-faq")
+  - starts_with("theory-faq")
+  - starts_with("reference-faq")
+
+- title: Internal FAQ
+  contents:
+  - starts_with("internal-faq")
+
+- title: Genericity
+  contents:
+  - vec_ptype2
+  - vec_cast
+  - vec_proxy
+  - vec_restore
+  - vec_proxy_compare
+  - vec_proxy_equal
+
+- title: Foundations
+  contents:
+  - vec_data
+  - vec_ptype
+  - vec_size
+  - obj_is_vector
+  - obj_is_list
+
+- title: Combining
+  contents:
+  - vec_c
+  - vec_interleave
+  - vec_cbind
+  - vec_rbind
+  - name_spec
+
+- title: Slicing and recycling
+  contents:
+  - vec_init
+  - vec_slice
+  - vec_recycle
+  - vec_chop
+  - list_drop_empty
+
+- title: Assigning
+  contents:
+  - vec_assign
+  - vec_fill_missing
+
+- title: Equality and ordering
+  contents:
+  - vec_equal
+  - vec_detect_complete
+  - vec_detect_missing
+  - vec_compare
+
+- title: Sorting
+  contents:
+  - vec_sort
+  - vec_order
+  - vec_rank
+
+- title: Matching and splitting
+  contents:
+  - vec_count
+  - vec_duplicate
+  - vec_unique
+  - vec_in
+  - vec_locate_matches
+  - vec_set_intersect
+  - vec_split
+
+- title: Sequences and repetitions
+  contents:
+  - vec_rep
+  - vec_rep_each
+  - vec_seq_along
+  - vec_identify_runs
+  - vec_expand_grid
+
+- title: New classes
+  contents:
+  - list_of
+
+- title: Data frame
+  contents:
+  - df_list
+  - new_data_frame
+  - data_frame
+  - df_ptype2
+  - df_cast
+  - tib_ptype2
+  - tib_cast
+
+- title: User tools
+  contents:
+  - "`%0%`"
+
+- title: Developer tools
+  contents:
+  - vctr
+  - vec_ptype_full
+  - vec_ptype_finalise
+  - "vctrs-conditions"
+  - rcrd
+  - fields
+  - s3_register
+  - vec_arith
+  - vec_math
+  - unspecified
+  - vec_default_cast
+  - vec_default_ptype2
+  - vec_as_names
+  - vec_names
+  - vec_as_location
+  - vec_as_subscript
+
+# Needed to generate a `vector_recycling_rules` page, since it is an `@alias`
+# but pkgdown doesn't currently generate pages for aliases. Other packages
+# link to this old page name, so we don't want it to disappear.
+# https://github.com/r-lib/pkgdown/issues/1876
+redirects:
+  - ["reference/vector_recycling_rules.html", "reference/theory-faq-recycling.html"]

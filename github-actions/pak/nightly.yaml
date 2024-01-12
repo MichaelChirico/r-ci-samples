@@ -1,0 +1,376 @@
+name: Nighly build
+
+on:
+  workflow_dispatch:
+    inputs:
+      macos:
+        description: 'macOS x86_64'
+        required: true
+        type: choice
+        options:
+        - 'yes'
+        - 'no'
+        default: 'yes'
+      macos-arm64:
+        description: 'macOS arm64'
+        required: true
+        type: choice
+        options:
+        - 'yes'
+        - 'no'
+        default: 'yes'
+      windows:
+        description: 'Windows'
+        required: true
+        type: choice
+        options:
+        - 'yes'
+        - 'no'
+        default: 'yes'
+      linux:
+        description: 'Linux x86_64'
+        required: true
+        type: choice
+        options:
+        - 'yes'
+        - 'no'
+        default: 'yes'
+      linux-arm64:
+        description: 'Linux aarch64'
+        required: true
+        type: choice
+        options:
+        - 'yes'
+        - 'no'
+        default: 'yes'
+      deploy:
+        description: 'Deploy'
+        required: true
+        type: choice
+        options:
+        - 'yes'
+        - 'no'
+        default: 'yes'
+  schedule:
+  - cron: '30 5 * * *'
+
+# =========================================================================
+
+jobs:
+
+  debug:
+    runs-on: ubuntu-latest
+    if: always()
+    name: Parameters
+    steps:
+      - name: Input parameters
+        run: |
+          echo "macos: ${{ github.event.inputs.macos }}"
+          echo "windows: ${{ github.event.inputs.windows }}"
+          echo "linux: ${{ github.event.inputs.linux }}"
+          echo "macos-arm64: ${{ github.event.inputs.macos-arm64 }}"
+          echo "linux-arm64: ${{ github.event.inputs.linux-arm64 }}"
+          echo "deploy: ${{ github.event.inputs.deploy }}"
+          echo "macos: ${{ github.event.inputs.macos == 'yes' }}"
+          echo "windows: ${{ github.event.inputs.windows == 'yes' }}"
+          echo "linux: ${{ github.event.inputs.linux == 'yes' }}"
+          echo "macos-arm64: ${{ github.event.inputs.macos-arm64 == 'yes' }}"
+          echo "linux-arm64: ${{ github.event.inputs.linux-arm64 == 'yes' }}"
+          echo "deploy: ${{ github.event.inputs.deploy == 'yes' }}"
+
+  # -----------------------------------------------------------------------
+  macos:
+    runs-on: macos-12
+    if: ${{ github.event.inputs.macos == '' || github.event.inputs.macos == 'yes' }}
+    name: macOS x86_64
+    env:
+      RVERSIONS: "3.5 3.6 4.0 4.1 4.2 4.3-x86_64 4.4-x86_64"
+      RVERSION_DEFAULT: "4.3-x86_64"
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 10
+
+    - name: Install rig
+      run: |
+        brew tap r-lib/rig
+        brew install r-lib/rig/rig
+
+    - name: Install R
+      run: |
+        sudo rig add 3.5
+        sudo rig add 3.6
+        sudo rig add 4.0
+        sudo rig add 4.1
+        sudo rig add 4.2
+        sudo rig add release
+        sudo rig add devel
+        rig default release
+
+    - name: Install skopeo
+      run: |
+        brew install skopeo
+        brew link skopeo
+        skopeo --version
+
+    - name: Build pak binaries
+      run: |
+        cd tools/build/macos && make build
+
+    - name: Deploy packages
+      run: |
+        cd tools/build/macos && make deploy
+      env:
+        PAK_GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
+        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+  # -----------------------------------------------------------------------
+
+  macos-arm64:
+    runs-on: macos-12
+    if: ${{ github.event.inputs.macos-arm64 == '' || github.event.inputs.macos-arm64 == 'yes' }}
+    name: macos arm64
+    env:
+      RVERSIONS: "4.1-arm64 4.2-arm64 4.3-arm64 4.4-arm64"
+      RVERSION_DEFAULT: "4.3-x86_64"
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 10
+
+    - name: Install rig
+      run: |
+        brew tap r-lib/rig
+        brew install r-lib/rig/rig
+
+    - name: Install R
+      run: |
+        sudo rig add 4.1
+        sudo rig add 4.2
+        sudo rig add release
+        sudo rig add devel
+        rig default release
+
+    - name: Install skopeo
+      run: |
+        brew install skopeo
+        brew link skopeo
+        skopeo --version
+
+    - name: Build pak binaries
+      run: |
+        cd tools/build/macos && make build
+
+    - name: Deploy packages
+      run: |
+        cd tools/build/macos && make deploy
+      env:
+        PAK_GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
+        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+  # ------------------------------------------------------------------------
+
+  windows:
+    runs-on: windows-latest
+    if: ${{ github.event.inputs.windows == '' || github.event.inputs.windows == 'yes' }}
+    name: Windows x86_64
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { r: '3.5' }
+          - { r: '3.6' }
+          - { r: '4.0' }
+          - { r: '4.1' }
+          - { r: '4.2' }
+          - { r: '4.3' }
+          - { r: devel }
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 10
+
+    - name: git config
+      run: |
+        git config --local user.name "$GITHUB_ACTOR"
+        git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+    - name: Install rig
+      run: |
+        choco install rig
+
+    - name: Install skopeo
+      run: |
+        Invoke-WebRequest -Uri https://github.com/gaborcsardi/skopeo/releases/download/v1.6.0/skopeo-1.6.0.zip -OutFile skopeo.zip
+        New-Item "C:\Tools" -Force -ItemType Directory
+        Expand-Archive skopeo.zip -DestinationPath C:\Tools
+        echo "C:\Tools\skopeo" | Out-File -Append -FilePath $env:GITHUB_PATH
+
+    - name: Test skopeo
+      run: |
+        skopeo --version
+
+    # We use the pre-installed R 4.1.3 + Rtools40 for now, to speed this up
+    - name: Install R and RTools
+      run: |
+        Foreach($ver in (rig ls --plain)) { rig rm $ver }
+        rig add ${{ matrix.config.r }}
+        rig add rtools
+        # For make and zip
+        echo "C:\rtools43\usr\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
+
+    - name: Build pak binaries
+      run: |
+        cd tools/build/windows && make build
+
+    - name: Deploy packages
+      run: |
+        cd tools/build/windows && make deploy
+      env:
+        PAK_GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
+        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+        TAR: internal
+
+  # -----------------------------------------------------------------------
+  linux:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.linux == '' || github.event.inputs.linux == 'yes' }}
+    name: Linux x86_64 R ${{ matrix.config.r }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { r: '4.4' }
+          - { r: '4.3' }
+          - { r: '4.2' }
+          - { r: '4.1' }
+          - { r: '4.0' }
+          - { r: '3.6' }
+          - { r: '3.5' }
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 10
+
+    - name: Build and push
+      run: |
+        cd tools/build/linux && make
+      env:
+        RVERSIONS: ${{ matrix.config.r }}
+        GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
+
+  # ------------------------------------------------------------------------
+
+  linux-arm64:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.linux-arm64 == '' || github.event.inputs.linux-arm64 == 'yes' }}
+    name: Linux aarch64 R ${{ matrix.config.r }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { r: '4.4' }
+          - { r: '4.3' }
+          - { r: '4.2' }
+          - { r: '4.1' }
+          - { r: '4.0' }
+          - { r: '3.6' }
+          - { r: '3.5' }
+
+    steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 10
+
+    - name: Build and push
+      run: |
+        cd tools/build/linux && make aarch64
+      env:
+        RVERSIONS: ${{ matrix.config.r }}
+        GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
+
+  # ------------------------------------------------------------------------
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ (github.event.inputs.deploy == '' || github.event.inputs.deploy == 'yes') && always() }}
+    needs: [ macos, windows, linux, macos-arm64, linux-arm64 ]
+
+    steps:
+
+    - name: Update Ubuntu package db
+      run: |
+        sudo apt-get update
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 10
+
+    - name: Create user library
+      run: |
+        dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)
+      shell: Rscript {0}
+
+    - name: Dependencies
+      uses: r-lib/actions/setup-r-dependencies@v2-branch
+
+    - name: Install local pak tree
+      run: R CMD INSTALL .
+      env:
+        PAK_BUNDLE: false
+
+    - name: Create repository
+      run: |
+        pak:::create_pak_repo("repo")
+      shell: Rscript {0}
+
+    - name: Deploy to GitHub pages (test)
+      if: github.event_name != 'pull_request'
+      uses: JamesIves/github-pages-deploy-action@v4.4.3
+      with:
+        repository-name: r-lib/r-lib.github.io
+        token: ${{ secrets.PAK_GHCR_TOKEN }}
+        single-commit: true
+        clean: true
+        branch: test
+        folder: repo
+
+    - name: Run tests
+      run: |
+        testthat::test_local(filter = "^repo$")
+      shell: Rscript {0}
+      env:
+        PAK_TESTS: true
+
+    - name: Deploy to GitHub Pages (prod)
+      if: github.event_name != 'pull_request'
+      uses: JamesIves/github-pages-deploy-action@v4.4.3
+      with:
+        repository-name: r-lib/r-lib.github.io
+        token: ${{ secrets.PAK_GHCR_TOKEN }}
+        single-commit: true
+        clean: true
+        branch: gh-pages
+        folder: repo

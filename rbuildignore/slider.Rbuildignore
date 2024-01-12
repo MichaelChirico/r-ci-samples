@@ -1,0 +1,15 @@
+^slider\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^LICENSE\.md$
+^\.travis\.yml$
+^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^man-roxygen$
+^cran-comments\.md$
+^CRAN-RELEASE$
+^revdep$
+^CRAN-SUBMISSION$

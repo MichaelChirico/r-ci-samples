@@ -1,0 +1,14 @@
+^revdep$
+^docs$
+^_pkgdown\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+\.sublime-project$
+\.sublime-workspace$
+^\.travis\.yml$
+^doc_extra$
+^appveyor\.yml$
+^\.github$
+^vignettes$
+^pkgdown$
+^codecov\.yml$

@@ -1,0 +1,88 @@
+url: https://gmailr.r-lib.org
+
+template:
+  package: tidytemplate
+  bootstrap: 5
+
+  includes:
+    in_header: |
+      <script defer data-domain="gmailr.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+
+development:
+  mode: auto
+
+news:
+ releases:
+ - text: "gmailr 2.0.0"
+   href: https://www.tidyverse.org/blog/2023/06/gmailr-1-0-0/
+ - text: "gmailr 1.0.0"
+   href: https://www.tidyverse.org/articles/2019/08/gmailr-1-0-0/
+
+reference:
+- title: Authentication and authorization
+  desc: >
+    These functions are used to auth with the gmail API. `gm_auth_configure()` and `gm_auth()` are the most important for most users.
+  contents:
+  - gm_auth
+  - gm_deauth
+  - gm_auth_configure
+  - gm_scopes
+  - gm_has_token
+  - gm_profile
+  - gm_token
+  - gmailr-configuration
+  - gm_token_write
+- title: Messages
+  desc: >
+    These functions create, modify, query and delete email messages.
+  contents:
+  - matches("message")
+- title: Threads
+  desc: >
+    These functions create, modify, query and delete email threads.
+  contents:
+  - matches("thread")
+- title: Drafts
+  desc: >
+    These functions create, modify, query and delete email drafts.
+  contents:
+  - matches("draft")
+- title: Labels
+  desc: >
+    These functions create, modify, query and delete email labels.
+  contents:
+  - matches("label")
+- title: Attachments
+  desc: >
+    These functions work with email attachments. `gm_attchments()` to list the attachments of a message and `gm_save_attachments()` are generally the most useful for most users.
+  contents:
+  - gm_save_attachments
+  - gm_save_attachment
+  - gm_attachments
+  - gm_attachment
+
+
+- title: Email creation (MIME)
+  desc: >
+    These functions are used to query or set parts of a Multipurpose Internet Mail Extensions (MIME) messages. They can be used to generate new emails from scratch.
+  contents:
+  - gm_to
+  - gm_from
+  - gm_cc
+  - gm_bcc
+  - gm_subject
+  - gm_date
+  - gm_body
+  - gm_mime
+  - gm_text_body
+  - gm_html_body
+  - as.character.mime
+
+- title: Miscellaneous tools
+  desc: >
+    These functions don't fit neatly into the above categories and are generally used internally or for debugging.
+  contents:
+  - gm_history
+  - gm_last_response
+  - quoted_printable_encode
+  - gm_last_response

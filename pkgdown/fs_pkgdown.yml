@@ -1,0 +1,46 @@
+url: https://fs.r-lib.org/
+
+template:
+  package: tidytemplate
+  bootstrap: 5
+  includes:
+    in_header: |
+      <script defer data-domain="fs.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+
+development:
+  mode: auto
+
+reference:
+- title: File manipulation
+  contents:
+  - starts_with("file_")
+
+- title: Directory manipulation
+  contents:
+  - starts_with("dir_")
+
+- title: Link manipulation
+  contents:
+  - starts_with("link_")
+
+- title: Path manipulation
+  contents:
+  - path
+  - is_absolute_path
+  - starts_with("path_")
+
+- title: Helpers
+  contents:
+  - is_file
+  - as_fs_path
+  - as_fs_bytes
+  - as_fs_perms
+
+- title: System information
+  contents:
+  - id
+
+news:
+  releases:
+    - text: "Version 1.0.0"
+      href: https://www.tidyverse.org/blog/2018/01/fs-1.0.0/
