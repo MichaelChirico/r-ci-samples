@@ -1,0 +1,13 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^inst/htmlwidgets/lib/leaflet/.bower.json
+^.travis.yml
+^basic_small.png
+^docs$
+^vignettes$
+^tic.R
+^README.Rmd
+^\.ccache$
+^\.github$
+^tic\.R$
+.vscode

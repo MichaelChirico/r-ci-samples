@@ -1,0 +1,17 @@
+comment: false
+fixes:
+  - "rgee/R/addins.R"
+  - "rgee/R/ee_clean.R"
+  - "rgee/R/ee_install.R"
+  - "rgee/R/zzz.R"
+
+coverage:
+  status:
+    patch:
+      default:
+        target: 0
+        threshold: 95
+    project:
+      default:
+        target: 70
+        threshold: 95
