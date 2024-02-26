@@ -6,7 +6,8 @@ on:
   pull_request:
     branches: [main, master]
   schedule:
-    - cron: "0 4 * * *"
+    # * is a special character in YAML so you have to quote this string
+    - cron: "0 4 * * 0" # every week
 
 name: R-CMD-check
 
@@ -25,7 +26,6 @@ jobs:
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
-          - {os: ubuntu-latest,   r: 'oldrel-2'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -41,10 +41,7 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
-
-      - name: Install macOS system dependencies
-        if: runner.os == 'macos'
-        run: brew install gdal proj
+          extra-repositories: "https://cran.uni-muenster.de/pebesma"
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
