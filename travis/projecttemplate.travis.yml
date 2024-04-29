@@ -2,8 +2,6 @@ language: r
 dist: bionic
 cache: packages
 warnings_are_errors: true
-R:
-  - 4.4
 addons:
   apt:
     sources:
@@ -11,21 +9,10 @@ addons:
     packages:
       - unixodbc-dev
       - r-cran-rodbc
-#       - g++-7
-#       - python-pandas
 before_install:
-  - pip3 install pandas
+  - pip install pandas
   - sudo $(which R) CMD javareconf
-#   - sudo $(which R) CMD javareconf
-#   - mkdir -p ~/.R
-#   - echo 'CXX17 = g++-7 -std=gnu++17 -fPIC' > ~/.R/Makevars
 
 env:
   global:
     - _R_CHECK_FORCE_SUGGESTS_: false
-    - RETICULATE_PYTHON: /usr/bin/python3
-
-r_binary_packages:
-  - reticulate
-  - rcppparallel
-  - tibble
