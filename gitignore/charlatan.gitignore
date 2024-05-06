@@ -1,10 +1,1 @@
-.Rproj.user
-.Rhistory
-.RData
-revdep/checks.noindex
-revdep/data.sqlite
-revdep/library.noindex
-/doc/
-/Meta/
-inst/doc
-todo.md
+*.html
