@@ -17,6 +17,7 @@ authors:
 
 template:
   bootstrap: 5
+  light-switch: true
   bslib:
     primary: "#0054AD"
     border-radius: 0.5rem
@@ -36,7 +37,6 @@ articles:
   - customise
   - accessibility
   - linking
-  - search
   - metadata
 
 - title: Advanced techniques
@@ -82,6 +82,13 @@ reference:
 - title: Regression tests
   contents:
   - starts_with("test", internal = TRUE)
+
+- title: Deprecated functions
+  contents:
+  - has_lifecycle("deprecated")
+
+redirects:
+- ["articles/search.html", "reference/build_search.html"]
 
 news:
   releases:
