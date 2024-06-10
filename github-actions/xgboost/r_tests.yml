@@ -34,7 +34,7 @@ jobs:
         r-version: ${{ matrix.config.r }}
 
     - name: Cache R packages
-      uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # v3.0.11
+      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-r-${{ matrix.config.r }}-7-${{ hashFiles('R-package/DESCRIPTION') }}
@@ -78,13 +78,13 @@ jobs:
         r-version: ${{ matrix.config.r }}
 
     - name: Cache R packages
-      uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # v3.0.11
+      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-r-${{ matrix.config.r }}-7-${{ hashFiles('R-package/DESCRIPTION') }}
         restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-7-${{ hashFiles('R-package/DESCRIPTION') }}
 
-    - uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
+    - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
       with:
         python-version: "3.8"
         architecture: 'x64'
