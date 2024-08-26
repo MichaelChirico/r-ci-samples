@@ -23,6 +23,7 @@ jobs:
       matrix:
         config:
           - {os: macos-latest,   r: 'release'}
+          - {os: macos-13,       r: 'devel'}
 
           - {os: windows-latest, r: 'release'}
           # Use 3.6 to trigger usage of RTools35
@@ -61,7 +62,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, r-lib/xml2@fix/compile-macos-devel, gaborcsardi/sass@fix/compile-macos-devel
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
