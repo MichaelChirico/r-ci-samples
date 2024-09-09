@@ -45,6 +45,8 @@ reference:
   contents:
   - req_perform
   - req_perform_stream
+  - req_perform_connection
+  - req_perform_promise
 
 - subtitle: Control the process
   desc: >
@@ -60,7 +62,6 @@ reference:
   contents:
   - req_perform_iterative
   - req_perform_parallel
-  - req_perform_promise
   - req_perform_sequential
   - starts_with("iterate_")
   - starts_with("resps_")
@@ -95,4 +96,3 @@ news:
  releases:
  - text: "httr2 1.0.0"
    href: https://www.tidyverse.org/blog/2023/11/httr2-1-0-0/
-
