@@ -1,100 +1,138 @@
-name: Build wheel
+# Build a wheel for MLflow and upload it as an artifact.
+name: build-wheel
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
+      - branch-[0-9]+.[0-9]+
   pull_request:
-    branches: [master]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "The branch, tag or SHA to build the wheel from."
+        required: true
+        default: "master"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash --noprofile --norc -exo pipefail {0}
 
 jobs:
   build:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        type: ["full", "skinny"]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
         with:
-          node-version: "12"
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.7"
+          ref: ${{ github.event.inputs.ref }}
+          submodules: recursive
+      - uses: ./.github/actions/untracked
+      - uses: ./.github/actions/setup-python
+      - uses: ./.github/actions/setup-node
 
       - name: Build UI
         working-directory: mlflow/server/js
-        env:
-          # Prevent warnings (emitted from react-pdf) from being treated as errors
-          # https://github.com/wojtekmaj/react-pdf/issues/280
-          CI: false
         run: |
-          npm install
-          npm run build
+          yarn
+          yarn build
 
-      - name: Build wheel
-        id: build-wheel
+      - name: Install dependencies
         run: |
-          pip install wheel
-          python setup.py bdist_wheel
+          pip install build twine
 
-          # set outputs
-          wheel_path=$(find dist -type f)
+      - name: Build distribution files
+        id: build-dist
+        run: |
+          # if workflow_dispatch is triggered, use the specified ref
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            SHA_OPT="--sha $(git rev-parse HEAD)"
+          else
+            SHA_OPT=""
+          fi
+
+          if [ "${{ matrix.type }}" == "skinny" ]; then
+            PACKAGE_TYPE_OPT="--package-type skinny"
+          else
+            PACKAGE_TYPE_OPT=""
+          fi
+          python dev/build.py $PACKAGE_TYPE_OPT $SHA_OPT
+
+          # List distribution files and check their file sizes
+          ls -lh dist
+
+          # Set step outputs
+          sdist_path=$(find dist -type f -name "*.tar.gz")
+          wheel_path=$(find dist -type f -name "*.whl")
           wheel_name=$(basename $wheel_path)
           wheel_size=$(stat -c %s $wheel_path)
-          echo "::set-output name=wheel-path::${wheel_path}"
-          echo "::set-output name=wheel-name::${wheel_name}"
-          echo "::set-output name=wheel-size::${wheel_size}"
+          echo "sdist-path=${sdist_path}" >> $GITHUB_OUTPUT
+          echo "wheel-path=${wheel_path}" >> $GITHUB_OUTPUT
+          echo "wheel-name=${wheel_name}" >> $GITHUB_OUTPUT
+          echo "wheel-size=${wheel_size}" >> $GITHUB_OUTPUT
 
-      - name: Verify wheel can be installed
+      - name: List files in source distribution
         run: |
-          pip install ${{ steps.build-wheel.outputs.wheel-path }}
+          tar -tf ${{ steps.build-dist.outputs.sdist-path }}
+
+      - name: List files in binary distribution
+        run: |
+          unzip -l ${{ steps.build-dist.outputs.wheel-path }}
+
+      - name: Compare files in source and binary distributions
+        run: |
+          tar -tzf ${{ steps.build-dist.outputs.sdist-path }} | grep -v '/$' | cut -d'/' -f2- | sort > /tmp/source.txt
+          zipinfo -1 ${{ steps.build-dist.outputs.wheel-path }} | sort > /tmp/wheel.txt
+          diff /tmp/source.txt /tmp/wheel.txt || true
+
+      - name: Run twine check
+        run: |
+          twine check --strict ${{ steps.build-dist.outputs.wheel-path }}
+
+      - name: Test installation from tarball
+        run: |
+          pip install ${{ steps.build-dist.outputs.sdist-path }}
+          python -c "import mlflow; print(mlflow.__version__)"
+
+      - name: Test installation from wheel
+        run: |
+          pip install --force-reinstall ${{ steps.build-dist.outputs.wheel-path }}
+          python -c "import mlflow; print(mlflow.__version__)"
 
       # Anyone with read access can download the uploaded wheel on GitHub.
-      - name: Store wheel
-        uses: actions/upload-artifact@v2
-        if: github.event_name == 'push'
+      - name: Upload wheel
+        uses: actions/upload-artifact@v4
+        if: github.event_name == 'workflow_dispatch'
+        id: upload-wheel
         with:
-          name: ${{ steps.build-wheel.outputs.wheel-name }}
-          path: ${{ steps.build-wheel.outputs.wheel-path }}
+          name: ${{ steps.build-dist.outputs.wheel-name }}
+          path: ${{ steps.build-dist.outputs.wheel-path }}
+          retention-days: 7
+          if-no-files-found: error
 
-      - name: Remove old wheels
-        uses: actions/github-script@v3
-        if: github.event_name == 'push'
-        env:
-          WHEEL_SIZE: ${{ steps.build-wheel.outputs.wheel-size }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo;
-
-            // For some reason, the newly-uploaded wheel in the previous step is not included.
-            const artifactsResp = await github.actions.listArtifactsForRepo({
-              owner,
-              repo,
-            });
-            const wheels = artifactsResp.data.artifacts.filter(({ name }) => name.endsWith(".whl"));
-
-            // The storage usage limit for a free github account is up to 500 MB. See the page below for details:
-            // https://docs.github.com/en/github/setting-up-and-managing-billing-and-payments-on-github/about-billing-for-github-actions
-            MAX_SIZE_IN_BYTES = 300_000_000; // 300 MB
-
-            let index = 0;
-            let sum = parseInt(process.env.WHEEL_SIZE);  // include the newly-uploaded wheel
-            for (const [idx, { size_in_bytes }] of wheels.entries()) {
-              index = idx;
-              sum += size_in_bytes;
-              if (sum > MAX_SIZE_IN_BYTES) {
-                break;
-              }
-            }
-
-            if (sum <= MAX_SIZE_IN_BYTES) {
-              return;
-            }
-
-            // Delete old wheels
-            const promises = wheels.slice(index).map(({ id: artifact_id }) =>
-              github.actions.deleteArtifact({
-                owner,
-                repo,
-                artifact_id,
-              })
-            );
-            Promise.all(promises).then(data => console.log(data));
+      - name: Generate summary
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "### Download URL" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.upload-wheel.outputs.artifact-url }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Notes" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- The artifact will be deleted after 7 days." >> $GITHUB_STEP_SUMMARY
+          echo "- Unzip the downloaded artifact to get the wheel." >> $GITHUB_STEP_SUMMARY
