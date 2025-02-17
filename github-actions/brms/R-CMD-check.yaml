@@ -20,9 +20,11 @@ jobs:
         config:
           # - {os: macOS-latest,   r: 'release', rtools: ''}
           - {os: windows-latest, r: 'release', rtools: '42'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release', rtools: ''}
-          - {os: ubuntu-latest,   r: 'release', rtools: ''}
-          - {os: ubuntu-latest,   r: 'oldrel-1', rtools: ''}
+          # some issues occured on ubuntu related to pandoc-citeproc
+          # https://forum.posit.co/t/github-action-e-package-pandoc-citeproc-has-no-installation-candidate/197536
+          - {os: ubuntu-22.04, r: 'devel', rtools: ''}
+          - {os: ubuntu-22.04, r: 'release', rtools: ''}
+          - {os: ubuntu-22.04, r: 'oldrel-1', rtools: ''}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -38,7 +40,7 @@ jobs:
         with:
           pandoc-version: "latest"
 
-      - uses: r-lib/actions/setup-r@v2.2.6
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
           rtools-version: ${{ matrix.config.rtools }}
