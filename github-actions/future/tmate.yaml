@@ -1,17 +1,17 @@
 on:
-  push:
-    branches: '*'
-    
-  pull_request:
-    branches: develop
-  
-name: R-CMD-check
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
+        
+name: tmate
 
 jobs:
   R-CMD-check:
-    if: "! contains(github.event.head_commit.message, '[ci skip]')"    
-
-    timeout-minutes: 30
+    timeout-minutes: 120
 
     runs-on: ${{ matrix.config.os }}
 
@@ -21,29 +21,29 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'devel'    }
+#          - {os: windows-latest, r: 'devel'    }
           - {os: windows-latest, r: 'release', parallelly: 'develop'  }
-          - {os: windows-latest, r: 'oldrel'   }
+#          - {os: windows-latest, r: 'oldrel'   }
 #          - {os: macOS-latest,   r: 'devel'    }
-          - {os: macOS-latest,   r: 'release'  }
+#          - {os: macOS-latest,   r: 'release'  }
 #          - {os: macOS-latest,   r: 'oldrel'   }
 #          - {os: ubuntu-latest,  r: 'devel'    }
-          - {os: ubuntu-latest,  r: 'release'  }
-          - {os: ubuntu-latest,  r: 'oldrel'   }
-          - {os: ubuntu-latest,  r: 'oldrel-1' }
-          - {os: ubuntu-latest,  r: 'oldrel-2' }
-          - {os: ubuntu-latest,  r: '4.0'      }
-          
-          - {os: ubuntu-latest,  r: 'release'  , availablecores: 1, label: 'availableCores.system=1' }
-          - {os: ubuntu-latest,  r: 'release'  , availablecores: 2, label: 'availableCores.system=2' }
-          - {os: ubuntu-latest,  r: 'release'  , language: ko,    label: ko    }
-          - {os: ubuntu-latest,  r: 'release'  , language: zh_CN, label: zh_CN }
-          - {os: ubuntu-latest,  r: 'release'  , language: zh_TW, label: zh_TW }
-          - {os: ubuntu-latest,  r: 'release'  , globals_keepWhere: true, label: 'keepWhere' }
-          - {os: ubuntu-latest,  r: 'release'  , globals_keepWhere: false, label: '!keepWhere' }
-          - {os: ubuntu-latest,  r: 'release'  , plan: multicore, fork_multithreading_enable: false, label: 'multicore, no-multithreading-in-forks' }
-          - {os: ubuntu-latest,  r: 'release'  , plan: multisession, fork_multithreading_enable: false, label: 'multisession, no-multithreading-in-forks' }
-          - {os: ubuntu-latest,  r: 'release'  , psock_relay_immediate: false, label: 'no-immediate-relay-in-psock' }
+#          - {os: ubuntu-latest,  r: 'release'  }
+#          - {os: ubuntu-latest,  r: 'oldrel'   }
+#          - {os: ubuntu-latest,  r: 'oldrel-1' }
+#          - {os: ubuntu-latest,  r: 'oldrel-2' }
+#          - {os: ubuntu-latest,  r: '4.0'      }
+#          
+#          - {os: ubuntu-latest,  r: 'release'  , availablecores: 1, label: 'availableCores.system=1' }
+#          - {os: ubuntu-latest,  r: 'release'  , availablecores: 2, label: 'availableCores.system=2' }
+#          - {os: ubuntu-latest,  r: 'release'  , language: ko,    label: ko    }
+#          - {os: ubuntu-latest,  r: 'release'  , language: zh_CN, label: zh_CN }
+#          - {os: ubuntu-latest,  r: 'release'  , language: zh_TW, label: zh_TW }
+#          - {os: ubuntu-latest,  r: 'release'  , globals_keepWhere: true, label: 'keepWhere' }
+#          - {os: ubuntu-latest,  r: 'release'  , globals_keepWhere: false, label: '!keepWhere' }
+#          - {os: ubuntu-latest,  r: 'release'  , plan: multicore, fork_multithreading_enable: false, label: 'multicore, no-multithreading-in-forks' }
+#          - {os: ubuntu-latest,  r: 'release'  , plan: multisession, fork_multithreading_enable: false, label: 'multisession, no-multithreading-in-forks' }
+#          - {os: ubuntu-latest,  r: 'release'  , psock_relay_immediate: false, label: 'no-immediate-relay-in-psock' }
  
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -69,6 +69,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup and launch tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+        with:
+          detached: true
+          limit-access-to-actor: true
+          
       - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-r@v2
@@ -135,7 +142,7 @@ jobs:
             check_dir = "check"
           )
         shell: Rscript {0}
-
+        
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@v4

@@ -23,6 +23,7 @@ jobs:
           - {os: windows-latest,  r: '4.1'}
           - {os: windows-latest,  r: '4.2'}
           - {os: windows-latest,  r: 'release'}
+          - {os: windows-latest,  r: 'devel'}
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
@@ -48,3 +49,5 @@ jobs:
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
+        env:
+          MAKEFLAGS: -j4
