@@ -5,6 +5,7 @@
 ^README\.Rmd$
 ^README\.html$
 ^\.Rproj\.user$
+^\.ccls-cache$
 ^\.github$
 ^\.pre-commit-config\.yaml$
 ^\.travis\.yml$
@@ -22,6 +23,7 @@
 ^src/Makevars$
 ^src/Makevars.in$
 ^tests/timing-benchmark.R$
+^tests/valgrind-test.R$
 data-raw/
 hooks/
 makefile$
