@@ -33,7 +33,6 @@ reference:
       - last_request
       - req_dry_run
       - req_verbose
-      - with_mock
       - with_verbosity
 
   - subtitle: Authentication
@@ -78,8 +77,6 @@ reference:
     contents:
       - curl_translate
       - is_online
-      - secrets
-      - obfuscate
 
   - title: OAuth
     desc: >
@@ -87,6 +84,25 @@ reference:
     contents:
       - starts_with("oauth_")
       - -starts_with("req_oauth")
+
+  - title: Developer tooling
+    desc: >
+      These functions are useful when developing packges that use httr2.
+    
+  - subtitle: Keeping secrets
+    contents:
+      - obfuscate
+      - secrets
+
+  - subtitle: Testing
+    contents:
+      - response
+
+  - subtitle: Introspection and mocking
+    contents:
+      - new_response
+      - starts_with("req_get_")
+      - with_mocked_responses
 
 articles:
   - title: Using httr2
