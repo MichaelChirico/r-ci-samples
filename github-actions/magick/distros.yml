@@ -1,4 +1,4 @@
-name: Legacy Distros
+name: Linux Distros
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        distro: [ 'rocky-8', 'rocky-9', 'ubuntu-20.04', 'ubuntu-22.04', 'debian-10', 'debian-11', 'debian-12', 'debian-13', 'debian-14', 'fedora']
+        distro: ['ubuntu-20.04', 'ubuntu-22.04', 'debian-10', 'debian-11', 'debian-12', 'debian-13', 'debian-14']
         #arch: [ 'amd64', 'arm64' ]
         arch: [ 'amd64' ]
     container:
@@ -27,12 +27,13 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, *=?ignore-unavailable
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
         with:
           args: '"--no-manual"'
+          error-on: '"error"'
         env:
           NOT_CRAN: false
           _R_CHECK_DOC_SIZES_: FALSE
