@@ -36,6 +36,11 @@ name: test-coverage
 jobs:
   test-coverage:
     runs-on: macOS-latest
+    strategy:
+      matrix:
+        config:
+          - r: '4.1.0'
+            http-user-agent: 'github-actions'
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -56,11 +61,11 @@ jobs:
         shell: Rscript {0}
 
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys:  macOS-r-4.0-1-
+          key: macOS-r-4.1.0-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys:  macOS-r-4.1.0-
 
       - name: Install dependencies
         run: |
