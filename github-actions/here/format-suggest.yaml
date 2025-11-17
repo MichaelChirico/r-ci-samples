@@ -22,6 +22,9 @@ jobs:
   format-suggest:
     name: format-suggest
     runs-on: ubuntu-latest
+    # Only run this job if changes come from a fork.
+    # We commit changes directly on the main repository.
+    if: github.event.pull_request.head.repo.full_name != github.repository
 
     permissions:
       # Required to push suggestion comments to the PR
@@ -32,15 +35,11 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Install
-        uses: posit-dev/setup-air@v1
-
-      - name: Format
-        run: air format .
+      - uses: ./.github/workflows/style
 
       - name: Suggest
         uses: reviewdog/action-suggester@v1
         with:
           level: error
           fail_level: error
-          tool_name: air
+          tool_name: air-and-clang-format

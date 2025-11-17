@@ -13,3 +13,9 @@
 ^LICENSE\.md$
 ^revdep$
 ^CRAN-SUBMISSION$
+^[.]?air[.]toml$
+^\.vscode$
+^.claude$
+^.cache$
+^AGENTS\.md$
+^compile_commands\.json$
