@@ -97,8 +97,10 @@ reference:
       - mean_model
       - nnetar
       - rw_model
+      - spline_model
       - stlm
       - tbats
+      - theta_model
       - tslm
   - title: "Forecasting"
     desc: "Functions for producing forecasts"
@@ -131,9 +133,11 @@ reference:
       - forecast.mts
       - forecast.nnetar
       - forecast.rw_model
+      - forecast.spline_model
       - forecast.stl
       - forecast.StructTS
       - forecast.tbats
+      - forecast.theta_model
       - forecast.ts
       - is.forecast
   - title: "Plotting"
@@ -168,8 +172,11 @@ reference:
       - modeldf
       - starts_with("fitted")
       - starts_with("residuals")
-      - starts_with("simulate")
       - tbats.components
+  - title: "Simulation"
+    desc: "Functions for simulating time series data from fitted models"
+    contents:
+      - starts_with("simulate")
   - title: "Forecast evaluation"
     desc: "Functions used for evaluating forecasts"
     contents:
