@@ -23,3 +23,7 @@
 ^CRAN-SUBMISSION$
 ^scripts$
 ^pkgdown$
+^CLAUDE\.md$
+^\.claude$
+^[.]?air[.]toml$
+^\.vscode$
