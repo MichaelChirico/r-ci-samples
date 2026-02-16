@@ -10,6 +10,7 @@
 ^\.RDataTmp$
 ^README\.md$
 ^README_cache$
+^cache$
 ^README_files$
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
