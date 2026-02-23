@@ -1,7 +1,1 @@
-.Rproj.user/
-.Rproj.user
-*.o
-*.so
-.Rhistory
-.vscode
-CRAN-RELEASE
+*.html

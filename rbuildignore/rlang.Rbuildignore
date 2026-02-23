@@ -26,3 +26,4 @@
 .*\.clangd$
 ^[\.]?air\.toml$
 ^dev-notes$
+^\.jj$
