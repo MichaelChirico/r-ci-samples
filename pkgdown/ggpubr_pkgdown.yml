@@ -1,9 +1,12 @@
-templates:
+url: https://rpkgs.datanovia.com/ggpubr/
+llm-docs: false
+
+template:
+  bootstrap: 5
   params:
     bootswatch: lumen
     ganalytics: G-62JB5GM9C4
     docsearch:
-      api_key: 6417dc1a4a7896d9002b8ad567f92f4c
       index_name: ggpubr
 
 reference:
@@ -53,6 +56,12 @@ reference:
       - geom_pwc
       - geom_bracket
       - ggadjust_pvalue
+  - title: P-Value Formatting
+    contents:
+      - format_p_value
+      - create_p_label
+      - get_p_format_style
+      - list_p_format_styles
   - title: Plot Tables and Paragraphs
     contents:
       - ggtexttable
@@ -112,6 +121,7 @@ reference:
       - ggtext
       - ggpubr_options
       - ggpubr_args
+      - clean_lock_files
   - title: Data
     contents:
       - diff_express
@@ -125,6 +135,3 @@ reference:
       - stat_mean
       - stat_central_tendency
       - reexports
-
-
-
