@@ -47,6 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           # To ensure `git diff` works correctly in dev/check_function_signatures.py,
           # we need to fetch enough history to include the base branch.
           fetch-depth: 300
@@ -90,10 +91,12 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           uv run --no-project dev/check_whitespace_only.py \
-            --repo ${{ github.repository }} \
-            --pr ${{ github.event.pull_request.number }}
+            --repo $REPO \
+            --pr $PR_NUMBER
 
       - name: Check uv.lock changes
         if: matrix.os == 'ubuntu-latest' && github.event_name == 'pull_request'
