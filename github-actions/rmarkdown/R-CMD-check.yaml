@@ -32,7 +32,7 @@ jobs:
           # testing R release with last shipped pandoc version in RStudio IDE and new pandoc
           - {os: windows-latest, pandoc: 'latest',  r: 'release'}
           - {os: macOS-latest,   pandoc: 'latest',  r: 'release'}
-          - {os: ubuntu-latest,  pandoc: 'devel',    r: 'release'}
+          - {os: ubuntu-latest,  pandoc: 'nightly',    r: 'release'}
           # testing older pandoc versions
           - {os: ubuntu-latest,  pandoc: '3.1.11',   r: 'release'}
           - {os: ubuntu-latest,  pandoc: '2.19.2',   r: 'release'}
@@ -44,7 +44,7 @@ jobs:
           - {os: ubuntu-latest,  pandoc: '2.7.3',    r: 'release'}
           - {os: ubuntu-latest,  pandoc: '2.5',      r: 'release'}
           # testing other R versions
-          - {os: ubuntu-latest,  pandoc: 'latest',   r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,  pandoc: 'latest',   r: 'devel'}
           - {os: ubuntu-latest,  pandoc: 'latest',   r: 'oldrel-1'}
           - {os: ubuntu-latest,  pandoc: 'latest',   r: 'oldrel-2'}
           - {os: ubuntu-latest,  pandoc: 'latest',   r: 'oldrel-3'}
@@ -52,17 +52,17 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      USE_BUNDLED_LIBUV: 1
 
     permissions:
       actions: read
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
       - name: change temp dir
@@ -76,18 +76,17 @@ jobs:
           TINYTEX_INSTALLER: TinyTeX
 
       - uses: yihui/actions/setup-r-dependencies@HEAD
+        with:
+          apt-packages: ${{ matrix.config.r == 'devel' && 'libcurl4-openssl-dev' || '' }}
 
       - name: Remove default installed Pandoc
         if: runner.os == 'Linux'
         run: sudo dpkg -r pandoc
 
       - uses: r-lib/actions/setup-pandoc@v2
-        if: matrix.config.pandoc != 'devel'
         with:
           pandoc-version: ${{ matrix.config.pandoc }}
-
-      - uses: cderv/actions/setup-pandoc-nightly@nightly-pandoc
-        if: matrix.config.pandoc == 'devel'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pandoc and Tinytex info
         run: |

@@ -1,0 +1,16 @@
+on:
+  workflow_run:
+    workflows: ["pkgdown"]
+    types: [completed]
+    branches: [main]
+
+name: Deploy SEO and agentic discovery files
+
+jobs:
+  deploy-seo-files:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    uses: IndrajeetPatil/workflows/.github/workflows/seo-files.yaml@main
+    with:
+      package-name: "ggstatsplot"
+    permissions:
+      contents: write

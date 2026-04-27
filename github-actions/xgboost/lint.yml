@@ -19,19 +19,30 @@ env:
     ${{ github.event.pull_request.number && 'PR-' }}${{ github.event.pull_request.number || github.ref_name }}
 
 jobs:
+  ci-configure:
+    name: Configure variables for CI
+    uses: ./.github/workflows/ci_configure.yml
+    with:
+      tag-prefix: lint
+
   clang-tidy:
     name: Run clang-tidy
+    needs: ci-configure
     runs-on:
       - runs-on=${{ github.run_id }}
       - runner=linux-amd64-cpu
-      - tag=lint-clang-tidy
+      - tag=lint-clang-tidy-clang-cuda
+    container:
+      image: ${{ needs.ci-configure.outputs.docker_registry }}/xgb-ci.gpu_build_rockylinux8:${{ needs.ci-configure.outputs.image_tag }}
+      credentials:
+        username: ${{ needs.ci-configure.outputs.docker_username }}
+        password: ${{ needs.ci-configure.outputs.docker_password }}
     steps:
       - uses: actions/checkout@v6.0.2
         with:
           submodules: "true"
-      - name: Log into Docker registry (AWS ECR)
-        run: bash ops/pipeline/login-docker-registry.sh
-      - run: bash ops/pipeline/run-clang-tidy.sh
+      - name: Run clang-tidy on clang-CUDA compile database
+        run: bash ops/pipeline/run-clang-tidy-clang-cuda.sh
 
   python-mypy:
     runs-on: ubuntu-latest
