@@ -9,3 +9,5 @@
 ^pkgdown$
 ^vignettes$
 ^reference$
+^\.positai$
+^\.claude$
