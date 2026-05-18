@@ -6,7 +6,7 @@ on:
     branches:
       - master
   schedule:
-    - cron:  '0 * * * *'
+    - cron:  '0 2 * * 1'  # weekly, every Monday at 2am
 
 jobs:
   build:
@@ -14,10 +14,10 @@ jobs:
     steps:
 
       - name: checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content to github runner
+        uses: actions/checkout@v4
 
       - name: setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x' # install the python version needed
 

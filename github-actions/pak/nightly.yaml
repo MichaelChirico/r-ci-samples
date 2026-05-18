@@ -161,7 +161,7 @@ jobs:
 
     - name: Install rig
       run: |
-        curl -LO https://github.com/r-lib/rig/releases/download/v0.8.0/rig-0.8.0-macOS-arm64.pkg
+        curl -LO https://github.com/r-lib/rig/releases/download/v0.8.1-beta/rig-0.8.1-macOS-arm64.pkg
         sudo installer -pkg rig*.pkg -target /
 
     - uses: r-hub/actions/setup-r-sysreqs@main
@@ -251,10 +251,7 @@ jobs:
         Foreach($ver in (rig ls --plain)) { rig rm $ver }
         rig add ${{ matrix.config.r }} --without-p3m
         rig add rtools
-        # For make and zip
-        echo "C:\rtools43\usr\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
-        echo "C:\rtools44\usr\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
-        echo "C:\rtools45\usr\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
+        choco install zip
 
     - name: Build pak binaries
       run: |
@@ -278,6 +275,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
+          - { r: '4.7' }
           - { r: '4.6' }
           - { r: '4.5' }
           - { r: '4.4' }
@@ -313,6 +311,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
+          - { r: '4.7' }
           - { r: '4.6' }
           - { r: '4.5' }
           - { r: '4.4' }
@@ -415,6 +414,7 @@ jobs:
       uses: actions/checkout@v6
       with:
         fetch-depth: 10
+        persist-credentials: false
 
     - name: Install R
       uses: r-lib/actions/setup-r@v2
