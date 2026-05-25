@@ -10,7 +10,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.issue.number }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 defaults:
   run:
@@ -160,7 +160,7 @@ jobs:
               "opus",
               "sonnet",
               "haiku",
-              "claude-opus-4-6",
+              "claude-opus-4-7",
               "claude-sonnet-4-6",
               "claude-haiku-4-5",
           ]
@@ -168,14 +168,14 @@ jobs:
 
           labels = {l["name"] for l in json.loads(os.environ["LABELS_JSON"])}
           big = bool(labels & {"size/M", "size/L", "size/XL"})
-          default_model = "claude-opus-4-6" if big else "claude-sonnet-4-6"
+          default_model = "claude-opus-4-7" if big else "claude-sonnet-4-6"
 
           body = sys.stdin.read().removeprefix("/review")
           head, sep, tail = body.partition("\n")
 
           parser = argparse.ArgumentParser(add_help=False)
           parser.add_argument("-m", "--model", choices=MODEL_CHOICES, default=default_model)
-          parser.add_argument("-e", "--effort", choices=EFFORT_CHOICES, default="medium")
+          parser.add_argument("-e", "--effort", choices=EFFORT_CHOICES, default="high")
           args, leftover = parser.parse_known_args(head.split())
 
           prompt = (" ".join(leftover) + sep + tail).strip()
@@ -216,6 +216,7 @@ jobs:
           timeout 20m claude \
             --model "$MODEL" \
             --effort "$EFFORT" \
+            --max-budget-usd 5 \
             --print \
             --verbose \
             --output-format stream-json \
@@ -332,6 +333,9 @@ jobs:
               const summary = resultEvent.is_error ? 'Error' : 'Result';
               const formatted = JSON.stringify(resultEvent, null, 2);
               resultLine += `\n<details><summary>${summary}</summary>\n\n\`\`\`json\n${formatted}\n\`\`\`\n\n</details>`;
+              if (resultEvent.is_error && /529|Overloaded/i.test(resultEvent.result || '')) {
+                resultLine += `\n\nThe Claude API is overloaded. Check [status.claude.com](https://status.claude.com/) and retry.`;
+              }
             } else if (failed) {
               resultLine += `\n\nSee [workflow logs](${workflowUrl}) for details.`;
             }
