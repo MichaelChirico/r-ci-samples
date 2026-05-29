@@ -19,7 +19,7 @@ known_meta = c(
   gemini = 'GEMINI.md',
   devcontainer = 'devcontainer.json',
   air = 'air.toml',
-  lintr = '.lintr'
+  lintr = '.lintr',
   NULL
 )
 
