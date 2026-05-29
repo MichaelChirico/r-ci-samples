@@ -1,0 +1,17 @@
+^\.covrignore$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^data-raw$
+^codecov\.yml$
+^cran-comments\.md$
+^README.Rmd$
+^_pkgdown\.yml$
+^docs$
+^CODE_OF_CONDUCT\.md$
+^LICENSE\.md$
+^revdep$
+^CRAN-RELEASE$
+^\.github$
+^pkgdown$
+^CRAN-SUBMISSION$

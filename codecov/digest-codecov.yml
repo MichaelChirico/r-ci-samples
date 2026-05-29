@@ -1,0 +1,17 @@
+comment: false
+ignore:
+  - "src/blake*.c"
+  - "src/blake*.h"
+  - "src/crc32c/*"
+  - "src/crc32c.*"
+  - "src/SpookyV2.*"
+  - "src/xxhash.h"
+coverage:
+  status:
+    project:
+      default:
+        target: 70%    # the (on purpose low) required coverage value
+        threshold: 10% # the permitted delta in hitting the target
+    patch:
+      default:
+        target: 0%     # the (on purpose low) required coverage value

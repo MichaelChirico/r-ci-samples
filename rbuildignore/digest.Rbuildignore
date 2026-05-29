@@ -1,0 +1,14 @@
+.travis.yml
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.codecov\.yml$
+^.*\.tar\.gz$
+^local
+^docs
+^docs-src
+^\.github
+^\.covrignore
+^\.editorconfig
+.venv_altdoc
+^docs$
+^altdoc$

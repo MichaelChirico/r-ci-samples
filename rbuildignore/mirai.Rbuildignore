@@ -1,0 +1,17 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^README\.Rmd$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^revdep$
+^codecov\.yml$
+^dev$
+^[\.]?air\.toml$
+^\.vscode$
+^cran-comments\.md$
+^\.claude$
+^CLAUDE\.md$
+^\.git-blame-ignore-revs$
