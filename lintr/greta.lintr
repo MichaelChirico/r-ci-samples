@@ -1,0 +1,1 @@
+linters: with_defaults(cyclocomp_linter(50), commas_linter = NULL, object_usage_linter = NULL, object_length_linter = NULL)

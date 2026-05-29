@@ -1,0 +1,6 @@
+/NEWS.md merge=union
+
+# This tells git to NOT treat these files as text (even though they are), in
+# order to suppress line ending normalization. The intent is to preserve exact
+# line endings for cross-platform testing.
+tests/testthat/fixtures/** -text

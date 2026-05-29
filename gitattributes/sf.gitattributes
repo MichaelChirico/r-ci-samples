@@ -1,0 +1,7 @@
+* text=auto
+data/* binary
+src/* text=lf
+R/* text=lf
+
+# Force the following filetypes to have unix eols, so Windows does not break them
+configure.ac text eol=lf
