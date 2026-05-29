@@ -4,6 +4,7 @@ repos = readLines('.tracked_repos')
 known_meta = c(
   travis = '.travis.yml',
   'github-actions' = 'github-actions',
+  gitattributes = '.gitattributes',
   gitignore = '.gitignore',
   rbuildignore = '.Rbuildignore',
   appveyor = 'appveyor.yml',
@@ -12,10 +13,18 @@ known_meta = c(
   make = 'Makefile',
   rproj = '.Rproj',
   jenkins = 'Jenkinsfile',
-  codecov = 'codecov.yml'
+  codecov = 'codecov.yml',
+  agents = 'AGENTS.md',
+  claude = 'CLAUDE.md',
+  gemini = 'GEMINI.md',
+  devcontainer = 'devcontainer.json',
+  air = 'air.toml',
+  lintr = '.lintr'
+  NULL
 )
 
-invisible(sapply(names(known_meta), dir.create, showWarnings = FALSE))
+for (meta_dir in names(known_meta))
+  dir.create(meta_dir, showWarnings=FALSE)
 
 GH_STEM = 'https://github.com'
 # approach: clone the most recent commit of the repo, then
@@ -51,22 +60,20 @@ for (repo in repos) {
       # .github/workflows could have multiple "actions"; store each of these
       #   in a github-actions/pkg folder
       workflows = grep('github/workflows/.*ya?ml', files, value = TRUE)
-      if (length(workflows)) {
-        cat('\t✅ Found', meta, '\n')
-        outdir = file.path(meta, basename(repo))
-        dir.create(outdir, showWarnings = FALSE)
-        out_file = file.path(outdir, basename(workflows))
-        file.rename(file.path('tmp', workflows), out_file)
-      }
+      if (!length(workflows)) next
+      cat('\t✅ Found', meta, '\n')
+      outdir = file.path(meta, basename(repo))
+      dir.create(outdir, showWarnings = FALSE)
+      out_file = file.path(outdir, basename(workflows))
+      file.rename(file.path('tmp', workflows), out_file)
     } else {
       #endsWith not grep -- e.g. Makefile.R was found, and endsWith is cleaner
       #  than adding '$', to regexify it
-      if (any(idx <- endsWith(files, meta))) {
-        cat('\t✅ Found', meta, '\n')
-        in_file = files[idx][1L]
-        out_file = paste0(basename(repo), if (grepl('^[^._]', meta)) '-', meta)
-        file.rename(file.path('tmp', in_file), file.path(names(meta), out_file))
-      }
+      if (!any(idx <- endsWith(files, meta))) next
+      cat('\t✅ Found', meta, '\n')
+      in_file = files[idx][1L]
+      out_file = paste0(basename(repo), if (grepl('^[^._]', meta)) '-', meta)
+      file.rename(file.path('tmp', in_file), file.path(names(meta), out_file))
     }
   }
   unlink('tmp', recursive = TRUE, force = TRUE)
