@@ -237,6 +237,7 @@ reference:
   - cli_format_method
   - cli_output_connection
   - cli_sitrep
+  - cli_with_progress_ticks
   - console_width
   - default_app
   - diff_chr
