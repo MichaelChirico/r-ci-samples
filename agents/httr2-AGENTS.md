@@ -1,5 +1,8 @@
 ## This package
 
+* Use markdown formatting when writing git commit messages.
+* When a commit fixes a GitHub issue include "Fixes #{num}" in the commit message.
+
 ## Package development
 
 ### Key commands

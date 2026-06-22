@@ -13,7 +13,7 @@ template:
   trailing_slash_redirect: true
   opengraph:
     image:
-      src: https://bookdown.org/yihui/blogdown/images/logo.png
+      src: https://pkg.yihui.org/blogdown/images/logo.png
       alt: "blogdown package"
     twitter:
       creator: "@rstudio"
