@@ -27,7 +27,7 @@ jobs:
       R_LANGSVR_TEST_FAST: NO
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
@@ -48,7 +48,7 @@ jobs:
           print(cov)
           covr::to_cobertura(cov)
         shell: Rscript {0}
-      - uses: codecov/codecov-action@v6
+      - uses: codecov/codecov-action@v7
         with:
           # Fail if error if not on PR, or if on PR and token is given
           fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
