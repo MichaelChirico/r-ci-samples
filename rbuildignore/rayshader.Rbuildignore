@@ -26,3 +26,5 @@
 ^.+\.exr$
 ^pkgdown$
 ^.+\.png$
+^.vscode/*$
+^Rplots\.pdf$
