@@ -21,11 +21,6 @@ LICENSE
 
 ^_pkgdown\.yml$
 ^docs$
-^inst/pkgdown$
-^index\.Rmd$
-^index_files$
-^index_cache$
-^index\.md$
 
 ^vignettes/get_started_cache$
 ^vignettes/example_models_cache$
@@ -51,9 +46,16 @@ LICENSE
 ^__autograph*
 ^testlog
 ^data-raw$
+^dev$
 
 
 # flint files
 ^flint$
 ^\.claude$
 ^\.positai$
+^[.]?air[.]toml$
+^\.vscode$
+^vignettes/precompute\.R$
+\.Rmd\.orig$
+_cache/$
+^pkgdown$

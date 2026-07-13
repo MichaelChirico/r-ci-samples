@@ -28,15 +28,7 @@ on:
         - 'no'
         default: 'yes'
       linux:
-        description: 'Linux x86_64'
-        required: true
-        type: choice
-        options:
-        - 'yes'
-        - 'no'
-        default: 'yes'
-      linux-arm64:
-        description: 'Linux aarch64'
+        description: 'Linux (x86_64 & aarch64)'
         required: true
         type: choice
         options:
@@ -77,13 +69,11 @@ jobs:
           echo "windows: ${{ github.event.inputs.windows }}"
           echo "linux: ${{ github.event.inputs.linux }}"
           echo "macos-arm64: ${{ github.event.inputs.macos-arm64 }}"
-          echo "linux-arm64: ${{ github.event.inputs.linux-arm64 }}"
           echo "deploy: ${{ github.event.inputs.deploy }}"
           echo "macos: ${{ github.event.inputs.macos == 'yes' }}"
           echo "windows: ${{ github.event.inputs.windows == 'yes' }}"
           echo "linux: ${{ github.event.inputs.linux == 'yes' }}"
           echo "macos-arm64: ${{ github.event.inputs.macos-arm64 == 'yes' }}"
-          echo "linux-arm64: ${{ github.event.inputs.linux-arm64 == 'yes' }}"
           echo "bsd: ${{ github.event.inputs.bsd == 'yes' }}"
           echo "deploy: ${{ github.event.inputs.deploy == 'yes' }}"
 
@@ -91,14 +81,27 @@ jobs:
   macos:
     runs-on: macos-latest
     if: ${{ github.event.inputs.macos == '' || github.event.inputs.macos == 'yes' }}
-    name: macOS x86_64
-    env:
-      RVERSIONS: "3.5 3.6 4.0 4.1 4.2 4.3-x86_64 4.4-x86_64 4.5-x86_64 4.6-x86_64"
-      RVERSION_DEFAULT: "4.5-x86_64"
+    name: macOS x86_64 R ${{ matrix.config.rver }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { rig: '3.5',     rver: '3.5' }
+          - { rig: '3.6',     rver: '3.6' }
+          - { rig: '4.0',     rver: '4.0' }
+          - { rig: '4.1',     rver: '4.1' }
+          - { rig: '4.2',     rver: '4.2' }
+          - { rig: '4.3',     rver: '4.3-x86_64' }
+          - { rig: '4.4',     rver: '4.4-x86_64' }
+          - { rig: '4.5',     rver: '4.5-x86_64' }
+          - { rig: 'release', rver: '4.6-x86_64' }
+          - { rig: 'devel',   rver: '4.7-x86_64' }
+
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 10
 
@@ -113,34 +116,21 @@ jobs:
 
     - name: Install R
       run: |
-        sudo rig add 3.5 --arch x86_64
-        sudo rig add 3.6 --arch x86_64
-        sudo rig add 4.0 --arch x86_64
-        sudo rig add 4.1 --arch x86_64
-        sudo rig add 4.2 --arch x86_64
-        sudo rig add 4.3 --arch x86_64
-        sudo rig add 4.4 --arch x86_64
-        sudo rig add 4.5 --arch x86_64
-        sudo rig add release --arch x86_64
-        sudo rig add devel --arch x86_64
-        rig default release
-
-    - name: Install skopeo
-      run: |
-        brew install skopeo
-        brew link skopeo
-        skopeo --version
+        sudo rig add ${{ matrix.config.rig }} --arch x86_64
+        rig default ${{ matrix.config.rver }}
 
     - name: Build pak binaries
       run: |
         cd tools/build/macos && make build
-
-    - name: Deploy packages
-      run: |
-        cd tools/build/macos && make deploy
       env:
-        PAK_GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
-        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+        RVERSIONS: ${{ matrix.config.rver }}
+
+    - name: Upload package artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: pkg-macos-x86_64-${{ matrix.config.rver }}
+        path: tools/build/macos/lib/*/pak_*.tgz
+        if-no-files-found: error
 
   # -----------------------------------------------------------------------
 
@@ -155,7 +145,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 10
 
@@ -179,22 +169,16 @@ jobs:
         sudo rig add devel
         rig default release
 
-    - name: Install skopeo
-      run: |
-        brew install skopeo
-        brew link skopeo
-        skopeo --version
-
     - name: Build pak binaries
       run: |
         cd tools/build/macos && make build
 
-    - name: Deploy packages
-      run: |
-        cd tools/build/macos && make deploy
-      env:
-        PAK_GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
-        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload package artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: pkg-macos-arm64
+        path: tools/build/macos/lib/*/pak_*.tgz
+        if-no-files-found: error
 
   # ------------------------------------------------------------------------
 
@@ -221,7 +205,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 10
 
@@ -235,17 +219,6 @@ jobs:
         Invoke-WebRequest -Uri https://github.com/r-lib/rig/releases/download/v0.8.0/rig-windows-0.8.0.exe -OutFile rig-install.exe
         Start-Process ".\rig-install.exe" -ArgumentList "/verysilent /suppressmsgboxes" -Wait -NoNewWindow
 
-    - name: Install skopeo
-      run: |
-        Invoke-WebRequest -Uri https://github.com/gaborcsardi/skopeo/releases/download/v1.6.0/skopeo-1.6.0.zip -OutFile skopeo.zip
-        New-Item "C:\Tools" -Force -ItemType Directory
-        Expand-Archive skopeo.zip -DestinationPath C:\Tools
-        echo "C:\Tools\skopeo" | Out-File -Append -FilePath $env:GITHUB_PATH
-
-    - name: Test skopeo
-      run: |
-        skopeo --version
-
     # no P3M, because a pak bug fails to install glue@1.6.2 from PPM
     - name: Install R and RTools
       run: |
@@ -258,89 +231,62 @@ jobs:
       run: |
         cd tools/build/windows && make build
 
-    - name: Deploy packages
-      run: |
-        cd tools/build/windows && make deploy
-      env:
-        PAK_GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
-        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-        TAR: internal
+    - name: Upload package artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: pkg-windows-${{ matrix.config.r }}
+        path: tools/build/windows/lib/*/pak_*.zip
+        if-no-files-found: error
 
   # -----------------------------------------------------------------------
+
   linux:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.arch.runner }}
     if: ${{ github.event.inputs.linux == '' || github.event.inputs.linux == 'yes' }}
-    name: Linux x86_64 R ${{ matrix.config.r }}
+    name: Linux ${{ matrix.arch.name }} ${{ matrix.flavor }} R ${{ matrix.flavor == 'musl' && matrix.r.musl || matrix.r.glibc }}
 
     strategy:
       fail-fast: false
       matrix:
-        config:
-          - { r: '4.7' }
-          - { r: '4.6' }
-          - { r: '4.5' }
-          - { r: '4.4' }
-          - { r: '4.3' }
-          - { r: '4.2' }
-          - { r: '4.1' }
-          - { r: '4.0' }
-          - { r: '3.6' }
-          - { r: '3.5' }
+        arch:
+          - { name: 'x86_64', runner: 'ubuntu-latest' }
+          - { name: 'arm64',  runner: 'ubuntu-24.04-arm' }
+        flavor: [ musl, glibc ]
+        r:
+          - { musl: '4.7', glibc: 'devel' }
+          - { musl: '4.6', glibc: '4.6.1' }
+          - { musl: '4.5', glibc: '4.5.3' }
+          - { musl: '4.4', glibc: '4.4.3' }
+          - { musl: '4.3', glibc: '4.3.3' }
+          - { musl: '4.2', glibc: '4.2.3' }
+          - { musl: '4.1', glibc: '4.1.3' }
+          - { musl: '4.0', glibc: '4.0.5' }
+          - { musl: '3.6', glibc: '3.6.3' }
+          - { musl: '3.5', glibc: '3.5.3' }
 
     steps:
-
-    - name: Checkout
-      uses: actions/checkout@v6
-      with:
-        fetch-depth: 10
-
-    - name: Build and push
-      run: |
-        cd tools/build/linux && make
-      env:
-        RVERSIONS: ${{ matrix.config.r }}
-        GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
-
-  # ------------------------------------------------------------------------
-
-  linux-arm64:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.linux-arm64 == '' || github.event.inputs.linux-arm64 == 'yes' }}
-    name: Linux aarch64 R ${{ matrix.config.r }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - { r: '4.7' }
-          - { r: '4.6' }
-          - { r: '4.5' }
-          - { r: '4.4' }
-          - { r: '4.3' }
-          - { r: '4.2' }
-          - { r: '4.1' }
-          - { r: '4.0' }
-          - { r: '3.6' }
-          - { r: '3.5' }
-
-    steps:
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v4
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v4
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 10
 
-    - name: Build and push
+    - name: Build
       run: |
-        cd tools/build/linux && make aarch64
+        cd tools/build/linux && make ${{ matrix.flavor }}
       env:
-        RVERSIONS: ${{ matrix.config.r }}
-        GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
+        RVERSIONS_MUSL: ${{ matrix.r.musl }}
+        RVERSIONS_GLIBC: ${{ matrix.r.glibc }}
+
+    - name: Upload package artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: pkg-linux-${{ matrix.arch.name }}-${{ matrix.flavor }}-${{ matrix.flavor == 'musl' && matrix.r.musl || matrix.r.glibc }}
+        path: tools/build/linux/out/pak_*-linux-${{ matrix.flavor }}.tar.gz
+        if-no-files-found: error
 
   # ------------------------------------------------------------------------
 
@@ -364,7 +310,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 10
 
@@ -390,20 +336,92 @@ jobs:
         install.packages(".", repos = NULL, type = "source", INSTALL_opts = "--build")
       shell: Rscript {0}
 
-    - name: Deploy pak binary
+    - name: Upload package artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: pkg-bsd-${{ matrix.config.os }}-${{ matrix.config.release || 'latest' }}
+        path: pak_*.tar.gz
+        if-no-files-found: error
+
+  # ------------------------------------------------------------------------
+
+  push:
+    runs-on: ubuntu-latest
+    needs: [ macos, windows, linux, macos-arm64, bsd ]
+    if: always()
+    concurrency:
+      group: pak-push
+      queue: max
+
+    steps:
+
+    - name: Update Ubuntu package db, install pak dependencies
       run: |
-        make -f tools/build/docker-deploy/Makefile
+        sudo apt-get update
+        sudo apt-get install -y libcurl4-openssl-dev
+
+    - name: Install skopeo
+      run: |
+        sudo apt-get install -y skopeo
+        skopeo --version
+
+    - name: git config
+      run: |
+        git config --global user.name "GHA nightly build"
+        git config --global user.email "gaborcsardi@users.noreply.github.com"
+
+    - name: Checkout
+      uses: actions/checkout@v7
+      with:
+        fetch-depth: 10
+
+    - name: Install R
+      uses: r-lib/actions/setup-r@v2
+
+    - name: Create user library
+      run: |
+        dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)
+      shell: Rscript {0}
+
+    - name: Install local pak tree
+      run: R CMD INSTALL .
+      env:
+        PAK_BUNDLE: false
+
+    - name: Install deploy dependencies
+      run: |
+        pak::pkg_install("deps::.", dependencies = "Config/Needs/deploy")
+      shell: Rscript {0}
+
+    - name: Download package artifacts
+      uses: actions/download-artifact@v8
+      with:
+        path: dist
+        pattern: pkg-*
+
+    - name: Push packages to ghcr.io
+      run: |
+        files <- list.files(
+          "dist",
+          pattern = "[.](tgz|zip|tar[.]gz)$",
+          recursive = TRUE,
+          full.names = TRUE
+        )
+        cat("Pushing", length(files), "package file(s):\n")
+        cat(files, sep = "\n")
+        cat("\n")
+        pak:::push_packages(normalizePath(files))
+      shell: Rscript {0}
       env:
         PAK_GHCR_TOKEN: ${{ secrets.PAK_GHCR_TOKEN }}
         GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      shell: bash
 
   # ------------------------------------------------------------------------
 
   deploy:
     runs-on: ubuntu-latest
     if: ${{ (github.event.inputs.deploy == '' || github.event.inputs.deploy == 'yes') && always() }}
-    needs: [ macos, windows, linux, macos-arm64, linux-arm64, bsd ]
+    needs: [ push ]
 
     steps:
 
@@ -412,7 +430,7 @@ jobs:
         sudo apt-get update
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 10
         persist-credentials: false
