@@ -28,3 +28,5 @@
 ^.+\.png$
 ^.vscode/*$
 ^Rplots\.pdf$
+^tools/diagnose-houston-road-profiles\.R$
+^inst/examples/render_highquality_houston_roads\.R$

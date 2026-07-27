@@ -5,6 +5,7 @@ name: ci
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 env:
   _R_CHECK_FORCE_SUGGESTS_: "false"
@@ -21,17 +22,13 @@ jobs:
 
     steps:
       - name: Checkout 
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup
         uses: eddelbuettel/github-actions/r-ci@master
 
       - name: Dependencies
         run: ./run.sh install_all
-
-      - name: macOS stop gap
-        run: Rscript -e 'install.packages("bit64", type="source")'
-        if: ${{ matrix.os == 'macOS-latest' }}
 
       - name: Test
         run: ./run.sh run_tests
