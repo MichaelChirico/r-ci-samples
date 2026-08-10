@@ -67,6 +67,8 @@ articles:
 
 news:
   releases:
+  - text: "Version 8.1.0"
+    href: https://opensource.posit.co/blog/2026-08-04_roxygen2-8-1-0/
   - text: "Version 8.0.0"
     href: https://opensource.posit.co/blog/2026-05-01_roxygen2-8-0-0/
   - text: "Version 7.3.0"
