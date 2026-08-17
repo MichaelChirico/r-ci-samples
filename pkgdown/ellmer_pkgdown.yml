@@ -105,6 +105,8 @@ reference:
   - Turn
   - Round
   - Content
+  - Source
+  - ContentWebActivity
   - Type
   - ToolDef
 
