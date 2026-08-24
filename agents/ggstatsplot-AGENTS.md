@@ -76,6 +76,11 @@ dependency set.
 - Record user-facing compatibility changes in `NEWS.md`; omit routine
   dependency updates and internal lint or CI maintenance.
 
+### Repository skills
+
+- Use `.agents/skills/create-release/SKILL.md` only when asked to prepare,
+  submit, resume, or publish a CRAN release.
+
 ## Testing
 
 - The package uses `testthat` edition 3 with parallel execution.
