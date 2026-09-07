@@ -1,10 +1,12 @@
-name: Closing PR
+name: Route ready issue PR
 
 on:
   pull_request_target:
     types:
       - opened
       - edited
+      - reopened
+      - ready_for_review
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
@@ -17,12 +19,13 @@ defaults:
 permissions: {}
 
 jobs:
-  closing-pr:
+  route-ready-issue-pr:
+    if: github.event.pull_request.user.type != 'Bot'
     runs-on: ubuntu-slim
-    timeout-minutes: 10
+    timeout-minutes: 5
     permissions:
-      pull-requests: read # closing-pr.js reads the PR body
-      issues: write # closing-pr.js labels issues
+      pull-requests: write
+      issues: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -34,6 +37,6 @@ jobs:
           retries: 3
           script: |
             const script = require(
-              `${process.env.GITHUB_WORKSPACE}/.github/workflows/closing-pr.js`
+              `${process.env.GITHUB_WORKSPACE}/.github/workflows/route-ready-issue-pr.js`
             );
-            await script({ context, github });
+            await script.main({ context, github });

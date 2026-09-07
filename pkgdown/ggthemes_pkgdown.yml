@@ -1,4 +1,4 @@
-url: http://jrnold.github.io/ggthemes/
+url: https://jrnold.github.io/ggthemes/
 template:
   bootstrap: 5
 reference:
@@ -32,6 +32,8 @@ reference:
   contents:
   - bank_slopes
   - bank_plot
+  - bank_slopes_multiscale
+  - bank_plot_multiscale
   - extended_range_breaks
   - show_linetypes
   - show_shapes
@@ -40,4 +42,3 @@ reference:
   contents:
   - ggthemes_data
   - canva_palettes
-

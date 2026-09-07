@@ -74,6 +74,7 @@ reference:
 - title: Chat helpers
   contents:
   - create_tool_def
+  - content_document_url
   - content_image_url
   - content_pdf_url
   - starts_with("live_")
@@ -89,6 +90,7 @@ reference:
   contents:
   - tool
   - tool_annotations
+  - tool_context
   - tool_reject
   - type_boolean
 

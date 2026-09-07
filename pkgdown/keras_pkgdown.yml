@@ -155,7 +155,6 @@ reference:
     - layer_tfsm
     - register_keras_serializable
 
-
   - title: "Layers"
 
   - subtitle: "Core Layers"
@@ -211,7 +210,7 @@ reference:
     - adapt
     # - has_concept("random preprocessing layers")
 
-  - subtitle: "Compatability Layers"
+  - subtitle: "Compatibility Layers"
   - contents:
     - layer_tfsm
     - layer_jax_model_wrapper
@@ -237,6 +236,7 @@ reference:
   - title: "Callbacks"
   - contents:
     - callback_model_checkpoint
+    - callback_orbax_checkpoint
     - callback_backup_and_restore
     - callback_early_stopping
     - callback_terminate_on_nan
@@ -283,6 +283,12 @@ reference:
     - starts_with("loss_")
     - Loss
 
+  - title: "Distillation"
+  - contents:
+    - distiller
+    - distillation_feature
+    - distillation_logits
+
   - title: "Metrics"
   - contents:
     - starts_with("metric_")
@@ -294,8 +300,8 @@ reference:
   - title: "Data Loading"
     desc: >
       Keras data loading utilities help you quickly go from raw data to a TF `Dataset` object
-      that can be used to efficiently train a model. These loading utilites can be
-      combined with preprocessing layers to futher transform your input dataset before training.
+      that can be used to efficiently train a model. These loading utilities can be
+      combined with preprocessing layers to further transform your input dataset before training.
 
   - contents:
     - image_dataset_from_directory
