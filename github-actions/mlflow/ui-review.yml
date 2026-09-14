@@ -17,6 +17,7 @@ defaults:
     shell: bash
 
 permissions: {}
+cache-mode: none
 
 jobs:
   # Auth gate: only users with admin or maintain role on the repo can trigger
@@ -86,7 +87,6 @@ jobs:
     # GITHUB_TOKEN is unused — all GitHub API calls go through the app tokens
     # minted below. Grant nothing so any future accidental use of GITHUB_TOKEN
     # fails closed.
-    permissions: {}
     # Heavy: yarn install + dev server boot + Chrome download + a vision/browser
     # review loop. The Claude step is capped at 30m within this budget.
     timeout-minutes: 45
