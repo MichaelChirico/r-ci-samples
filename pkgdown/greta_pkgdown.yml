@@ -55,6 +55,8 @@ navbar:
           href: articles/webpages/why_greta.html
         - text: technical details
           href: articles/webpages/technical_details.html
+        - text: reproducible results
+          href: articles/webpages/reproducibility.html
         - text: software
           href: articles/webpages/software.html
         - text: contribute to greta
@@ -83,6 +85,8 @@ reference:
     contents:
       - structures
       - as_data
+      - as_data_mutable
+      - data_values
 
   - title: variables & distributions
     desc: Create variables and assign probability distributions over greta arrays
@@ -164,6 +168,7 @@ articles:
   - title: Examples
     contents:
       - example_models
+      - mutable_data
   - title: Analyses
     contents:
       - analyses/eight_schools
@@ -173,6 +178,7 @@ articles:
       - webpages/packages
       - webpages/why_greta
       - webpages/technical_details
+      - webpages/reproducibility
       - webpages/software
       - webpages/contribute
   - title: FAQ

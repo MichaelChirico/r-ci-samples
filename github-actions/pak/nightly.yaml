@@ -361,12 +361,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: 'freebsd', release: '15.0' }
-          - { os: 'freebsd', release: '14.2' }
-          - { os: 'freebsd', release: '13.4' }
-          - { os: 'openbsd', release: '7.8' }
-          - { os: 'openbsd', release: '7.7' }
-          - { os: 'netbsd' }
+          - { os: 'freebsd', release: '15.1' }
+          - { os: 'freebsd', release: '14.5' }
+          - { os: 'openbsd', release: '7.9'  }
+          - { os: 'openbsd', release: '7.8'  }
+          - { os: 'netbsd',  release: '10.2' }
           - { os: 'dragonflybsd' }
 
     steps:
@@ -388,6 +387,8 @@ jobs:
 
     - uses: r-hub/actions/setup-r-netbsd@main
       if: ${{ matrix.config.os == 'netbsd' }}
+      with:
+        release: ${{ matrix.config.release }}
 
     - uses: r-hub/actions/setup-r-dragonflybsd@main
       if: ${{ matrix.config.os == 'dragonflybsd' }}
