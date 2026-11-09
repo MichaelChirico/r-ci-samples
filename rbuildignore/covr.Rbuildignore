@@ -3,15 +3,10 @@
 ^travis-tool\.sh$
 ^LICENSE\.md$
 ^covr\.Rcheck$
-^\.travis\.yml$
 ^shim_package\.sh$
 ^unshim_package\.sh$
-Makefile
-docker_checker
 _dev\.R$
 ^\.lintr$
-^appveyor\.yml$
-^wercker\.yml$
 ^\.Rproj\.user$
 ^tests/testthat/.*/.*(o|sl|so|dylib|a|dll|def)$
 ^covr.*$
@@ -34,3 +29,8 @@ _dev\.R$
 ^\.github$
 ^SECURITY\.md$
 ^CRAN-SUBMISSION$
+^air\.toml$
+^AGENTS\.md$
+^\.git-blame-ignore-revs$
+^\.covrignore$
+^performance-audit(\.md)?$
